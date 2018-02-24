@@ -1,5 +1,7 @@
 package server.jpa;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Set;
@@ -15,8 +17,10 @@ public class CarType {
     @NotNull
     @Column(name = "car_type")
     private String carType;
+    @JsonIgnore
     @OneToMany(mappedBy = "carType", cascade = CascadeType.ALL)
     private Set<Price> priceSet;
+    @JsonIgnore
     @OneToMany(mappedBy = "carType", cascade = CascadeType.ALL)
     private Set<Car> carSet;
 
