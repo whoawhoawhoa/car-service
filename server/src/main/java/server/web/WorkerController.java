@@ -50,4 +50,44 @@ public class WorkerController extends WebMvcConfigurerAdapter {
         List<Worker> workers = (List<Worker>) workerRepository.findAll();
         return new ResponseEntity<>(workers, HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/updateWorker", method = RequestMethod.PUT)
+    public ResponseEntity<Worker> updateWorker(@RequestBody Worker worker)
+    {
+        try
+        {
+            Worker sourceWorker = workerRepository.findWorkerByLogin(worker.getLogin()).get(0);
+            if(sourceWorker.equals(worker))
+                return new ResponseEntity<>(HttpStatus.CONFLICT);
+            workerRepository.save(worker);
+            return new ResponseEntity<>(worker, HttpStatus.OK);
+        }catch (Exception e)
+        {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @RequestMapping(value = "/worker", method = RequestMethod.DELETE)
+    public ResponseEntity<Void> deleteWorker(@RequestParam String login)
+    {
+        Worker worker = workerRepository.findWorkerByLogin(login).get(0);
+        workerRepository.delete(worker.getId());
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    private boolean isValid(Worker worker) {
+        String check = Long.toString(worker.getPnumber());
+        if(check.length() != 11)
+            return false;
+        check = worker.getName();
+        if(!check.matches("[a-zA-Z]+"))
+            return false;
+        check = worker.getFname();
+        if(!check.matches("[a-zA-Z]+"))
+            return false;
+        check = worker.getCity();
+        if(!check.matches("[a-zA-Z]+"))
+            return false;
+        return true;
+    }
 }

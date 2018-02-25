@@ -28,4 +28,11 @@ public class PassportController extends WebMvcConfigurerAdapter {
         List<Passport> passports = (List<Passport>) passportRepository.findAll();
         return new ResponseEntity<>(passports, HttpStatus.OK);
     }
+
+    @RequestMapping(path = "/passport", method = RequestMethod.GET)
+    public ResponseEntity<Passport> getPassport(String id)
+    {
+        Passport passport = passportRepository.findOne(Long.parseLong(id));
+        return new ResponseEntity<>(passport, HttpStatus.OK);
+    }
 }

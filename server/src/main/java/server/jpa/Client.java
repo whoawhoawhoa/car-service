@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -134,7 +135,7 @@ public class Client {
 
     @Override
     public String toString() {
-        return "Worker{" +
+        return "Client{" +
                 "id=" + id +
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
@@ -144,5 +145,26 @@ public class Client {
                 ", city='" + city + '\'' +
                 ", rating=" + rating +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Client client = (Client) o;
+        return id == client.id &&
+                pnumber == client.pnumber &&
+                rating == client.rating &&
+                Objects.equals(login, client.login) &&
+                Objects.equals(password, client.password) &&
+                Objects.equals(name, client.name) &&
+                Objects.equals(fname, client.fname) &&
+                Objects.equals(city, client.city);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, login, password, name, fname, pnumber, city, rating);
     }
 }

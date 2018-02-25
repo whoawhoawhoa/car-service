@@ -75,7 +75,7 @@ export class LkWorkerComponent implements OnInit {
             password: worker.password,
             name: worker.name,
             fName: worker.fname,
-            phoneNumber: worker.pnumber,
+            phoneNumber: worker.phone_number,
             city: worker.city,
             status: worker.status});
           this.processValidation = true;

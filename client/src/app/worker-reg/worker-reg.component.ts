@@ -42,7 +42,7 @@ export class WorkerRegComponent implements OnInit {
     const city = this.workerForm.get('city').value.trim();
     // Handle create worker
     const worker = new Worker(null, login, password, name, fname, pnumber, city,
-      null, null, null, null, null);
+      null, null);
     this.workerService.createWorker(worker)
       .subscribe(successCode => {
           this.statusCode = successCode;

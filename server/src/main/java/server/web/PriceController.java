@@ -4,9 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import server.jpa.Price;
 import server.jpa.PriceRepository;
@@ -27,5 +25,26 @@ public class PriceController extends WebMvcConfigurerAdapter {
     public ResponseEntity<List<Price>> getAllPrices() {
         List<Price> prices = (List<Price>) priceRepository.findAll();
         return new ResponseEntity<>(prices, HttpStatus.OK);
+    }
+
+    @RequestMapping(path = "/price", method = RequestMethod.GET)
+    public ResponseEntity<Price> getPrice(@RequestParam String id)
+    {
+        Price price = priceRepository.findOne(Long.parseLong(id));
+        return new ResponseEntity<>(price, HttpStatus.OK);
+    }
+
+    @RequestMapping(path = "/price", method = RequestMethod.DELETE)
+    public ResponseEntity<Void> deletePrice(@RequestParam String id)
+    {
+        priceRepository.delete(Long.parseLong(id));
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @RequestMapping(path = "/price", method = RequestMethod.PUT)
+    public ResponseEntity<Void> addPrice(@RequestBody Price price)
+    {
+        priceRepository.save(price);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

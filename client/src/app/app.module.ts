@@ -13,6 +13,10 @@ import {AppRoutingModule} from './app-routing/app-routing.module';
 import { AuthorizeService } from './authorize.service';
 import { ClientAuthComponent } from './client-auth/client-auth.component';
 import { WorkerAuthComponent } from './worker-auth/worker-auth.component';
+import {LkWorkerComponent} from "./lk-worker/lk-worker.component";
+import {LkClientComponent} from "./lk-client/lk-client.component";
+import {LkWorkerService} from "./lk-worker.service";
+import {LkClientService} from "./lk-client.service";
 
 @NgModule({
   declarations: [
@@ -20,7 +24,9 @@ import { WorkerAuthComponent } from './worker-auth/worker-auth.component';
     WorkerRegComponent,
     ClientRegComponent,
     ClientAuthComponent,
-    WorkerAuthComponent
+    WorkerAuthComponent,
+    LkWorkerComponent,
+    LkClientComponent
   ],
   imports: [
     BrowserModule,
@@ -31,7 +37,9 @@ import { WorkerAuthComponent } from './worker-auth/worker-auth.component';
   providers: [
     WorkerService,
     ClientService,
-    AuthorizeService
+    AuthorizeService,
+    LkWorkerService,
+    LkClientService
   ],
   bootstrap: [
     AppComponent

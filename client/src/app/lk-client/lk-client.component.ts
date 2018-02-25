@@ -23,7 +23,7 @@ export class LkClientComponent implements OnInit {
     password: new FormControl('', Validators.required),
     name: new FormControl('', Validators.required),
     fName: new FormControl('', Validators.required),
-    phoneNumber: new FormControl('', Validators.required),
+    pnumber: new FormControl('', Validators.required),
     city: new FormControl('', Validators.required)
   });
 
@@ -60,10 +60,10 @@ export class LkClientComponent implements OnInit {
     let password = this.clientForm.get('password').value;
     let name = this.clientForm.get('name').value;
     let fName = this.clientForm.get('fName').value;
-    let phoneNumber = this.clientForm.get('phoneNumber').value;
+    let pnumber = this.clientForm.get('pnumber').value;
     let city = this.clientForm.get('city').value;
-    //Handle update article
-    let client= new Client(this.articleIdToUpdate, login, password, name, fName, phoneNumber, city, 0);
+    //Handle update client
+    let client= new Client(this.articleIdToUpdate, login, password, name, fName, pnumber, city, 0);
     this.clientService.updateClient(client)
       .subscribe(successCode => {
         this.statusCode = successCode;
@@ -83,7 +83,7 @@ export class LkClientComponent implements OnInit {
           password: client.password,
           name: client.name,
           fName: client.fname,
-          phoneNumber: client.pnumber,
+          pnumber: client.pnumber,
           city: client.city});
         this.processValidation = true;
         this.requestProcessing = false;
