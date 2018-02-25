@@ -23,6 +23,22 @@ public class WorkerController extends WebMvcConfigurerAdapter {
         this.workerRepository = workerRepository;
     }
 
+    private boolean isValid(Worker worker) {
+        String check = Long.toString(worker.getPnumber());
+        if(check.length() != 11)
+            return false;
+        check = worker.getName();
+        if(!check.matches("[a-zA-Z]+"))
+            return false;
+        check = worker.getFname();
+        if(!check.matches("[a-zA-Z]+"))
+            return false;
+        check = worker.getCity();
+        if(!check.matches("[a-zA-Z]+"))
+            return false;
+        return true;
+    }
+
     @RequestMapping(value = "/worker", method = RequestMethod.POST)
     public ResponseEntity<Void> postWorker(@RequestBody Worker worker, UriComponentsBuilder builder) {
         HttpHeaders headers = new HttpHeaders();
@@ -30,7 +46,15 @@ public class WorkerController extends WebMvcConfigurerAdapter {
         if(workerRepository.findWorkerByLogin(worker.getLogin()).size() != 0) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
-        workerRepository.save(worker);
+        if(isValid(worker)) {
+            try {
+                workerRepository.save(worker);
+            } catch (Exception e) {
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }
+        else
+            return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 
@@ -38,7 +62,7 @@ public class WorkerController extends WebMvcConfigurerAdapter {
     public ResponseEntity<Worker> checkAuthW(@RequestParam("login") String login, @RequestParam("password") String password) {
         List<Worker> workers = workerRepository.findWorkerByLoginAndPassword(login, password);
         if(workers.size() == 0) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         else {
             return new ResponseEntity<>(workers.get(0), HttpStatus.ACCEPTED);
@@ -50,4 +74,5 @@ public class WorkerController extends WebMvcConfigurerAdapter {
         List<Worker> workers = (List<Worker>) workerRepository.findAll();
         return new ResponseEntity<>(workers, HttpStatus.OK);
     }
+
 }
