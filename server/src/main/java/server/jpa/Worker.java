@@ -1,5 +1,7 @@
 package server.jpa;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Set;
@@ -29,11 +31,14 @@ public class Worker {
     @Column(name = "rating")
     private int rating;
     @Column(name = "status")
-    private String status;
+    private int status;
+    @JsonIgnore
     @OneToMany(mappedBy = "worker", cascade = CascadeType.ALL)
     private Set<Service> serviceSet;
+    @JsonIgnore
     @OneToMany(mappedBy = "worker", cascade = CascadeType.ALL)
     private Set<Passport> passportSet;
+    @JsonIgnore
     @OneToMany(mappedBy = "worker", cascade = CascadeType.ALL)
     private Set<Order> orderSet;
 
@@ -103,11 +108,11 @@ public class Worker {
         this.rating = rating;
     }
 
-    public String getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 
