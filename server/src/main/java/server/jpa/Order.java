@@ -1,5 +1,6 @@
 package server.jpa;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -26,10 +27,13 @@ public class Order {
     @Column(name = "status")
     private int status;
     @ManyToOne
-    private Client client;
+    @JsonIgnore
+    Client client;
     @ManyToOne
+    @JsonIgnore
     private Worker worker;
     @ManyToOne
+    @JsonIgnore
     private Car car;
 
     public Order() {
@@ -125,9 +129,9 @@ public class Order {
                 ", serviceType='" + serviceType + '\'' +
                 ", totalPrice=" + totalPrice +
                 ", status=" + status +
-                ", client=" + client +
-                ", worker=" + worker +
-                ", car=" + car +
+                ", client=" + client.getLogin() +
+                ", worker=" + worker.getLogin() +
+                ", car=" + car.getId() +
                 '}';
     }
 }
