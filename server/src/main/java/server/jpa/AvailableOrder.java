@@ -3,7 +3,7 @@ package server.jpa;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.sql.Date;
 
 @Entity
 @Table(name = "available_orders")
@@ -18,8 +18,10 @@ public class AvailableOrder {
     @Column(name = "service_type")
     private String serviceType;
     @ManyToOne
+    @JsonIgnore
     private Client client;
     @ManyToOne
+    @JsonIgnore
     private Car car;
 
     public AvailableOrder() {

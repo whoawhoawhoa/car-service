@@ -17,11 +17,11 @@ public class CarType {
     @NotNull
     @Column(name = "car_type")
     private String carType;
-    @JsonIgnore
     @OneToMany(mappedBy = "carType", cascade = CascadeType.ALL)
+    @JsonIgnore
     private Set<Price> priceSet;
-    @JsonIgnore
     @OneToMany(mappedBy = "carType", cascade = CascadeType.ALL)
+    @JsonIgnore
     private Set<Car> carSet;
 
     public CarType() {
@@ -64,7 +64,7 @@ public class CarType {
         return "CarType{" +
                 "id=" + id +
                 ", carType='" + carType + '\'' +
-                ", priceSet=" + priceSet +
+                ", priceSet=" + priceSet.toString() +
                 '}';
     }
 }
