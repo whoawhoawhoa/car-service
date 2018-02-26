@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {LkClientService} from '../lk-client.service';
-import {Client} from '../client';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {LkClientService} from "../lk-client.service";
+import {Client} from "../client";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-lk-client',
@@ -23,7 +23,7 @@ export class LkClientComponent implements OnInit {
     password: new FormControl('', Validators.required),
     name: new FormControl('', Validators.required),
     fName: new FormControl('', Validators.required),
-    phoneNumber: new FormControl('', Validators.required),
+    pnumber: new FormControl('', Validators.required),
     city: new FormControl('', Validators.required)
   });
 
@@ -43,7 +43,7 @@ export class LkClientComponent implements OnInit {
 
   getClientById()
   {
-    this.clientService.getClientById(1 + '')
+    this.clientService.getClientById(1+"")
       .subscribe(
         data => this.clientSource = data,
         errorCode => this.statusCode);
@@ -52,18 +52,18 @@ export class LkClientComponent implements OnInit {
   onClientFormSubmit() {
     this.processValidation = true;
     if (this.clientForm.invalid) {
-      return; // Validation failed, exit from method.
+      return; //Validation failed, exit from method.
     }
-    // Form is valid, now perform update
+    //Form is valid, now perform update
     this.preProcessConfigurations();
-    const login = this.clientForm.get('login').value;
-    const password = this.clientForm.get('password').value;
-    const name = this.clientForm.get('name').value;
-    const fName = this.clientForm.get('fName').value;
-    const phoneNumber = this.clientForm.get('phoneNumber').value;
-    const city = this.clientForm.get('city').value;
-    // Handle update article
-    const client = new Client(this.articleIdToUpdate, login, password, name, fName, phoneNumber, city, 0);
+    let login = this.clientForm.get('login').value;
+    let password = this.clientForm.get('password').value;
+    let name = this.clientForm.get('name').value;
+    let fName = this.clientForm.get('fName').value;
+    let pnumber = this.clientForm.get('pnumber').value;
+    let city = this.clientForm.get('city').value;
+    //Handle update client
+    let client= new Client(this.articleIdToUpdate, login, password, name, fName, pnumber, city, 0);
     this.clientService.updateClient(client)
       .subscribe(successCode => {
         this.statusCode = successCode;
@@ -83,7 +83,7 @@ export class LkClientComponent implements OnInit {
           password: client.password,
           name: client.name,
           fName: client.fname,
-          phoneNumber: client.phone_number,
+          pnumber: client.pnumber,
           city: client.city});
         this.processValidation = true;
         this.requestProcessing = false;

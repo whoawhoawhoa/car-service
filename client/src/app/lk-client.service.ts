@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import {Observable} from 'rxjs/Observable';
-import {Client} from './client';
+import {Observable} from "rxjs/Observable";
+import {Client} from "./client";
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
@@ -22,25 +22,25 @@ export class LkClientService {
   }
 
   getClientById(clientId: string): Observable<Client> {
-    const cpHeaders = new Headers({ 'Content-Type': 'application/json' });
-    const cpParams = new URLSearchParams();
+    let cpHeaders = new Headers({ 'Content-Type': 'application/json' });
+    let cpParams = new URLSearchParams();
     cpParams.set('id', clientId);
-    const options = new RequestOptions({ headers: cpHeaders, params: cpParams });
+    let options = new RequestOptions({ headers: cpHeaders, params: cpParams });
     return this.http.get(this.clientUrl, options)
       .map(this.extractData)
       .catch(this.handleError);
   }
 
-  updateClient(client: Client): Observable<number> {
-    const cpHeaders = new Headers({ 'Content-Type': 'application/json' });
-    const options = new RequestOptions({ headers: cpHeaders });
+  updateClient(client: Client):Observable<number> {
+    let cpHeaders = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: cpHeaders });
     return this.http.put(this.updateClientUrl, client, options)
       .map(success => success.status)
       .catch(this.handleError);
   }
 
   deleteClientById(clientId: string): Observable<number> {
-    return this.http.delete(this.clientUrl + '?id=' + clientId)
+    return this.http.delete(this.clientUrl + "?id=" + clientId)
       .map(success => success.status)
       .catch(this.handleError);
   }

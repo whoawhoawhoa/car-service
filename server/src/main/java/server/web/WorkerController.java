@@ -23,6 +23,58 @@ public class WorkerController extends WebMvcConfigurerAdapter {
         this.workerRepository = workerRepository;
     }
 
+    @RequestMapping(value = "/worker", method = RequestMethod.POST)
+    public ResponseEntity<Void> postWorker(@RequestBody Worker worker, UriComponentsBuilder builder) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(builder.path("/worker").build().toUri());
+        if(workerRepository.findWorkerByLogin(worker.getLogin()).size() != 0) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+        workerRepository.save(worker);
+        return new ResponseEntity<>(headers, HttpStatus.CREATED);
+    }
+
+    @RequestMapping(value = "/worker", method = RequestMethod.GET)
+    public ResponseEntity<Worker> checkAuthW(@RequestParam("login") String login, @RequestParam("password") String password) {
+        List<Worker> workers = workerRepository.findWorkerByLoginAndPassword(login, password);
+        if(workers.size() == 0) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        else {
+            return new ResponseEntity<>(workers.get(0), HttpStatus.ACCEPTED);
+        }
+    }
+
+    @RequestMapping(value = "/workers", method = RequestMethod.GET)
+    public ResponseEntity<List<Worker>> getAllWorkers() {
+        List<Worker> workers = (List<Worker>) workerRepository.findAll();
+        return new ResponseEntity<>(workers, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/updateWorker", method = RequestMethod.PUT)
+    public ResponseEntity<Worker> updateWorker(@RequestBody Worker worker)
+    {
+        try
+        {
+            Worker sourceWorker = workerRepository.findWorkerByLogin(worker.getLogin()).get(0);
+            if(sourceWorker.equals(worker))
+                return new ResponseEntity<>(HttpStatus.CONFLICT);
+            workerRepository.save(worker);
+            return new ResponseEntity<>(worker, HttpStatus.OK);
+        }catch (Exception e)
+        {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @RequestMapping(value = "/worker", method = RequestMethod.DELETE)
+    public ResponseEntity<Void> deleteWorker(@RequestParam String login)
+    {
+        Worker worker = workerRepository.findWorkerByLogin(login).get(0);
+        workerRepository.delete(worker.getId());
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
     private boolean isValid(Worker worker) {
         String check = Long.toString(worker.getPnumber());
         if(check.length() != 11)
@@ -38,41 +90,4 @@ public class WorkerController extends WebMvcConfigurerAdapter {
             return false;
         return true;
     }
-
-    @RequestMapping(value = "/worker", method = RequestMethod.POST)
-    public ResponseEntity<Void> postWorker(@RequestBody Worker worker, UriComponentsBuilder builder) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(builder.path("/worker").build().toUri());
-        if(workerRepository.findWorkerByLogin(worker.getLogin()).size() != 0) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
-        }
-        if(isValid(worker)) {
-            try {
-                workerRepository.save(worker);
-            } catch (Exception e) {
-                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-        }
-        else
-            return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
-        return new ResponseEntity<>(headers, HttpStatus.CREATED);
-    }
-
-    @RequestMapping(value = "/worker", method = RequestMethod.GET)
-    public ResponseEntity<Worker> checkAuthW(@RequestParam("login") String login, @RequestParam("password") String password) {
-        List<Worker> workers = workerRepository.findWorkerByLoginAndPassword(login, password);
-        if(workers.size() == 0) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-        else {
-            return new ResponseEntity<>(workers.get(0), HttpStatus.ACCEPTED);
-        }
-    }
-
-    @RequestMapping(value = "/workers", method = RequestMethod.GET)
-    public ResponseEntity<List<Worker>> getAllWorkers() {
-        List<Worker> workers = (List<Worker>) workerRepository.findAll();
-        return new ResponseEntity<>(workers, HttpStatus.OK);
-    }
-
 }

@@ -4,9 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import server.jpa.Service;
 import server.jpa.ServiceRepository;
@@ -26,6 +24,44 @@ public class ServiceController extends WebMvcConfigurerAdapter {
     @RequestMapping(value = "/services", method = RequestMethod.GET)
     public ResponseEntity<List<Service>> getAllServices() {
         List<Service> services = (List<Service>) serviceRepository.findAll();
+        return new ResponseEntity<>(services, HttpStatus.OK);
+    }
+
+    @RequestMapping(path = "/service", method = RequestMethod.PUT)
+    public ResponseEntity<Void> addService(@RequestBody Service service)
+    {
+        List<Service> sourceService = serviceRepository.getServicesByWorkerLoginAndPriceId(service.getWorker().getLogin(), service.getPrice().getId());
+        if(sourceService.size() != 0)
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        serviceRepository.save(service);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @RequestMapping(path = "/service", method = RequestMethod.GET)
+    public ResponseEntity<Service> getService(@RequestParam String id)
+    {
+        Service service = serviceRepository.findOne(Long.parseLong(id));
+        return new ResponseEntity<>(service, HttpStatus.OK);
+    }
+
+    @RequestMapping(path = "/service", method = RequestMethod.DELETE)
+    public ResponseEntity<Service> deleteService(@RequestParam String id)
+    {
+        serviceRepository.delete(Long.parseLong(id));
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @RequestMapping(path = "/serviceWorker", method = RequestMethod.GET)
+    public ResponseEntity<List<Service>> getServicesByWorkerLogin(String login)
+    {
+        List<Service> services =  serviceRepository.getServicesByWorkerLogin(login);
+        return new ResponseEntity<>(services, HttpStatus.OK);
+    }
+
+    @RequestMapping(path = "/servicePrice", method = RequestMethod.GET)
+    public ResponseEntity<List<Service>> getServicesByPriceId(String id)
+    {
+        List<Service> services =  serviceRepository.getServicesByPriceId(Long.parseLong(id));
         return new ResponseEntity<>(services, HttpStatus.OK);
     }
 }

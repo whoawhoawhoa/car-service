@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -153,5 +154,27 @@ public class Worker {
                 ", rating=" + rating +
                 ", status='" + status + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Worker worker = (Worker) o;
+        return id == worker.id &&
+                pnumber == worker.pnumber &&
+                rating == worker.rating &&
+                status == worker.status &&
+                Objects.equals(login, worker.login) &&
+                Objects.equals(password, worker.password) &&
+                Objects.equals(name, worker.name) &&
+                Objects.equals(fname, worker.fname) &&
+                Objects.equals(city, worker.city);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, login, password, name, fname, pnumber, city, rating, status);
     }
 }

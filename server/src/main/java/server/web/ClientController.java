@@ -5,6 +5,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -73,5 +74,46 @@ public class ClientController extends WebMvcConfigurerAdapter {
     public ResponseEntity<List<Client>> getAllClients() {
         List<Client> clients = (List<Client>) clientRepository.findAll();
         return new ResponseEntity<>(clients, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/client", method = RequestMethod.DELETE)
+    public ResponseEntity<Void> deleteClient(@RequestParam String login)
+    {
+        Client client = clientRepository.findClientByLogin(login).get(0);
+        clientRepository.delete(client.getId());
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @RequestMapping(value = "/updateClient", method = RequestMethod.PUT)
+    public ResponseEntity<Client> updateClient(@RequestBody Client client)
+    {
+        try
+        {
+            Client sourceClient = clientRepository.findClientById(client.getId());
+            System.out.println(sourceClient.equals(client));
+            if(sourceClient.equals(client))
+                return new ResponseEntity<>(HttpStatus.CONFLICT);
+            clientRepository.save(client);
+            return new ResponseEntity<>(client, HttpStatus.OK);
+        }catch (Exception e)
+        {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    private boolean isValid(Client client) {
+        String check = Long.toString(client.getPnumber());
+        if(check.length() != 11)
+            return false;
+        check = client.getName();
+        if(!check.matches("[a-zA-Z]+"))
+            return false;
+        check = client.getFname();
+        if(!check.matches("[a-zA-Z]+"))
+            return false;
+        check = client.getCity();
+        if(!check.matches("[a-zA-Z]+"))
+            return false;
+        return true;
     }
 }

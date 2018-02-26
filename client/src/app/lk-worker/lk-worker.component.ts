@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {LkWorkerService} from '../lk-worker.service';
-import {Worker} from '../worker';
+import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {LkWorkerService} from "../lk-worker.service";
+import {Worker} from "../worker";
 
 @Component({
   selector: 'app-lk-worker',
@@ -43,19 +43,19 @@ export class LkWorkerComponent implements OnInit {
   onWorkerFormSubmit() {
     this.processValidation = true;
     if (this.workerForm.invalid) {
-      return; // Validation failed, exit from method.
+      return; //Validation failed, exit from method.
     }
-    // Form is valid, now perform update
+    //Form is valid, now perform update
     this.preProcessConfigurations();
-    const login = this.workerForm.get('login').value;
-    const password = this.workerForm.get('password').value;
-    const name = this.workerForm.get('name').value;
-    const fName = this.workerForm.get('fName').value;
-    const phoneNumber = this.workerForm.get('phoneNumber').value;
-    const city = this.workerForm.get('city').value;
-    const status = this.workerForm.get('status').value;
-    // Handle update article
-    const worker = new Worker(this.articleIdToUpdate, login, password, name, fName, phoneNumber, city, 0, status);
+    let login = this.workerForm.get('login').value;
+    let password = this.workerForm.get('password').value;
+    let name = this.workerForm.get('name').value;
+    let fName = this.workerForm.get('fName').value;
+    let phoneNumber = this.workerForm.get('phoneNumber').value;
+    let city = this.workerForm.get('city').value;
+    let status = this.workerForm.get('status').value;
+    //Handle update article
+    let worker= new Worker(this.articleIdToUpdate, login, password, name, fName, phoneNumber, city, 0, status);
     this.workerService.updateWorker(worker)
       .subscribe(successCode => {
         this.statusCode = successCode;

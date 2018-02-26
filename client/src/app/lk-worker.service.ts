@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import {Headers, Http, RequestOptions, Response} from '@angular/http';
-import {Observable} from 'rxjs/Observable';
+import {Headers, Http, RequestOptions, Response} from "@angular/http";
+import {Observable} from "rxjs/Observable";
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
-import {Worker} from './worker';
+import {Worker} from "./worker";
 
 @Injectable()
 export class LkWorkerService {
@@ -20,15 +20,15 @@ export class LkWorkerService {
   }
 
   updateWorker(worker: Worker): Observable<number> {
-    const cpHeaders = new Headers({ 'Content-Type': 'application/json' });
-    const options = new RequestOptions({ headers: cpHeaders });
+    let cpHeaders = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: cpHeaders });
     return this.http.put(this.updateWorkerUrl, worker, options)
       .map(success => success.status)
       .catch(this.handleError);
   }
 
   deleteWorkerById(workerId: string): Observable<number> {
-    return this.http.delete(this.workerUrl + '?id=' + workerId)
+    return this.http.delete(this.workerUrl + "?id=" + workerId)
       .map(success => success.status)
       .catch(this.handleError);
   }
