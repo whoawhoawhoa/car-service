@@ -8,13 +8,13 @@ import {Worker} from "./worker";
 @Injectable()
 export class LkWorkerService {
 
-  workerUrl = 'http://localhost:8080/worker';
-  updateWorkerUrl = 'http://localhost:8080/updateWorker';
+  workerUrl = 'http://localhost:9090/worker';
+  updateWorkerUrl = 'http://localhost:9090/updateWorker';
 
   constructor(private http: Http) { }
 
-  getWorker(): Observable<Worker> {
-    return this.http.get(this.workerUrl)
+  getWorker(login: string, password: string): Observable<Worker> {
+    return this.http.get(this.workerUrl + "?login=" + login + "&password=" + password)
       .map(this.extractData)
       .catch(this.handleError);
   }

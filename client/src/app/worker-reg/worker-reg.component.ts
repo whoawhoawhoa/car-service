@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { WorkerService } from '../worker.service';
 import { Worker } from '../worker';
+import {Router} from "@angular/router";
 
 
 @Component({
@@ -22,7 +23,7 @@ export class WorkerRegComponent implements OnInit {
     city: new FormControl('', Validators.required)
   });
 
-  constructor(private workerService: WorkerService) { }
+  constructor(private router: Router, private workerService: WorkerService) { }
 
   ngOnInit() {
   }
@@ -47,6 +48,7 @@ export class WorkerRegComponent implements OnInit {
       .subscribe(successCode => {
           this.statusCode = successCode;
           this.backToCreateWorker();
+          this.router.navigate(['/lkworker/' + login + '/' + password]);
         },
         errorCode => this.statusCode = errorCode);
   }

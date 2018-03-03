@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {LkClientService} from "../lk-client.service";
 import {Client} from "../client";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-lk-client',
@@ -27,7 +28,7 @@ export class LkClientComponent implements OnInit {
     city: new FormControl('', Validators.required)
   });
 
-  constructor(private clientService: LkClientService) { }
+  constructor(private clientService: LkClientService, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.getClient();
@@ -35,7 +36,7 @@ export class LkClientComponent implements OnInit {
   }
 
   getClient() {
-    this.clientService.getClient()
+    this.clientService.getClient(this.route.snapshot.paramMap.get('login'), this.route.snapshot.paramMap.get('password'))
       .subscribe(
         data => this.clientSource = data,
         errorCode => this.statusCode);
@@ -75,7 +76,7 @@ export class LkClientComponent implements OnInit {
 
   loadClientToEdit() {
   this.preProcessConfigurations();
-  this.clientService.getClient()
+  this.clientService.getClient(this.route.snapshot.paramMap.get('login'), this.route.snapshot.paramMap.get('password'))
     .subscribe(client => {
         this.articleIdToUpdate = client.id;
         this.clientForm.setValue({

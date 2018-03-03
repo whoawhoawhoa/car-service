@@ -12,8 +12,10 @@ const routes: Routes = [
   { path: 'worker-auth', component: WorkerAuthComponent },
   { path: 'client', component: ClientRegComponent },
   { path: 'worker', component: WorkerRegComponent },
-  { path: 'lkclient', component: LkClientComponent},
-  { path: 'lkworker', component: LkWorkerComponent},
+  //{ path: 'lkclient', component: LkClientComponent},
+  //{ path: 'lkworker', component: LkWorkerComponent},
+  { path: 'lkworker/:login/:password', component: LkWorkerComponent},
+  { path: 'lkclient/:login/:password', component: LkClientComponent},
   { path: '', redirectTo: 'worker-auth', pathMatch: 'full'}
 
 ];

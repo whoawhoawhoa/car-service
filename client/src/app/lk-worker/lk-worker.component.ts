@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {LkWorkerService} from "../lk-worker.service";
 import {Worker} from "../worker";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-lk-worker',
@@ -21,12 +22,12 @@ export class LkWorkerComponent implements OnInit {
     password: new FormControl('', Validators.required),
     name: new FormControl('', Validators.required),
     fName: new FormControl('', Validators.required),
-    phoneNumber: new FormControl('', Validators.required),
+    pnumber: new FormControl('', Validators.required),
     city: new FormControl('', Validators.required),
     status: new FormControl('', Validators.required)
   });
 
-  constructor(private workerService: LkWorkerService) { }
+  constructor(private workerService: LkWorkerService, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.getWorker();
@@ -34,7 +35,7 @@ export class LkWorkerComponent implements OnInit {
   }
 
   getWorker() {
-    this.workerService.getWorker()
+    this.workerService.getWorker(this.route.snapshot.paramMap.get('login'), this.route.snapshot.paramMap.get('password'))
       .subscribe(
         data => this.workerSource = data,
         errorCode => this.statusCode);
@@ -51,11 +52,11 @@ export class LkWorkerComponent implements OnInit {
     let password = this.workerForm.get('password').value;
     let name = this.workerForm.get('name').value;
     let fName = this.workerForm.get('fName').value;
-    let phoneNumber = this.workerForm.get('phoneNumber').value;
+    let pnumber = this.workerForm.get('pnumber').value;
     let city = this.workerForm.get('city').value;
     let status = this.workerForm.get('status').value;
     //Handle update article
-    let worker= new Worker(this.articleIdToUpdate, login, password, name, fName, phoneNumber, city, 0, status);
+    let worker= new Worker(this.articleIdToUpdate, login, password, name, fName, pnumber, city, 0, status);
     this.workerService.updateWorker(worker)
       .subscribe(successCode => {
         this.statusCode = successCode;
@@ -67,7 +68,7 @@ export class LkWorkerComponent implements OnInit {
 
   loadWorkerToEdit() {
     this.preProcessConfigurations();
-    this.workerService.getWorker()
+    this.workerService.getWorker(this.route.snapshot.paramMap.get('login'), this.route.snapshot.paramMap.get('password'))
       .subscribe(worker => {
           this.articleIdToUpdate = worker.id;
           this.workerForm.setValue({
@@ -75,7 +76,7 @@ export class LkWorkerComponent implements OnInit {
             password: worker.password,
             name: worker.name,
             fName: worker.fname,
-            phoneNumber: worker.phone_number,
+            pnumber: worker.pnumber,
             city: worker.city,
             status: worker.status});
           this.processValidation = true;

@@ -9,13 +9,13 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 @Injectable()
 export class LkClientService {
 
-  clientUrl = 'http://localhost:8080/client';
-  updateClientUrl = 'http://localhost:8080/updateClient';
+  clientUrl = 'http://localhost:9090/client';
+  updateClientUrl = 'http://localhost:9090/updateClient';
 
   constructor(private http: Http) { }
 
-  getClient(): Observable<Client> {
-    return this.http.get(this.clientUrl)
+  getClient(login: string, password: string): Observable<Client> {
+    return this.http.get(this.clientUrl + "?login=" + login + "&password=" + password)
       .map(this.extractData)
       .catch(this.handleError);
 

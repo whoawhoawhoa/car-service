@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Worker} from '../worker';
 import {AuthorizeService} from '../authorize.service';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-worker-auth',
@@ -17,7 +18,7 @@ export class WorkerAuthComponent implements OnInit {
     password: new FormControl('', Validators.required),
   });
 
-  constructor(private workerAuthService: AuthorizeService) { }
+  constructor(private workerAuthService: AuthorizeService, private router: Router) { }
 
   ngOnInit() {
   }
@@ -31,7 +32,8 @@ export class WorkerAuthComponent implements OnInit {
     const login = this.workerAuthForm.get('login').value.trim();
     const password = this.workerAuthForm.get('password').value.trim();
     this.workerAuthService.checkAuthW(login, password)
-      .subscribe(data => this.worker = data,
+      .subscribe(data => {this.worker = data;
+        this.router.navigate(['/lkworker/' + login + '/' + password])},
         errorCode => this.statusCode = errorCode);
   }
   // Perform preliminary processing configurations
