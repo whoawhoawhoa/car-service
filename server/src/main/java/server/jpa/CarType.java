@@ -64,7 +64,6 @@ public class CarType {
         return "CarType{" +
                 "id=" + id +
                 ", carType='" + carType + '\'' +
-                ", priceSet=" + priceSet.toString() +
                 '}';
     }
 }

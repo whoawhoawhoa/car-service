@@ -47,4 +47,20 @@ public class PriceController extends WebMvcConfigurerAdapter {
         priceRepository.save(price);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @RequestMapping(path = "/updatePrice", method = RequestMethod.PUT)
+    public ResponseEntity<Price> updatePrice(@RequestBody Price price)
+    {
+        try
+        {
+            Price sourcePrice = priceRepository.findPriceById(price.getId());
+            if(sourcePrice.equals(price))
+                return new ResponseEntity<>(HttpStatus.CONFLICT);
+            priceRepository.save(price);
+            return new ResponseEntity<>(price, HttpStatus.OK);
+        }catch (Exception e)
+        {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

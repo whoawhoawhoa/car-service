@@ -12,7 +12,7 @@ import server.jpa.CarTypeRepository;
 import java.util.List;
 
 @Controller
-@CrossOrigin(origins = {"http://localhost:9090"})
+@CrossOrigin(origins = {"http://localhost:4200"})
 public class CarTypeController extends WebMvcConfigurerAdapter {
     private final CarTypeRepository carTypeRepository;
 
@@ -32,7 +32,7 @@ public class CarTypeController extends WebMvcConfigurerAdapter {
         CarType sourceType;
         sourceType = carTypeRepository.findOne(carType.getId());
         if(sourceType == carType)
-            return new ResponseEntity<CarType>(HttpStatus.CONFLICT);
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         carTypeRepository.save(carType);
         return new ResponseEntity<>(carType, HttpStatus.OK);
     }
@@ -41,5 +41,17 @@ public class CarTypeController extends WebMvcConfigurerAdapter {
     public ResponseEntity<Void> deleteCarType(@RequestParam long id){
         carTypeRepository.delete(id);
         return new ResponseEntity<Void>(HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/car_type", method = RequestMethod.GET)
+    public ResponseEntity<CarType> getCarTypeById(@RequestParam String id) {
+        CarType carType = carTypeRepository.findOne(Long.parseLong(id));
+        return new ResponseEntity<>(carType, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/car_type_type", method = RequestMethod.GET)
+    public ResponseEntity<CarType> getCarTypeByType(@RequestParam String type) {
+        CarType carType = carTypeRepository.findByCarType(type);
+        return new ResponseEntity<>(carType, HttpStatus.OK);
     }
 }

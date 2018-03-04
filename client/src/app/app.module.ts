@@ -17,6 +17,10 @@ import {LkWorkerComponent} from "./lk-worker/lk-worker.component";
 import {LkClientComponent} from "./lk-client/lk-client.component";
 import {LkWorkerService} from "./lk-worker.service";
 import {LkClientService} from "./lk-client.service";
+import { LkAdminComponent } from './lk-admin/lk-admin.component';
+import {LkAdminService} from "./lk-admin.service";
+import {PriceService} from "./price.service";
+import {CarTypeService} from "./car-type.service";
 
 @NgModule({
   declarations: [
@@ -26,7 +30,8 @@ import {LkClientService} from "./lk-client.service";
     ClientAuthComponent,
     WorkerAuthComponent,
     LkWorkerComponent,
-    LkClientComponent
+    LkClientComponent,
+    LkAdminComponent
   ],
   imports: [
     BrowserModule,
@@ -39,7 +44,10 @@ import {LkClientService} from "./lk-client.service";
     ClientService,
     AuthorizeService,
     LkWorkerService,
-    LkClientService
+    LkClientService,
+    LkAdminService,
+    PriceService,
+    CarTypeService
   ],
   bootstrap: [
     AppComponent

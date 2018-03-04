@@ -61,6 +61,7 @@ export class ClientService {
 
   private handleError (error: Response | any) {
     console.error(error.message || error);
+    console.error(error.status);
     return Observable.throw(error.status);
   }
 }

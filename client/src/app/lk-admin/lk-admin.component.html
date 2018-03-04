@@ -1,0 +1,68 @@
+<h1>Информация о профиле админа</h1>
+<table>
+  <tr>
+    <th>Логин</th>
+    <th>Пароль</th>
+  </tr>
+  <tr>
+    <td>{{adminSource?.login}}</td>
+    <td>{{adminSource?.password}}</td>
+  </tr>
+</table>
+
+<nav>
+  <a routerLink="">Выход на главную</a>
+</nav>
+
+
+<h3> Форма для обновления данных </h3>
+<div>
+  <form [formGroup]="adminForm" (ngSubmit)="onAdminFormSubmit()">
+    <table>
+      <tr><td>Введите новый логин</td><td><input formControlName="login">
+        <td><label *ngIf="adminForm.get('login').invalid && processValidation" [ngClass] = "'error'" > Login is required. </label></td>
+      </tr>
+      <tr><td>Введите новый пароль</td><td><input formControlName="password">
+        <td><label *ngIf="adminForm.get('password').invalid && processValidation" [ngClass] = "'error'" > Login is required. </label></td>
+      </tr>
+      <tr><td><button>Обновить</button></td><td><button routerLink="" (click)="deleteAdmin(adminSource.id)">Delete</button>
+      </td></tr>
+    </table>
+  </form>
+</div>
+<div>
+  <form [formGroup]="priceForm" (ngSubmit)="onPriceFormSubmit()">
+    <table>
+      <tr><td>Введите название</td><td><input formControlName="serviceType">
+        <label *ngIf="priceForm.get('serviceType').invalid && processValidation" [ngClass] = "'error'"> Title is required. </label>
+      </td></tr>
+      <tr><td>Введите цену</td><td><input formControlName="price">
+        <label *ngIf="priceForm.get('price').invalid && processValidation" [ngClass] = "'error'"> Category is required. </label>
+      </td></tr>
+      <tr><td>Выберите тип кузова</td><td><select formControlName="carType">
+                                              <option value="1">Sedan</option>
+                                              <option value="2">Hatchback</option>
+                                              <option value="3">Wagon</option>
+                                          </select>
+        <label *ngIf="priceForm.get('carType').invalid && processValidation" [ngClass] = "'error'"> Category is required. </label>
+      </td></tr>
+      <tr><td colspan="2">
+        <button *ngIf="!priceIdToUpdate">CREATE</button>
+        <button *ngIf="priceIdToUpdate">UPDATE</button>
+        <button (click)="backToCreatePrice()" *ngIf="adminIdToUpdate">Go Back</button>
+      </td></tr>
+    </table>
+  </form>
+  <table>
+    <tr><th> ID</th> <th> Тип услуги</th> <th>Исходная цена</th><th>Тип кузова</th>
+    </tr>
+    <tr *ngFor="let price of prices" >
+      <td>{{price?.id}}</td>
+      <td>{{price?.serviceType}}</td>
+      <td>{{price?.price}}</td>
+      <td>{{price?.carType.carType}}</td>
+      <td><button type="button" (click)="loadPriceToEdit(price.id)">Изменить</button> </td>
+      <td><button type="button" (click)="deletePrice(price.id)">Удалить</button></td>
+    </tr>
+  </table>
+</div>
