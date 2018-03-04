@@ -1,0 +1,32 @@
+<h1>Authorization</h1>
+<h3> Sign as client</h3>
+<a routerLink="/worker-auth">Sign as worker</a>
+<a routerLink="/admin-auth">Sign as admin</a>
+<div>
+  <form [formGroup]="clientAuthForm" (ngSubmit)="onClientFormSubmit()">
+    <table>
+      <tr>
+        <td>Login</td>
+        <td><input formControlName="login"></td>
+        <td><label *ngIf="clientAuthForm.get('login').invalid && processValidation" [ngClass] = "'error'" > Login is required. </label></td>
+      </tr>
+      <tr>
+        <td>Password</td>
+        <td><input formControlName="password"></td>
+        <td><label *ngIf="clientAuthForm.get('password').invalid && processValidation" [ngClass] = "'error'"> Password is required. </label></td>
+      </tr>
+      <tr>
+        <td>
+          <button>OK</button>
+        </td>
+        <td>
+          <button routerLink="/client-reg">Register</button>
+        </td>
+      </tr>
+    </table>
+  </form>
+  <br/>
+  <div *ngIf="client != null" [ngClass] = "'success'">
+    U're sign as {{client | json}}
+  </div>
+</div>

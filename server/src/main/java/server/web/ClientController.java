@@ -24,6 +24,22 @@ public class ClientController extends WebMvcConfigurerAdapter {
         this.clientRepository = clientRepository;
     }
 
+    private boolean isValid(Client client) {
+        String check = Long.toString(client.getPnumber());
+        if(check.length() != 11)
+            return false;
+        check = client.getName();
+        if(!check.matches("[a-zA-Z]+"))
+            return false;
+        check = client.getFname();
+        if(!check.matches("[a-zA-Z]+"))
+            return false;
+        check = client.getCity();
+        if(!check.matches("[a-zA-Z]+"))
+            return false;
+        return true;
+    }
+
     @RequestMapping(value = "/client", method = RequestMethod.POST)
     public ResponseEntity<Void> postClient(@RequestBody Client client, UriComponentsBuilder builder) {
         HttpHeaders headers = new HttpHeaders();
@@ -31,15 +47,24 @@ public class ClientController extends WebMvcConfigurerAdapter {
         if(clientRepository.findClientByLogin(client.getLogin()).size() != 0) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
-        clientRepository.save(client);
+        if(isValid(client)) {
+            try {
+                clientRepository.save(client);
+            } catch (Exception e) {
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }
+        else
+            return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/client", method = RequestMethod.GET)
-    public ResponseEntity<Client> checkAuthC(@RequestParam("login") String login, @RequestParam("password") String password) {
+    public ResponseEntity<Client> getClientByLoginAndPassword(
+            @RequestParam("login") String login, @RequestParam("password") String password) {
         List<Client> clients = clientRepository.findClientByLoginAndPassword(login, password);
         if(clients.size() == 0) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         else {
             return new ResponseEntity<>(clients.get(0), HttpStatus.ACCEPTED);
@@ -60,7 +85,7 @@ public class ClientController extends WebMvcConfigurerAdapter {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @RequestMapping(value = "/updateClient", method = RequestMethod.PUT)
+    @RequestMapping(value = "/client", method = RequestMethod.PUT)
     public ResponseEntity<Client> updateClient(@RequestBody Client client)
     {
         try
@@ -77,19 +102,4 @@ public class ClientController extends WebMvcConfigurerAdapter {
         }
     }
 
-    private boolean isValid(Client client) {
-        String check = Long.toString(client.getPnumber());
-        if(check.length() != 11)
-            return false;
-        check = client.getName();
-        if(!check.matches("[a-zA-Z]+"))
-            return false;
-        check = client.getFname();
-        if(!check.matches("[a-zA-Z]+"))
-            return false;
-        check = client.getCity();
-        if(!check.matches("[a-zA-Z]+"))
-            return false;
-        return true;
-    }
 }
