@@ -31,20 +31,12 @@ export class LkClientComponent implements OnInit {
   constructor(private clientService: LkClientService, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.getClient();
+    this.getClient(this.route.snapshot.paramMap.get('login'), this.route.snapshot.paramMap.get('password'));
     this.loadClientToEdit();
   }
 
-  getClient() {
-    this.clientService.getClient(this.route.snapshot.paramMap.get('login'), this.route.snapshot.paramMap.get('password'))
-      .subscribe(
-        data => this.clientSource = data,
-        errorCode => this.statusCode);
-  }
-
-  getClientById()
-  {
-    this.clientService.getClientById(1+"")
+  getClient(login: string, password: string) {
+    this.clientService.getClient(login, password)
       .subscribe(
         data => this.clientSource = data,
         errorCode => this.statusCode);
@@ -67,29 +59,51 @@ export class LkClientComponent implements OnInit {
     let client= new Client(this.articleIdToUpdate, login, password, name, fName, pnumber, city, 0);
     this.clientService.updateClient(client)
       .subscribe(successCode => {
-        this.statusCode = successCode;
-        this.getClient();
-        this.loadClientToEdit();
-        this.backToCreateClient();
-        }, errorCode => this.statusCode = errorCode);
+          this.statusCode = successCode;
+          console.log(this.statusCode);
+          this.getClient(login, password);
+          this.clientSource = client;
+          this.loadClientToEdit();
+          this.backToCreateClient();
+        }, errorCode =>
+          this.statusCode = errorCode);
   }
 
   loadClientToEdit() {
   this.preProcessConfigurations();
-  this.clientService.getClient(this.route.snapshot.paramMap.get('login'), this.route.snapshot.paramMap.get('password'))
-    .subscribe(client => {
-        this.articleIdToUpdate = client.id;
-        this.clientForm.setValue({
-          login: client.login,
-          password: client.password,
-          name: client.name,
-          fName: client.fname,
-          pnumber: client.pnumber,
-          city: client.city});
-        this.processValidation = true;
-        this.requestProcessing = false;
-      },
-      errorCode =>  this.statusCode = errorCode);
+  if(this.clientSource == null)
+  {
+    this.clientService.getClient(this.route.snapshot.paramMap.get('login'), this.route.snapshot.paramMap.get('password'))
+      .subscribe(client => {
+          this.articleIdToUpdate = client.id;
+          this.clientForm.setValue({
+            login: client.login,
+            password: client.password,
+            name: client.name,
+            fName: client.fname,
+            pnumber: client.pnumber,
+            city: client.city});
+          this.processValidation = true;
+          this.requestProcessing = false;
+        },
+        errorCode =>  this.statusCode = errorCode);
+  } else
+    {
+      this.clientService.getClient(this.clientSource.login, this.clientSource.password)
+        .subscribe(client => {
+            this.articleIdToUpdate = client.id;
+            this.clientForm.setValue({
+              login: client.login,
+              password: client.password,
+              name: client.name,
+              fName: client.fname,
+              pnumber: client.pnumber,
+              city: client.city});
+            this.processValidation = true;
+            this.requestProcessing = false;
+          },
+          errorCode =>  this.statusCode = errorCode);
+    }
   }
 
   deleteClient(clientId: string) {

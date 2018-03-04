@@ -36,7 +36,7 @@
       </tr>
       <tr>
         <td>
-          <button routerLink="/worker?login={{login}}">OK</button>
+          <button>OK</button>
         </td>
         <td>
           <button routerLink="/">Cancel</button>
@@ -45,7 +45,7 @@
     </table>
   </form>
   <br/>
-  <div *ngIf="statusCode;">
+  <div *ngIf="statusCode">
     <div *ngIf="statusCode === 201" [ngClass] = "'success'">
       Client added successfully.
     </div>

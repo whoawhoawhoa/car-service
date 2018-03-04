@@ -14,7 +14,7 @@ export class LkWorkerComponent implements OnInit {
   workerSource: Worker;
   statusCode: number;
   requestProcessing = false;
-  articleIdToUpdate = null;
+  workerIdToUpdate = null;
   processValidation = false;
 
   workerForm = new FormGroup({
@@ -30,12 +30,12 @@ export class LkWorkerComponent implements OnInit {
   constructor(private workerService: LkWorkerService, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.getWorker();
+    this.getWorker(this.route.snapshot.paramMap.get('login'), this.route.snapshot.paramMap.get('password'));
     this.loadWorkerToEdit();
   }
 
-  getWorker() {
-    this.workerService.getWorker(this.route.snapshot.paramMap.get('login'), this.route.snapshot.paramMap.get('password'))
+  getWorker(login : string, password: string) {
+    this.workerService.getWorker(login, password)
       .subscribe(
         data => this.workerSource = data,
         errorCode => this.statusCode);
@@ -56,11 +56,12 @@ export class LkWorkerComponent implements OnInit {
     let city = this.workerForm.get('city').value;
     let status = this.workerForm.get('status').value;
     //Handle update article
-    let worker= new Worker(this.articleIdToUpdate, login, password, name, fName, pnumber, city, 0, status);
+    let worker= new Worker(this.workerIdToUpdate, login, password, name, fName, pnumber, city, 0, status);
     this.workerService.updateWorker(worker)
       .subscribe(successCode => {
         this.statusCode = successCode;
-        this.getWorker();
+        this.getWorker(login, password);
+        this.workerSource = worker;
         this.loadWorkerToEdit();
         this.backToCreateArticle();
       }, errorCode => this.statusCode = errorCode);
@@ -68,21 +69,42 @@ export class LkWorkerComponent implements OnInit {
 
   loadWorkerToEdit() {
     this.preProcessConfigurations();
-    this.workerService.getWorker(this.route.snapshot.paramMap.get('login'), this.route.snapshot.paramMap.get('password'))
-      .subscribe(worker => {
-          this.articleIdToUpdate = worker.id;
-          this.workerForm.setValue({
-            login: worker.login,
-            password: worker.password,
-            name: worker.name,
-            fName: worker.fname,
-            pnumber: worker.pnumber,
-            city: worker.city,
-            status: worker.status});
-          this.processValidation = true;
-          this.requestProcessing = false;
-        },
-        errorCode =>  this.statusCode = errorCode);
+    if(this.workerSource == null)
+    {
+      this.workerService.getWorker(this.route.snapshot.paramMap.get('login'), this.route.snapshot.paramMap.get('password'))
+        .subscribe(worker => {
+            this.workerIdToUpdate = worker.id;
+            this.workerForm.setValue({
+              login: worker.login,
+              password: worker.password,
+              name: worker.name,
+              fName: worker.fname,
+              pnumber: worker.pnumber,
+              city: worker.city,
+              status: worker.status});
+            this.processValidation = true;
+            this.requestProcessing = false;
+          },
+          errorCode =>  this.statusCode = errorCode);
+    }
+    else
+    {
+      this.workerService.getWorker(this.workerSource.login, this.workerSource.password)
+        .subscribe(worker => {
+            this.workerIdToUpdate = worker.id;
+            this.workerForm.setValue({
+              login: worker.login,
+              password: worker.password,
+              name: worker.name,
+              fName: worker.fname,
+              pnumber: worker.pnumber,
+              city: worker.city,
+              status: worker.status});
+            this.processValidation = true;
+            this.requestProcessing = false;
+          },
+          errorCode =>  this.statusCode = errorCode);
+    }
   }
 
   deleteWorker(workerId: string) {
@@ -101,7 +123,7 @@ export class LkWorkerComponent implements OnInit {
 
 
   backToCreateArticle() {
-    this.articleIdToUpdate = null;
+    this.workerIdToUpdate = null;
     this.workerForm.reset();
     this.processValidation = false;
   }
