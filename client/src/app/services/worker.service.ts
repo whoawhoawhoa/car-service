@@ -44,8 +44,8 @@ export class WorkerService {
       .catch(this.handleError);
   }
 
-  deleteWorkerById(workerId: string): Observable<number> {
-    return this.http.delete(this.workerUrl + '?id=' + workerId)
+  deleteWorkerByLogin(workerLogin: string): Observable<number> {
+    return this.http.delete(this.workerUrl + '?login=' + workerLogin)
       .map(success => success.status)
       .catch(this.handleError);
   }

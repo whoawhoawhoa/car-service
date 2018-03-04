@@ -8,7 +8,7 @@ import { Client } from '../table-classes/client';
 @Injectable()
 export class ClientService {
   allClientsUrl = 'http://localhost:9090/clients';
-  clientUrl = 'http://localhost:9090/admin';
+  clientUrl = 'http://localhost:9090/client';
   defaultUrl = 'http://localhost:9090/';
 
   constructor(private http: Http) { }
@@ -39,7 +39,7 @@ export class ClientService {
 
   getClientByLoginAndPassword(clientLogin: string, clientPassword: string): Observable<Client> {
     const cpHeaders = new Headers({ 'Content-Type': 'application/json' });
-    const newUrl = this.defaultUrl + 'admin?login=' + clientLogin + '&password=' + clientPassword;
+    const newUrl = this.defaultUrl + 'client?login=' + clientLogin + '&password=' + clientPassword;
     const options = new RequestOptions({ headers: cpHeaders });
     return this.http.get(newUrl, options)
       .map(this.extractData)
@@ -54,8 +54,8 @@ export class ClientService {
       .catch(this.handleError);
   }
 
-  deleteClientById(clientId: string): Observable<number> {
-    return this.http.delete(this.clientUrl + '?id=' + clientId)
+  deleteClientByLogin(clientLogin: string): Observable<number> {
+    return this.http.delete(this.clientUrl + '?login=' + clientLogin)
       .map(success => success.status)
       .catch(this.handleError);
   }

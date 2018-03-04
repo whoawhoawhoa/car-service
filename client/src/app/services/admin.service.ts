@@ -3,7 +3,6 @@ import {Http, Response, Headers, RequestOptions} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
-import { Client } from '../table-classes/client';
 import {Admin} from '../table-classes/admin';
 
 @Injectable()
@@ -18,6 +17,13 @@ export class AdminService {
     return this.http.get(this.allAdminsUrl)
       .map(this.extractData)
       .catch(this.handleError);
+  }
+
+  getAdmin(login: string, password: string): Observable<Admin> {
+    return this.http.get(this.adminUrl + "?login=" + login + "&password=" + password)
+      .map(this.extractData)
+      .catch(this.handleError);
+
   }
 
   createAdmin(admin: Admin): Observable<number> {
@@ -54,6 +60,7 @@ export class AdminService {
       .map(success => success.status)
       .catch(this.handleError);
   }
+
 
   deleteAdminById(adminId: string): Observable<number> {
     return this.http.delete(this.adminUrl + '?id=' + adminId)

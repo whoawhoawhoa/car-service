@@ -8,7 +8,7 @@ import {LkClientComponent} from '../lk/lk-client/lk-client.component';
 import {LkWorkerComponent} from '../lk/lk-worker/lk-worker.component';
 import {AdminAuthComponent} from '../authorization/admin-auth/admin-auth.component';
 import {AdminRegComponent} from '../registration/admin-reg/admin-reg.component';
-import {LkAdminComponent} from "../lk-admin/lk-admin.component";
+import {LkAdminComponent} from "../lk/lk-admin/lk-admin.component";
 
 const routes: Routes = [
   { path: 'lkadmin/:login/:password', component: LkAdminComponent},

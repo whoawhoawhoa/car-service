@@ -24,11 +24,7 @@ import {OrderService} from './services/order.service';
 import {PassportService} from './services/passport.service';
 import {PriceService} from './services/price.service';
 import {ServiceService} from './services/service.service';
-import { AuthorizeService } from './authorize.service';
-import {LkWorkerService} from "./lk-worker.service";
-import {LkClientService} from "./lk-client.service";
-import { LkAdminComponent } from './lk-admin/lk-admin.component';
-import {LkAdminService} from "./lk-admin.service";
+import { LkAdminComponent } from './lk/lk-admin/lk-admin.component';
 
 @NgModule({
   declarations: [
@@ -61,10 +57,6 @@ import {LkAdminService} from "./lk-admin.service";
     PassportService,
     PriceService,
     ServiceService,
-    AuthorizeService,
-    LkWorkerService,
-    LkClientService,
-    LkAdminService,
     PriceService,
     CarTypeService
   ],

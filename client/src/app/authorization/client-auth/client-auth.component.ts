@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {Client} from '../client';
-import {AuthorizeService} from '../authorize.service';
+import {Client} from "../../table-classes/client";
 import {Router} from "@angular/router";
+import {ClientService} from "../../services/client.service";
 
 @Component({
   selector: 'app-client-auth',
@@ -18,7 +18,7 @@ export class ClientAuthComponent implements OnInit {
     password: new FormControl('', Validators.required),
   });
 
-  constructor(private clientAuthService: AuthorizeService, private router: Router) { }
+  constructor(private clientAuthService: ClientService, private router: Router) { }
 
   ngOnInit() {
   }
