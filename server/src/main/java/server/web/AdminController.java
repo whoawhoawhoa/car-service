@@ -16,7 +16,6 @@ import java.util.List;
 @CrossOrigin(origins = {"http://localhost:4200"})
 public class AdminController extends WebMvcConfigurerAdapter {
     private final AdminRepository adminRepository;
-    ////TEST BRANCH
 
     public AdminController(AdminRepository adminRepository) {
         this.adminRepository = adminRepository;

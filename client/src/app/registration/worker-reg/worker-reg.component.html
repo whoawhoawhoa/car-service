@@ -1,0 +1,61 @@
+<h1>Registration</h1>
+<h3> Register as worker </h3>
+<a routerLink="/client-reg">Register as client</a>
+<a routerLink="/admin-reg">Register as admin</a>
+<div>
+  <form [formGroup]="workerForm" (ngSubmit)="onWorkerFormSubmit()">
+    <table>
+      <tr>
+        <td>Login</td>
+        <td><input formControlName="login"></td>
+        <td><label *ngIf="workerForm.get('login').invalid && processValidation" [ngClass] = "'error'" > Login is required. </label></td>
+      </tr>
+      <tr>
+        <td>Password</td>
+        <td><input formControlName="password"></td>
+        <td><label *ngIf="workerForm.get('password').invalid && processValidation" [ngClass] = "'error'"> Password is required. </label></td>
+      </tr>
+      <tr>
+        <td>First name</td>
+        <td><input formControlName="name"></td>
+        <td><label *ngIf="workerForm.get('name').invalid && processValidation" [ngClass] = "'error'"> First name is required. </label></td>
+      </tr>
+      <tr>
+        <td>Last name</td>
+        <td><input formControlName="fname"></td>
+        <td><label *ngIf="workerForm.get('fname').invalid && processValidation" [ngClass] = "'error'"> Last name is required. </label></td>
+      </tr>
+      <tr>
+        <td>Phone number</td>
+        <td><input formControlName="pnumber"></td>
+        <td><label *ngIf="workerForm.get('pnumber').invalid && processValidation" [ngClass] = "'error'"> Phone number is required. </label></td>
+      </tr>
+      <tr>
+        <td>City</td>
+        <td><input formControlName="city"></td>
+        <td><label *ngIf="workerForm.get('city').invalid && processValidation" [ngClass] = "'error'"> City is required. </label></td>
+      </tr>
+      <tr>
+        <td>
+          <button>OK</button>
+        </td>
+        <td>
+          <button routerLink="/">Cancel</button>
+        </td>
+      </tr>
+    </table>
+  </form>
+  <br/>
+  <div *ngIf="statusCode;">
+    <div *ngIf="statusCode === 201" [ngClass] = "'success'">
+      Worker added successfully.
+    </div>
+    <div *ngIf="statusCode === 409" [ngClass] = "'error'">
+      This login already exists.
+    </div>
+    <div *ngIf="statusCode === 500" [ngClass] = "'error'">
+      Internal Server Error.
+    </div>
+  </div>
+</div>
+

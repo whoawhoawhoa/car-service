@@ -1,0 +1,40 @@
+<h1>Registration</h1>
+<h3> Register as admin</h3>
+<a routerLink="/worker-reg">Register as worker</a>
+<a routerLink="/client-reg">Register as client</a>
+<div>
+  <form [formGroup]="adminForm" (ngSubmit)="onAdminFormSubmit()">
+    <table>
+      <tr>
+        <td>Login</td>
+        <td><input formControlName="login"></td>
+        <td><label *ngIf="adminForm.get('login').invalid && processValidation" [ngClass] = "'error'" > Login is required. </label></td>
+      </tr>
+      <tr>
+        <td>Password</td>
+        <td><input formControlName="password"></td>
+        <td><label *ngIf="adminForm.get('password').invalid && processValidation" [ngClass] = "'error'"> Password is required. </label></td>
+      </tr>
+      <tr>
+        <td>
+          <button routerLink="/admin?login={{login}}">OK</button>
+        </td>
+        <td>
+          <button routerLink="/">Cancel</button>
+        </td>
+      </tr>
+    </table>
+  </form>
+  <br/>
+  <div *ngIf="statusCode;">
+    <div *ngIf="statusCode === 201" [ngClass] = "'success'">
+      Admin added successfully.
+    </div>
+    <div *ngIf="statusCode === 409" [ngClass] = "'success'">
+      This login already exists.
+    </div>
+    <div *ngIf="statusCode === 500" [ngClass] = "'error'">
+      Internal Server Error.
+    </div>
+  </div>
+</div>

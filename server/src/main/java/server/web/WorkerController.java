@@ -35,7 +35,8 @@ public class WorkerController extends WebMvcConfigurerAdapter {
     }
 
     @RequestMapping(value = "/worker", method = RequestMethod.GET)
-    public ResponseEntity<Worker> checkAuthW(@RequestParam("login") String login, @RequestParam("password") String password) {
+    public ResponseEntity<Worker> getWorkerByLoginAndPassword(
+            @RequestParam("login") String login, @RequestParam("password") String password) {
         List<Worker> workers = workerRepository.findWorkerByLoginAndPassword(login, password);
         if(workers.size() == 0) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -51,7 +52,7 @@ public class WorkerController extends WebMvcConfigurerAdapter {
         return new ResponseEntity<>(workers, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/updateWorker", method = RequestMethod.PUT)
+    @RequestMapping(value = "/worker", method = RequestMethod.PUT)
     public ResponseEntity<Worker> updateWorker(@RequestBody Worker worker)
     {
         try
