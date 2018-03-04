@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {Client} from '../../table-classes/client';
-import {ClientService} from '../../services/client.service';
-import {Router} from '@angular/router';
+import {Client} from "../../table-classes/client";
+import {Router} from "@angular/router";
+import {ClientService} from "../../services/client.service";
 
 @Component({
   selector: 'app-client-auth',

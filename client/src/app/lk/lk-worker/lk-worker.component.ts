@@ -22,7 +22,7 @@ export class LkWorkerComponent implements OnInit {
     password: new FormControl('', Validators.required),
     name: new FormControl('', Validators.required),
     fName: new FormControl('', Validators.required),
-    phoneNumber: new FormControl('', Validators.required),
+    pnumber: new FormControl('', Validators.required),
     city: new FormControl('', Validators.required),
     status: new FormControl('', Validators.required)
   });
@@ -52,7 +52,7 @@ export class LkWorkerComponent implements OnInit {
     const password = this.workerForm.get('password').value;
     const name = this.workerForm.get('name').value;
     const fName = this.workerForm.get('fName').value;
-    const phoneNumber = this.workerForm.get('phoneNumber').value;
+    const phoneNumber = this.workerForm.get('pnumber').value;
     const city = this.workerForm.get('city').value;
     const status = this.workerForm.get('status').value;
     // Handle update article
@@ -78,7 +78,7 @@ export class LkWorkerComponent implements OnInit {
               password: worker.password,
               name: worker.name,
               fName: worker.fname,
-              pnumber: worker.phone_number,
+              pnumber: worker.pnumber,
               city: worker.city,
               status: worker.status});
             this.processValidation = true;
@@ -94,7 +94,7 @@ export class LkWorkerComponent implements OnInit {
               password: worker.password,
               name: worker.name,
               fName: worker.fname,
-              pnumber: worker.phone_number,
+              pnumber: worker.pnumber,
               city: worker.city,
               status: worker.status});
             this.processValidation = true;
@@ -104,9 +104,9 @@ export class LkWorkerComponent implements OnInit {
     }
   }
 
-  deleteWorker(workerId: string) {
+  deleteWorker(workerLogin: string) {
     this.preProcessConfigurations();
-    this.workerService.deleteWorkerById(workerId)
+    this.workerService.deleteWorkerByLogin(workerLogin)
       .subscribe(successCode => {
           this.statusCode = successCode;
         },

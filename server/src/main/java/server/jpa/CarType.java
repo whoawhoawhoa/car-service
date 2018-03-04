@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -64,7 +65,21 @@ public class CarType {
         return "CarType{" +
                 "id=" + id +
                 ", carType='" + carType + '\'' +
-                ", priceSet=" + priceSet.toString() +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CarType carType1 = (CarType) o;
+        return id == carType1.id &&
+                Objects.equals(carType, carType1.carType);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, carType);
     }
 }

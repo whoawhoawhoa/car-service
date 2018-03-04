@@ -14,14 +14,14 @@
     <th>Статус</th>
   </tr>
   <tr>
-    <td>{{workerSource.login}}</td>
-    <td>{{workerSource.password}}</td>
-    <td>{{workerSource.name}}</td>
-    <td>{{workerSource.fname}}</td>
-    <td>{{workerSource.pnumber}}</td>
-    <td>{{workerSource.city}}</td>
-    <td>{{workerSource.rating}}</td>
-    <td>{{workerSource.status}}</td>
+    <td>{{workerSource?.login}}</td>
+    <td>{{workerSource?.password}}</td>
+    <td>{{workerSource?.name}}</td>
+    <td>{{workerSource?.fname}}</td>
+    <td>{{workerSource?.pnumber}}</td>
+    <td>{{workerSource?.city}}</td>
+    <td>{{workerSource?.rating}}</td>
+    <td>{{workerSource?.status}}</td>
   </tr>
 </table>
 
@@ -41,15 +41,17 @@
       </td></tr>
       <tr><td>Введите новую фамилию</td><td><input formControlName="fName">
       </td></tr>
-      <tr><td>Введите новый номер телефона</td><td><input formControlName="phoneNumber">
+      <tr><td>Введите новый номер телефона</td><td><input formControlName="pnumber">
       </td></tr>
       <tr><td>Введите новый город</td><td><input formControlName="city">
       </td></tr>
       <tr><td>Введите новый статус</td><td><input formControlName="status">
       </td></tr>
-      <tr><td><button>Обновить</button></td><td><button routerLink=""  (click)="deleteWorker(workerSource.id)">Delete</button>
+      <tr><td><button>Обновить</button></td><td><button routerLink=""  (click)="deleteWorker(workerSource.login)">Delete</button>
       </td></tr>
     </table>
   </form>
+
+
   <br/>
 </div>

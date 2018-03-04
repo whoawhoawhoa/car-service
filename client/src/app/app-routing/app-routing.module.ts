@@ -8,8 +8,10 @@ import {LkClientComponent} from '../lk/lk-client/lk-client.component';
 import {LkWorkerComponent} from '../lk/lk-worker/lk-worker.component';
 import {AdminAuthComponent} from '../authorization/admin-auth/admin-auth.component';
 import {AdminRegComponent} from '../registration/admin-reg/admin-reg.component';
+import {LkAdminComponent} from "../lk/lk-admin/lk-admin.component";
 
 const routes: Routes = [
+  { path: 'lkadmin/:login/:password', component: LkAdminComponent},
   { path: 'client-auth', component: ClientAuthComponent },
   { path: 'worker-auth', component: WorkerAuthComponent },
   { path: 'admin-auth', component: AdminAuthComponent },
@@ -18,6 +20,8 @@ const routes: Routes = [
   { path: 'admin-reg', component: AdminRegComponent },
   { path: 'lkworker/:login/:password', component: LkWorkerComponent},
   { path: 'lkclient/:login/:password', component: LkClientComponent},
+  { path: 'client', component: ClientRegComponent },
+  { path: 'worker', component: WorkerRegComponent },
   { path: '', redirectTo: 'worker-auth', pathMatch: 'full'}
 
 ];

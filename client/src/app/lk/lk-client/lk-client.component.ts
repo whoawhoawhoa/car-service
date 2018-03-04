@@ -105,9 +105,9 @@ export class LkClientComponent implements OnInit {
     }
   }
 
-  deleteClient(clientId: string) {
+  deleteClient(clientLogin: string) {
     this.preProcessConfigurations();
-    this.clientService.deleteClientById(clientId)
+    this.clientService.deleteClientByLogin(clientLogin)
       .subscribe(successCode => {
           this.statusCode = successCode;
         },

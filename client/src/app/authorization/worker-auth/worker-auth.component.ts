@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {Worker} from '../../table-classes/worker';
-import {WorkerService} from '../../services/worker.service';
-import {Router} from '@angular/router';
+import {Worker} from "../../table-classes/worker";
+import {Router} from "@angular/router";
+import {WorkerService} from "../../services/worker.service";
+
 
 @Component({
   selector: 'app-worker-auth',

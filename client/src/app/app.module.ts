@@ -24,6 +24,7 @@ import {OrderService} from './services/order.service';
 import {PassportService} from './services/passport.service';
 import {PriceService} from './services/price.service';
 import {ServiceService} from './services/service.service';
+import { LkAdminComponent } from './lk/lk-admin/lk-admin.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,9 @@ import {ServiceService} from './services/service.service';
     LkWorkerComponent,
     LkClientComponent,
     AdminRegComponent,
-    AdminAuthComponent
+    AdminAuthComponent,
+    LkClientComponent,
+    LkAdminComponent
   ],
   imports: [
     BrowserModule,
@@ -53,7 +56,9 @@ import {ServiceService} from './services/service.service';
     OrderService,
     PassportService,
     PriceService,
-    ServiceService
+    ServiceService,
+    PriceService,
+    CarTypeService
   ],
   bootstrap: [
     AppComponent

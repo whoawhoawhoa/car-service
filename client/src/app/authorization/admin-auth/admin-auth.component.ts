@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Admin} from '../../table-classes/admin';
 import {AdminService} from '../../services/admin.service';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-admin-auth',
@@ -17,7 +18,7 @@ export class AdminAuthComponent implements OnInit {
     password: new FormControl('', Validators.required),
   });
 
-  constructor(private adminAuthService: AdminService) { }
+  constructor(private adminAuthService: AdminService, private router: Router) { }
 
   ngOnInit() {
   }
@@ -31,8 +32,12 @@ export class AdminAuthComponent implements OnInit {
     const login = this.adminAuthForm.get('login').value.trim();
     const password = this.adminAuthForm.get('password').value.trim();
     this.adminAuthService.getAdminByLoginAndPassword(login, password)
-      .subscribe(data => this.admin = data,
-        errorCode => this.statusCode = errorCode);
+      .subscribe(data => {
+        this.admin = data;
+        this.router.navigate(['/lkadmin/' + login + '/' + password]);
+      },
+          errorCode => this.statusCode = errorCode
+      );
   }
   // Perform preliminary processing configurations
   preProcessConfigurations() {
