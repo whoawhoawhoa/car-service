@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import {Headers, Http, RequestOptions, Response} from "@angular/http";
-import {Observable} from "rxjs/Observable";
-import {CarType} from "../table-classes/car-type";
+import {Headers, Http, RequestOptions, Response} from '@angular/http';
+import {Observable} from 'rxjs/Observable';
+import {CarType} from '../table-classes/car-type';
 
 @Injectable()
 export class CarTypeService {
@@ -12,23 +12,21 @@ export class CarTypeService {
 
   constructor(private http: Http) { }
 
-  getAllCarTypes()
-  {
+  getAllCarTypes() {
     return this.http.get(this.carTypeUrl + 's')
       .map(this.extractData)
       .catch(this.handleError);
   }
 
-  getCarTypeById(id: string)
-  {
-    return this.http.get(this.carTypeUrl + "?id=" + id)
+  getCarTypeById(id: string) {
+    return this.http.get(this.carTypeUrl + '?id=' + id)
       .map(this.extractData)
       .catch(this.handleError);
   }
 
-  getCarTypeByType(type: string)
-  {
-    return this.http.get(this.carTypeUrl + "_type?type=" + type)
+
+  getCarTypeByType(type: string) {
+    return this.http.get(this.carTypeUrl + '_type?type=' + type)
       .map(this.extractData)
       .catch(this.handleError);
   }

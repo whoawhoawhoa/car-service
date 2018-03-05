@@ -28,10 +28,10 @@ public class CarController extends WebMvcConfigurerAdapter {
         if(car.getClient() == null || car.getCarType() == null)
             return false;
         check = car.getColor();
-        if(check.matches("[a-zA-Z]+"))
+        if(!check.matches("[a-zA-Z]+"))
             return false;
         check = car.getBrand();
-        if(check.matches("[a-zA-Z]+"))
+        if(!check.matches("[a-zA-Z]+"))
             return false;
         check = car.getNumber();
         if(!check.matches("\\w\\d\\d\\d\\w\\w"))
@@ -103,7 +103,7 @@ public class CarController extends WebMvcConfigurerAdapter {
                     return new ResponseEntity<>(HttpStatus.CONFLICT);
                 carRepository.save(car);
             }
-            else return new ResponseEntity<Car>(HttpStatus.UNPROCESSABLE_ENTITY);
+            else return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

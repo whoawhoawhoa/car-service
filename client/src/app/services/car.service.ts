@@ -18,11 +18,7 @@ export class CarService {
   constructor(private http: Http) { }
 
   getCarsByClientLogin(clientLogin: string): Observable<Car[]> {
-    const cpHeaders = new Headers({ 'Content-Type': 'application/json' });
-    const cpParams = new URLSearchParams();
-    cpParams.set('login', clientLogin);
-    const options = new RequestOptions({ headers: cpHeaders, params: cpParams });
-    return this.http.get(this.clientsCarsUrl, options)
+    return this.http.get(this.clientsCarsUrl + '?login=' + clientLogin)
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -30,7 +26,7 @@ export class CarService {
   createCar(car: Car): Observable<number> {
     const cpHeaders = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({headers: cpHeaders});
-    return this.http.put(this.carUrl, car, options)
+    return this.http.post(this.carUrl, car, options)
       .map(success => success.status)
       .catch(this.handleError);
   }
