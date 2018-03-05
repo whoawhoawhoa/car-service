@@ -1,0 +1,49 @@
+<p>Имеющиеся сервисы</p>
+<table>
+  <tr>
+    <th>Цена</th>
+    <th>Услуга</th>
+    <th>Удалить</th>
+  </tr>
+  <tr *ngFor="let service of allServices" >
+    <td>{{service.price.price * service.coef}}</td>
+    <td>{{service.price.serviceType}} for {{service.price.carType.carType}}</td>
+    <td><button (click)="deleteService(service.id)">Delete</button></td>
+  </tr>
+</table>
+
+
+<p> Новый сервис </p>
+<div>
+  <form [formGroup]="serviceForm" (ngSubmit)="onServiceFormSubmit()">
+    <table>
+      <tr>
+        <td>Услуга</td>
+        <td>
+          <select name="prices"  formControlName="price">
+            <option *ngFor="let price of allPrices" value="{{price?.serviceType}}">
+              {{price?.serviceType + ' for ' + price?.carType.carType}}
+            </option>
+          </select>
+          <!--<input formControlName="price"> <label *ngIf="err">Услуга должна быть из списка доступных</label>-->
+        </td>
+      </tr>
+      <tr>
+        <td>Цена</td>
+        <td>
+          <!--<label>{{price?.price * 0.5}}</label>-->
+          <!--<input type="range" min="{{price?.price * 0.5}}" max="{{price?.price * 2.0}}" step="any"-->
+                   <!--[formControlName]="coefficient">-->
+          <!--<label>{{price?.price * 2.0}}</label>-->
+          <input type="text" formControlName="coefficient">
+      </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <button>Создать</button>
+        </td>
+      </tr>
+    </table>
+  </form>
+  <br/>
+</div>

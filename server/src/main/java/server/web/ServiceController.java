@@ -28,7 +28,17 @@ public class ServiceController extends WebMvcConfigurerAdapter {
     }
 
     @RequestMapping(path = "/service", method = RequestMethod.PUT)
-    public ResponseEntity<Void> addService(@RequestBody Service service)
+    public ResponseEntity<Void> updateService(@RequestBody Service service)
+    {
+        List<Service> sourceService = serviceRepository.getServicesByWorkerLoginAndPriceId(service.getWorker().getLogin(), service.getPrice().getId());
+        if(sourceService.size() != 0 && sourceService.get(0) == service)
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        serviceRepository.save(service);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @RequestMapping(path = "/service", method = RequestMethod.POST)
+    public ResponseEntity<Void> createService(@RequestBody Service service)
     {
         List<Service> sourceService = serviceRepository.getServicesByWorkerLoginAndPriceId(service.getWorker().getLogin(), service.getPrice().getId());
         if(sourceService.size() != 0)
@@ -52,14 +62,14 @@ public class ServiceController extends WebMvcConfigurerAdapter {
     }
 
     @RequestMapping(path = "/serviceWorker", method = RequestMethod.GET)
-    public ResponseEntity<List<Service>> getServicesByWorkerLogin(String login)
+    public ResponseEntity<List<Service>> getServicesByWorkerLogin(@RequestParam String login)
     {
         List<Service> services =  serviceRepository.getServicesByWorkerLogin(login);
         return new ResponseEntity<>(services, HttpStatus.OK);
     }
 
     @RequestMapping(path = "/servicePrice", method = RequestMethod.GET)
-    public ResponseEntity<List<Service>> getServicesByPriceId(String id)
+    public ResponseEntity<List<Service>> getServicesByPriceId(@RequestParam String id)
     {
         List<Service> services =  serviceRepository.getServicesByPriceId(Long.parseLong(id));
         return new ResponseEntity<>(services, HttpStatus.OK);

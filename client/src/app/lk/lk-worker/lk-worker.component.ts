@@ -10,7 +10,6 @@ import {WorkerService} from '../../services/worker.service';
   styleUrls: ['./lk-worker.component.css']
 })
 export class LkWorkerComponent implements OnInit {
-
   workerSource: Worker;
   statusCode: number;
   requestProcessing = false;
@@ -52,11 +51,11 @@ export class LkWorkerComponent implements OnInit {
     const password = this.workerForm.get('password').value;
     const name = this.workerForm.get('name').value;
     const fName = this.workerForm.get('fName').value;
-    const phoneNumber = this.workerForm.get('pnumber').value;
+    const pnumber = this.workerForm.get('pnumber').value;
     const city = this.workerForm.get('city').value;
     const status = this.workerForm.get('status').value;
     // Handle update article
-    const worker = new Worker(this.workerIdToUpdate, login, password, name, fName, phoneNumber, city, 0, status);
+    const worker = new Worker(this.workerIdToUpdate, login, password, name, fName, pnumber, city, 0, status);
     this.workerService.updateWorker(worker)
       .subscribe(successCode => {
         this.statusCode = successCode;
@@ -64,14 +63,15 @@ export class LkWorkerComponent implements OnInit {
         this.workerSource = worker;
         this.router.navigate(['/lkworker/' + login + '/' + password]);
         this.loadWorkerToEdit();
-        this.backToCreateArticle();
+        this.backToCreateWorker();
       }, errorCode => this.statusCode = errorCode);
   }
 
   loadWorkerToEdit() {
     this.preProcessConfigurations();
     if (this.workerSource == null) {
-      this.workerService.getWorkerByLoginAndPassword(this.route.snapshot.paramMap.get('login'), this.route.snapshot.paramMap.get('password'))
+      this.workerService.getWorkerByLoginAndPassword(this.route.snapshot.paramMap.get('login'),
+        this.route.snapshot.paramMap.get('password'))
         .subscribe(worker => {
             this.workerIdToUpdate = worker.id;
             this.workerForm.setValue({
@@ -84,6 +84,7 @@ export class LkWorkerComponent implements OnInit {
               status: worker.status});
             this.processValidation = true;
             this.requestProcessing = false;
+            this.workerSource = worker;
           },
           errorCode =>  this.statusCode = errorCode);
     } else {
@@ -120,7 +121,7 @@ export class LkWorkerComponent implements OnInit {
   }
 
 
-  backToCreateArticle() {
+  backToCreateWorker() {
     this.workerIdToUpdate = null;
     this.workerForm.reset();
     this.processValidation = false;

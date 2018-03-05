@@ -88,8 +88,7 @@ export class LkAdminComponent implements OnInit {
 
   loadAdminToEdit() {
     this.preProcessConfigurations();
-    if(this.adminSource == null)
-    {
+    if (this.adminSource == null) {
       this.adminService.getAdmin(this.route.snapshot.paramMap.get('login'), this.route.snapshot.paramMap.get('password'))
         .subscribe(admin => {
             this.adminIdToUpdate = admin.id;
@@ -100,14 +99,13 @@ export class LkAdminComponent implements OnInit {
             this.requestProcessing = false;
           },
           errorCode =>  this.statusCode = errorCode);
-    } else
-    {
+    } else {
       this.adminService.getAdmin(this.adminSource.login, this.adminSource.password)
         .subscribe(admin => {
             this.adminIdToUpdate = admin.id;
             this.adminForm.setValue({
               login: admin.login,
-              password: admin.password,});
+              password: admin.password });
             this.processValidation = true;
             this.requestProcessing = false;
           },
@@ -132,22 +130,22 @@ export class LkAdminComponent implements OnInit {
         errorCode => this.statusCode);
   }
 
-  //Handle create and update article
+  // Handle create and update article
   onPriceFormSubmit() {
     this.carTypeSource = this.carTypes[0];
     this.processValidation = true;
     if (this.priceForm.invalid) {
-      return; //Validation failed, exit from method.
+      return; // Validation failed, exit from method.
     }
-    //Form is valid, now perform create or update
+    // Form is valid, now perform create or update
     this.preProcessConfigurations();
     let serviceType = this.priceForm.get('serviceType').value;
     let priceField = this.priceForm.get('price').value;
     let carType = this.priceForm.get('carType').value;
     this.carTypeSource.id = carType;
     if (this.priceIdToUpdate === null) {
-      //Handle create article
-      let price = new Price(null, serviceType, priceField, this.carTypeSource);
+      // Handle create article
+      const price = new Price(null, serviceType, priceField, this.carTypeSource);
       this.priceService.createPrice(price)
         .subscribe(successCode => {
             this.statusCode = successCode;
@@ -157,7 +155,7 @@ export class LkAdminComponent implements OnInit {
           errorCode => this.statusCode = errorCode);
     } else {
       //Handle update article
-      let price = new Price(this.priceIdToUpdate, serviceType, priceField, this.carTypeSource);
+      const price = new Price(this.priceIdToUpdate, serviceType, priceField, this.carTypeSource);
       this.priceService.updatePrice(price)
         .subscribe(successCode => {
             this.statusCode = successCode;

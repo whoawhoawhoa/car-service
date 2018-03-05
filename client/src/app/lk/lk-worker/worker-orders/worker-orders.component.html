@@ -1,0 +1,19 @@
+<p>Выполненные заказы</p>
+<table>
+  <tr>
+    <th>Оценка клиента</th>
+    <th>Ваша оценка</th>
+    <th>Дата</th>
+    <th>Услуга</th>
+    <th>Цена</th>
+    <th>Клиент</th>
+  </tr>
+  <tr *ngFor="let order of allOrders" >
+    <td>{{order?.clientMark}}</td>
+    <td>{{order?.workerMark}}</td>
+    <td>{{order?.orderDate}}</td>
+    <td>{{order?.serviceType}}</td>
+    <td>{{order?.totalPrice}}</td>
+    <td>{{order?.client.name + ' ' + order?.client.fname}}</td>
+  </tr>
+</table>

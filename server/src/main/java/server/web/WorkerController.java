@@ -57,11 +57,17 @@ public class WorkerController extends WebMvcConfigurerAdapter {
     {
         try
         {
-            Worker sourceWorker = workerRepository.findOne(worker.getId());
-            if(sourceWorker.equals(worker))
-                return new ResponseEntity<>(HttpStatus.CONFLICT);
-            workerRepository.save(worker);
-            return new ResponseEntity<>(worker, HttpStatus.OK);
+            List<Worker> workers = workerRepository.findWorkerByLogin(worker.getLogin());
+            if(workers.size() != 0) {
+                Worker sourceWorker = workers.get(0);
+                if (sourceWorker.equals(worker))
+                    return new ResponseEntity<>(HttpStatus.CONFLICT);
+                workerRepository.save(worker);
+                return new ResponseEntity<>(worker, HttpStatus.OK);
+            } else {
+                workerRepository.save(worker);
+                return new ResponseEntity<>(worker, HttpStatus.OK);
+            }
         }catch (Exception e)
         {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
