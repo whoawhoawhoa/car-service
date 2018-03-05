@@ -113,17 +113,20 @@ export class LkAdminComponent implements OnInit {
     }
   }
 
-  deleteAdmin(clientId: string) {
+  deleteAdmin(adminId: string) {
     this.preProcessConfigurations();
-    this.adminService.deleteAdminById(clientId)
-      .subscribe(successCode => {
-          this.statusCode = successCode;
-        },
-        errorCode => this.statusCode = errorCode);
+    if (this.adminSource.id !== 1) {
+      this.adminService.deleteAdminById(adminId)
+        .subscribe(successCode => {
+            this.statusCode = successCode;
+          },
+          errorCode => this.statusCode = errorCode);
+    } else {
+      alert('You can\'t delete default admin');
+    }
   }
 
-  getPrices()
-  {
+  getPrices() {
     this.priceService.getPrices()
       .subscribe(
         data => this.prices = data,
@@ -190,8 +193,7 @@ export class LkAdminComponent implements OnInit {
         errorCode => this.statusCode = errorCode);
   }
 
-  getCarTypes()
-  {
+  getCarTypes() {
     this.carTypeService.getAllCarTypes()
       .subscribe(
         data => this.carTypes = data,
