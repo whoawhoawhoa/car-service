@@ -14,7 +14,7 @@ import server.jpa.AvailableOrderRepository;
 import java.util.List;
 
 @Controller
-@CrossOrigin(origins = {"http://localhost:9090"})
+@CrossOrigin(origins = {"http://localhost:4200"})
 public class AvailableOrderController extends WebMvcConfigurerAdapter {
     private final AvailableOrderRepository availableOrderRepository;
 

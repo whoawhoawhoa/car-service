@@ -28,10 +28,10 @@ public class CarController extends WebMvcConfigurerAdapter {
         if(car.getClient() == null || car.getCarType() == null)
             return false;
         check = car.getColor();
-        if(check.matches("[a-zA-Z]+"))
+        if(!check.matches("[a-zA-Z]+"))
             return false;
         check = car.getBrand();
-        if(check.matches("[a-zA-Z]+"))
+        if(!check.matches("[a-zA-Z]+"))
             return false;
         check = car.getNumber();
         if(!check.matches("\\w\\d\\d\\d\\w\\w"))
