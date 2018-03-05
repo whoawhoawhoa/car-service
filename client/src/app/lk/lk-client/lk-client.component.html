@@ -46,3 +46,74 @@
   </form>
   <br/>
 </div>
+
+<h3> Ваши машины </h3>
+<div>
+  <table>
+    <tr>
+      <th>Номер</th>
+      <th>Марка</th>
+      <th>Цвет</th>
+      <th>Тип кузова</th>
+    </tr>
+    <tr *ngFor="let car of clientCars" >
+      <td>{{car.number}}</td>
+      <td>{{car.brand}}</td>
+      <td>{{car.color}}</td>
+      <td>{{car.carType.carType}}</td>
+      <td><button type="button" (click)="deleteCar(car.id)">Удалить</button></td>
+    </tr>
+    </table>
+
+  <form [formGroup]="newCarForm" (ngSubmit)="onNewCarFormSubmit()">
+    <table>
+      <tr>
+        <td>Number</td>
+        <td><input formControlName="number"></td>
+        <td><label *ngIf="newCarForm.get('number').invalid && processValidation" [ngClass] = "'error'" > Number is required. </label></td>
+      </tr>
+      <tr>
+        <td>Brand</td>
+        <td><input formControlName="brand"></td>
+        <td><label *ngIf="newCarForm.get('brand').invalid && processValidation" [ngClass] = "'error'"> Brand is required. </label></td>
+      </tr>
+      <tr>
+        <td>Color</td>
+        <td><input formControlName="color"></td>
+        <td><label *ngIf="newCarForm.get('color').invalid && processValidation" [ngClass] = "'error'"> Color is required. </label></td>
+      </tr>
+     <tr>
+        <td>Выберите тип кузова</td><td><select formControlName="carType">
+        <option *ngFor="let carType of carTypes" value={{carType.id}}>{{carType.carType}}</option>
+      </select>
+        <label *ngIf="newCarForm.get('carType').invalid && processValidation" [ngClass] = "'error'"> Обязательное поле </label>
+      </td>
+     </tr>
+        <td>
+          <button>OK</button>
+        </td>
+    </table>
+  </form>
+  <div>
+
+
+  </div>
+
+  <h3> Ваши заказы </h3>
+  <div>
+    <table>
+      <tr>
+        <th>Тип услуги</th>
+        <th>Дата</th>
+        <th>Цена</th>
+      </tr>
+      <tr *ngFor="let order of clientOrders" >
+        <td>{{order.serviceType}}</td>
+        <td>{{order.orderDate}}</td>
+        <td>{{order.totalPrice}}</td>
+      </tr>
+    </table>
+
+</div>
+
+

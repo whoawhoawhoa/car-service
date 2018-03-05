@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {ActivatedRoute, Router} from "@angular/router";
-import {Admin} from "../../table-classes/admin";
-import {Price} from "../../table-classes/price";
-import {PriceService} from "../../services/price.service";
-import {CarType} from "../../table-classes/car-type";
-import {CarTypeService} from "../../services/car-type.service";
-import {AdminService} from "../../services/admin.service";
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Admin} from '../../table-classes/admin';
+import {Price} from '../../table-classes/price';
+import {PriceService} from '../../services/price.service';
+import {CarType} from '../../table-classes/car-type';
+import {CarTypeService} from '../../services/car-type.service';
+import {AdminService} from '../../services/admin.service';
 
 @Component({
   selector: 'app-lk-admin',
@@ -69,10 +69,10 @@ export class LkAdminComponent implements OnInit {
     }
     //Form is valid, now perform update
     this.preProcessConfigurations();
-    let login = this.adminForm.get('login').value;
-    let password = this.adminForm.get('password').value;
+    const login = this.adminForm.get('login').value;
+    const password = this.adminForm.get('password').value;
     //Handle update client
-    let admin = new Admin(this.adminIdToUpdate, login, password);
+    const admin = new Admin(this.adminIdToUpdate, login, password);
     this.adminService.updateAdmin(admin)
       .subscribe(successCode => {
         this.statusCode = successCode;
@@ -142,9 +142,9 @@ export class LkAdminComponent implements OnInit {
     }
     // Form is valid, now perform create or update
     this.preProcessConfigurations();
-    let serviceType = this.priceForm.get('serviceType').value;
-    let priceField = this.priceForm.get('price').value;
-    let carType = this.priceForm.get('carType').value;
+    const serviceType = this.priceForm.get('serviceType').value;
+    const priceField = this.priceForm.get('price').value;
+    const carType = this.priceForm.get('carType').value;
     this.carTypeSource.id = carType;
     if (this.priceIdToUpdate === null) {
       // Handle create article
@@ -208,10 +208,10 @@ export class LkAdminComponent implements OnInit {
     }
     //Form is valid, now perform create or update
     this.preProcessConfigurations();
-    let carTypeField = this.carTypeForm.get('carType').value;
+    const carTypeField = this.carTypeForm.get('carType').value;
     if (this.carTypeIdToUpdate === null) {
       //Handle create article
-      let carType = new CarType(null, carTypeField);
+      const carType = new CarType(null, carTypeField);
       this.carTypeService.createCarType(carType)
         .subscribe(successCode => {
             this.statusCode = successCode;
@@ -221,7 +221,7 @@ export class LkAdminComponent implements OnInit {
           errorCode => this.statusCode = errorCode);
     } else {
       //Handle update article
-      let carType = new CarType(this.carTypeIdToUpdate, carTypeField);
+      const carType = new CarType(this.carTypeIdToUpdate, carTypeField);
       this.carTypeService.updateCarType(carType)
         .subscribe(successCode => {
             this.statusCode = successCode;

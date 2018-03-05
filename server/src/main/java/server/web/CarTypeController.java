@@ -68,4 +68,6 @@ public class CarTypeController extends WebMvcConfigurerAdapter {
         CarType carType = carTypeRepository.findByCarType(type);
         return new ResponseEntity<>(carType, HttpStatus.OK);
     }
+
+
 }

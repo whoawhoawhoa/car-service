@@ -4,15 +4,21 @@ import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import {Order} from '../table-classes/order';
-import {Service} from '../table-classes/service';
 
 @Injectable()
 export class OrderService {
   allOrdersUrl = 'http://localhost:9090/services';
   orderUrl = 'http://localhost:9090/service';
+  clientsOrdersUrl = 'http://localhost:9090/orderbyclient';
   defaultUrl = 'http://localhost:9090/';
 
   constructor(private http: Http) { }
+
+  getOrderByClientLogin(clientLogin: string): Observable<Order[]> {
+    return this.http.get(this.clientsOrdersUrl + '?login=' + clientLogin)
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
 
   getAllOrders(): Observable<Order[]> {
     return this.http.get(this.allOrdersUrl)
@@ -69,4 +75,5 @@ export class OrderService {
     console.error(error.message || error);
     return Observable.throw(error.status);
   }
+
 }

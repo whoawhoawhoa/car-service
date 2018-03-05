@@ -103,7 +103,7 @@ public class CarController extends WebMvcConfigurerAdapter {
                     return new ResponseEntity<>(HttpStatus.CONFLICT);
                 carRepository.save(car);
             }
-            else return new ResponseEntity<Car>(HttpStatus.UNPROCESSABLE_ENTITY);
+            else return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
