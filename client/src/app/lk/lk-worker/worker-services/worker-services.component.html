@@ -21,7 +21,7 @@
         <td>Услуга</td>
         <td>
           <select name="prices"  formControlName="price">
-            <option *ngFor="let price of allPrices" value="{{price?.serviceType}}">
+            <option *ngFor="let price of allPrices" value="{{price.id}}">
               {{price?.serviceType + ' for ' + price?.carType.carType}}
             </option>
           </select>

@@ -7,7 +7,7 @@ import {WorkerAuthComponent} from '../authorization/worker-auth/worker-auth.comp
 import {LkClientComponent} from '../lk/lk-client/lk-client.component';
 import {LkWorkerComponent} from '../lk/lk-worker/lk-worker.component';
 import {AdminAuthComponent} from '../authorization/admin-auth/admin-auth.component';
-import {AdminRegComponent} from '../registration/admin-reg/admin-reg.component';
+import {AdminRegComponent} from '../lk/lk-admin/admin-reg/admin-reg.component';
 import {LkAdminComponent} from "../lk/lk-admin/lk-admin.component";
 
 const routes: Routes = [
@@ -17,7 +17,6 @@ const routes: Routes = [
   { path: 'admin-auth', component: AdminAuthComponent },
   { path: 'client-reg', component: ClientRegComponent },
   { path: 'worker-reg', component: WorkerRegComponent },
-  { path: 'admin-reg', component: AdminRegComponent },
   { path: 'lkworker/:login/:password', component: LkWorkerComponent},
   { path: 'lkclient/:login/:password', component: LkClientComponent},
   { path: 'client', component: ClientRegComponent },
