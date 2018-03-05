@@ -70,7 +70,7 @@ export class WorkerServicesComponent implements OnInit {
     const coef = this.serviceForm.get('coefficient').value;
     let pric = this.serviceForm.get('price').value;
     for (const a of this.allPrices) {
-      if (a.id = pric) {
+      if (a.id === pric) {
         pric = a;
       }
     }
