@@ -26,8 +26,7 @@ export class LkWorkerComponent implements OnInit {
     status: new FormControl('', Validators.required)
   });
 
-  constructor(private workerService: WorkerService, private route: ActivatedRoute,
-              private router: Router) { }
+  constructor(private workerService: WorkerService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
     this.getWorker(this.route.snapshot.paramMap.get('login'), this.route.snapshot.paramMap.get('password'));
@@ -62,9 +61,9 @@ export class LkWorkerComponent implements OnInit {
         this.statusCode = successCode;
         this.getWorker(login, password);
         this.workerSource = worker;
+        this.router.navigate(['/lkworker/' + login + '/' + password]);
         this.loadWorkerToEdit();
         this.backToCreateWorker();
-        this.router.navigate(['/lkworker/' + login + '/' + password]);
       }, errorCode => this.statusCode = errorCode);
   }
 

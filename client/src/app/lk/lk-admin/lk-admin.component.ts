@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {Admin} from "../../table-classes/admin";
 import {Price} from "../../table-classes/price";
 import {PriceService} from "../../services/price.service";
@@ -43,7 +43,9 @@ export class LkAdminComponent implements OnInit {
     }
   );
 
-  constructor(private carTypeService: CarTypeService, private priceService: PriceService, private adminService: AdminService, private route: ActivatedRoute) { }
+  constructor(private carTypeService: CarTypeService, private priceService: PriceService,
+              private adminService: AdminService, private route: ActivatedRoute,
+              private router: Router) { }
 
   ngOnInit() {
     this.carTypeService.getAllCarTypes()
@@ -77,6 +79,7 @@ export class LkAdminComponent implements OnInit {
         console.log(this.statusCode);
         this.getAdmin(login, password);
         this.adminSource = admin;
+        this.router.navigate(['lkadmin/' + login + '/' + password]);
         this.loadAdminToEdit();
         this.backToCreateAdmin();
       }, errorCode =>

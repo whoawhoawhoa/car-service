@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {ClientService} from '../../services/client.service';
 import {Client} from '../../table-classes/client';
 
@@ -28,7 +28,7 @@ export class LkClientComponent implements OnInit {
     city: new FormControl('', Validators.required)
   });
 
-  constructor(private clientService: ClientService, private route: ActivatedRoute) { }
+  constructor(private clientService: ClientService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
     this.getClient(this.route.snapshot.paramMap.get('login'), this.route.snapshot.paramMap.get('password'));
@@ -63,6 +63,7 @@ export class LkClientComponent implements OnInit {
         console.log(this.statusCode);
         this.getClient(login, password);
         this.clientSource = client;
+        this.router.navigate(['lkclient/' + login + '/' + password]);
         this.loadClientToEdit();
         this.backToCreateClient();
       }, errorCode =>
