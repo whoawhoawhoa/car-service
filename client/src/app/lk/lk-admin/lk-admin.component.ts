@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {ActivatedRoute} from "@angular/router";
-import {Admin} from "../../table-classes/admin";
-import {Price} from "../../table-classes/price";
-import {PriceService} from "../../services/price.service";
-import {CarType} from "../../table-classes/car-type";
-import {CarTypeService} from "../../services/car-type.service";
-import {AdminService} from "../../services/admin.service";
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Admin} from '../../table-classes/admin';
+import {Price} from '../../table-classes/price';
+import {PriceService} from '../../services/price.service';
+import {CarType} from '../../table-classes/car-type';
+import {CarTypeService} from '../../services/car-type.service';
+import {AdminService} from '../../services/admin.service';
 
 @Component({
   selector: 'app-lk-admin',
@@ -43,7 +43,9 @@ export class LkAdminComponent implements OnInit {
     }
   );
 
-  constructor(private carTypeService: CarTypeService, private priceService: PriceService, private adminService: AdminService, private route: ActivatedRoute) { }
+  constructor(private carTypeService: CarTypeService, private priceService: PriceService,
+              private adminService: AdminService, private route: ActivatedRoute,
+              private router: Router) { }
 
   ngOnInit() {
     this.carTypeService.getAllCarTypes()
@@ -67,16 +69,17 @@ export class LkAdminComponent implements OnInit {
     }
     //Form is valid, now perform update
     this.preProcessConfigurations();
-    let login = this.adminForm.get('login').value;
-    let password = this.adminForm.get('password').value;
+    const login = this.adminForm.get('login').value;
+    const password = this.adminForm.get('password').value;
     //Handle update client
-    let admin = new Admin(this.adminIdToUpdate, login, password);
+    const admin = new Admin(this.adminIdToUpdate, login, password);
     this.adminService.updateAdmin(admin)
       .subscribe(successCode => {
         this.statusCode = successCode;
         console.log(this.statusCode);
         this.getAdmin(login, password);
         this.adminSource = admin;
+        this.router.navigate(['lkadmin/' + login + '/' + password]);
         this.loadAdminToEdit();
         this.backToCreateAdmin();
       }, errorCode =>
@@ -85,8 +88,7 @@ export class LkAdminComponent implements OnInit {
 
   loadAdminToEdit() {
     this.preProcessConfigurations();
-    if(this.adminSource == null)
-    {
+    if (this.adminSource == null) {
       this.adminService.getAdmin(this.route.snapshot.paramMap.get('login'), this.route.snapshot.paramMap.get('password'))
         .subscribe(admin => {
             this.adminIdToUpdate = admin.id;
@@ -97,14 +99,13 @@ export class LkAdminComponent implements OnInit {
             this.requestProcessing = false;
           },
           errorCode =>  this.statusCode = errorCode);
-    } else
-    {
+    } else {
       this.adminService.getAdmin(this.adminSource.login, this.adminSource.password)
         .subscribe(admin => {
             this.adminIdToUpdate = admin.id;
             this.adminForm.setValue({
               login: admin.login,
-              password: admin.password,});
+              password: admin.password });
             this.processValidation = true;
             this.requestProcessing = false;
           },
@@ -112,39 +113,42 @@ export class LkAdminComponent implements OnInit {
     }
   }
 
-  deleteAdmin(clientId: string) {
+  deleteAdmin(adminId: string) {
     this.preProcessConfigurations();
-    this.adminService.deleteAdminById(clientId)
-      .subscribe(successCode => {
-          this.statusCode = successCode;
-        },
-        errorCode => this.statusCode = errorCode);
+    if (this.adminSource.id !== 1) {
+      this.adminService.deleteAdminById(adminId)
+        .subscribe(successCode => {
+            this.statusCode = successCode;
+          },
+          errorCode => this.statusCode = errorCode);
+    } else {
+      alert('You can\'t delete default admin');
+    }
   }
 
-  getPrices()
-  {
+  getPrices() {
     this.priceService.getPrices()
       .subscribe(
         data => this.prices = data,
         errorCode => this.statusCode);
   }
 
-  //Handle create and update article
+  // Handle create and update article
   onPriceFormSubmit() {
     this.carTypeSource = this.carTypes[0];
     this.processValidation = true;
     if (this.priceForm.invalid) {
-      return; //Validation failed, exit from method.
+      return; // Validation failed, exit from method.
     }
-    //Form is valid, now perform create or update
+    // Form is valid, now perform create or update
     this.preProcessConfigurations();
-    let serviceType = this.priceForm.get('serviceType').value;
-    let priceField = this.priceForm.get('price').value;
-    let carType = this.priceForm.get('carType').value;
+    const serviceType = this.priceForm.get('serviceType').value;
+    const priceField = this.priceForm.get('price').value;
+    const carType = this.priceForm.get('carType').value;
     this.carTypeSource.id = carType;
     if (this.priceIdToUpdate === null) {
-      //Handle create article
-      let price = new Price(null, serviceType, priceField, this.carTypeSource);
+      // Handle create article
+      const price = new Price(null, serviceType, priceField, this.carTypeSource);
       this.priceService.createPrice(price)
         .subscribe(successCode => {
             this.statusCode = successCode;
@@ -154,7 +158,7 @@ export class LkAdminComponent implements OnInit {
           errorCode => this.statusCode = errorCode);
     } else {
       //Handle update article
-      let price = new Price(this.priceIdToUpdate, serviceType, priceField, this.carTypeSource);
+      const price = new Price(this.priceIdToUpdate, serviceType, priceField, this.carTypeSource);
       this.priceService.updatePrice(price)
         .subscribe(successCode => {
             this.statusCode = successCode;
@@ -189,8 +193,7 @@ export class LkAdminComponent implements OnInit {
         errorCode => this.statusCode = errorCode);
   }
 
-  getCarTypes()
-  {
+  getCarTypes() {
     this.carTypeService.getAllCarTypes()
       .subscribe(
         data => this.carTypes = data,
@@ -205,10 +208,10 @@ export class LkAdminComponent implements OnInit {
     }
     //Form is valid, now perform create or update
     this.preProcessConfigurations();
-    let carTypeField = this.carTypeForm.get('carType').value;
+    const carTypeField = this.carTypeForm.get('carType').value;
     if (this.carTypeIdToUpdate === null) {
       //Handle create article
-      let carType = new CarType(null, carTypeField);
+      const carType = new CarType(null, carTypeField);
       this.carTypeService.createCarType(carType)
         .subscribe(successCode => {
             this.statusCode = successCode;
@@ -218,7 +221,7 @@ export class LkAdminComponent implements OnInit {
           errorCode => this.statusCode = errorCode);
     } else {
       //Handle update article
-      let carType = new CarType(this.carTypeIdToUpdate, carTypeField);
+      const carType = new CarType(this.carTypeIdToUpdate, carTypeField);
       this.carTypeService.updateCarType(carType)
         .subscribe(successCode => {
             this.statusCode = successCode;

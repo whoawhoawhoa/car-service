@@ -22,8 +22,7 @@ export class LkClientComponent implements OnInit {
 
   clientSource: Client;
   clientCars: Car[];
-  carSource: Car;
-  carTypeSource: CarType;
+  carTypes: CarType[];
   carIdToUpdate = null;
   clientOrders: Order[];
   statusCode: number;
@@ -40,22 +39,19 @@ export class LkClientComponent implements OnInit {
     city: new FormControl('', Validators.required)
   });
 
-  carForm = new FormGroup({
-    number: new FormControl('', Validators.required),
-    brand: new FormControl('', Validators.required),
-    colour: new FormControl('', Validators.required)
-  });
-
   newCarForm = new FormGroup({
     number: new FormControl('', Validators.required),
     brand: new FormControl('', Validators.required),
-    color: new FormControl('', Validators.required)
+    color: new FormControl('', Validators.required),
+    carType: new FormControl('', Validators.required)
   });
 
   constructor(private clientService: ClientService, private carService: CarService,
               private orderService: OrderService, private carTypeService: CarTypeService, private route: ActivatedRoute) { }
 
   ngOnInit() {
+    this.carTypeService.getAllCarTypes()
+      .subscribe(data => this.carTypes = data);
     this.getClient(this.route.snapshot.paramMap.get('login'), this.route.snapshot.paramMap.get('password'));
     this.loadClientToEdit();
 
@@ -89,7 +85,6 @@ export class LkClientComponent implements OnInit {
     this.clientService.updateClient(client)
       .subscribe(successCode => {
         this.statusCode = successCode;
-        console.log(this.statusCode);
         this.getClient(login, password);
         this.clientSource = client;
         this.loadClientToEdit();
@@ -144,74 +139,12 @@ export class LkClientComponent implements OnInit {
   }
 
   getCars() {
-    console.log(this.clientSource.login);
     this.carService.getCarsByClientLogin(this.clientSource.login)
       .subscribe(
         data => this.clientCars = data,
         errorCode => this.statusCode);
   }
 
-  onCarsFormSubmit() {
-    this.processValidation = true;
-    if (this.carForm.invalid) {
-      return; // Validation failed, exit from method.
-    }
-    // Form is valid, now perform create or update
-    this.preProcessConfigurations();
-    let number = this.carForm.get('number').value;
-    let brand = this.carForm.get('brand').value;
-    let color = this.carForm.get('colour').value;
-    if (this.carIdToUpdate === null) {
-      // Handle create car
-      let car = new Car(null, number, brand, color, this.clientSource, new CarType(2, 'SEDAN'));
-      this.carService.createCar(car)
-        .subscribe(successCode => {
-            this.statusCode = successCode;
-            this.getCars();
-            this.backToCreateCar();
-          },
-          errorCode => this.statusCode = errorCode);
-    } else {
-      // Handle update car
-      let car = new Car(this.carIdToUpdate, number, brand, color, this.clientSource, new CarType(2, 'SEDAN'));
-      this.carService.updateCar(car)
-        .subscribe(successCode => {
-            this.statusCode = successCode;
-            this.getCars();
-            this.backToCreateCar();
-          },
-          errorCode => this.statusCode = errorCode);
-    }
-  }
-
-  loadCarToEdit() {
-    this.preProcessConfigurations();
-    if (this.carSource == null) {
-      this.carService.getCarById(this.route.snapshot.paramMap.get('id'))
-        .subscribe(car => {
-            this.carIdToUpdate = car.id;
-            this.carForm.setValue({
-              number: car.number,
-              brand: car.brand,
-              color: car.color});
-            this.processValidation = true;
-            this.requestProcessing = false;
-          },
-          errorCode =>  this.statusCode = errorCode);
-    } else {
-      this.carService.getCarById(this.carSource.id.toString())
-        .subscribe(car => {
-            this.carIdToUpdate = car.id;
-            this.carForm.setValue({
-              number: car.number,
-              brand: car.brand,
-              color: car.color});
-            this.processValidation = true;
-            this.requestProcessing = false;
-          },
-          errorCode =>  this.statusCode = errorCode);
-    }
-  }
 
   deleteCar(carId: string) {
     this.preProcessConfigurations();
@@ -219,13 +152,10 @@ export class LkClientComponent implements OnInit {
       .subscribe(successCode => {
           this.statusCode = successCode;
           this.getCars();
-          this.backToCreateCar();
+          this.backToCreateClient();
         },
         errorCode => this.statusCode = errorCode);
   }
-
-
-
 
   onNewCarFormSubmit() {
     this.processValidation = true;
@@ -237,8 +167,14 @@ export class LkClientComponent implements OnInit {
     const number = this.newCarForm.get('number').value.trim();
     const brand = this.newCarForm.get('brand').value.trim();
     const color = this.newCarForm.get('color').value.trim();
+    let cartype = this.newCarForm.get('carType').value.trim();
+    for (const a of this.carTypes) {
+      if (a.id == cartype) {
+        cartype = a;
+      }
+    }
     // Handle create client
-    const car = new Car(null, number, brand, color, this.clientSource, new CarType(1, 'SEDAN'));
+    const car = new Car(null, number, brand, color, this.clientSource, cartype);
     this.carService.createCar(car)
       .subscribe(successCode => {
           this.statusCode = successCode;
@@ -260,16 +196,12 @@ export class LkClientComponent implements OnInit {
     this.requestProcessing = true;
   }
 
-
   backToCreateClient() {
+    this.carIdToUpdate = null;
+    this.newCarForm.reset();
     this.clientIdToUpdate = null;
-    this.clientForm.reset();
     this.processValidation = false;
   }
 
-  backToCreateCar() {
-    this.carIdToUpdate = null;
-    this.carForm.reset();
-    this.processValidation = false;
-  }
+
 }

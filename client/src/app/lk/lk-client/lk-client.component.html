@@ -82,6 +82,13 @@
         <td><input formControlName="color"></td>
         <td><label *ngIf="newCarForm.get('color').invalid && processValidation" [ngClass] = "'error'"> Color is required. </label></td>
       </tr>
+     <tr>
+        <td>Выберите тип кузова</td><td><select formControlName="carType">
+        <option *ngFor="let carType of carTypes" value={{carType.id}}>{{carType.carType}}</option>
+      </select>
+        <label *ngIf="newCarForm.get('carType').invalid && processValidation" [ngClass] = "'error'"> Обязательное поле </label>
+      </td>
+     </tr>
         <td>
           <button>OK</button>
         </td>
@@ -106,7 +113,6 @@
         <td>{{order.totalPrice}}</td>
       </tr>
     </table>
-
 
 </div>
 

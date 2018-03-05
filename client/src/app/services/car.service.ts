@@ -3,17 +3,14 @@ import {Http, Response, Headers, RequestOptions} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
-import { Client } from '../table-classes/client';
 import {Car} from '../table-classes/car';
 
 @Injectable()
 export class CarService {
 
-  // allClientsUrl = 'http://localhost:9090/cars';
   carUrl = 'http://localhost:9090/car';
   updateCarUrl = 'http://localhost:9090/car';
   clientsCarsUrl = 'http://localhost:9090/client_cars';
-  defaultUrl = 'http://localhost:9090/';
 
   constructor(private http: Http) { }
 
