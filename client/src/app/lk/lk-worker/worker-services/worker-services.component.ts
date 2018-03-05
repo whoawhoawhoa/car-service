@@ -67,7 +67,7 @@ export class WorkerServicesComponent implements OnInit {
     }
     this.preProcessConfigurations();
     this.err = true;
-    let coef = this.serviceForm.get('coefficient').value;
+    const coef = this.serviceForm.get('coefficient').value;
     let pric = this.serviceForm.get('price').value;
     for (const a of this.allPrices) {
       if (a.id == pric) {
