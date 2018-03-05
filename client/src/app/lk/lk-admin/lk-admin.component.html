@@ -25,7 +25,7 @@
       <tr><td>Введите новый пароль</td><td><input formControlName="password">
         <td><label *ngIf="adminForm.get('password').invalid && processValidation" [ngClass] = "'error'" > Обязательное поле </label></td>
       </tr>
-      <tr><td><button>Обновить</button></td><td><button routerLink="" (click)="deleteAdmin(adminSource.id)">Delete</button>
+      <tr><td><button>Обновить</button></td><td><button (click)="deleteAdmin(adminSource.id)">Delete</button>
       </td></tr>
     </table>
   </form>
@@ -90,3 +90,4 @@
     </tr>
   </table>
 </div>
+<app-admin-reg></app-admin-reg>

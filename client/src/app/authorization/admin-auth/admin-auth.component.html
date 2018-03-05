@@ -16,11 +16,8 @@
         <td><label *ngIf="adminAuthForm.get('password').invalid && processValidation" [ngClass] = "'error'"> Password is required. </label></td>
       </tr>
       <tr>
-        <td>
+        <td colspan="2">
           <button>OK</button>
-        </td>
-        <td>
-          <button routerLink="/admin-reg">Register</button>
         </td>
       </tr>
     </table>

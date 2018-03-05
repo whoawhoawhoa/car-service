@@ -15,7 +15,7 @@ import { ClientAuthComponent } from './authorization/client-auth/client-auth.com
 import { WorkerAuthComponent } from './authorization/worker-auth/worker-auth.component';
 import { LkWorkerComponent } from './lk/lk-worker/lk-worker.component';
 import { LkClientComponent } from './lk/lk-client/lk-client.component';
-import { AdminRegComponent } from './registration/admin-reg/admin-reg.component';
+import { AdminRegComponent } from './lk/lk-admin/admin-reg/admin-reg.component';
 import { AdminAuthComponent } from './authorization/admin-auth/admin-auth.component';
 import {AdminService} from './services/admin.service';
 import {AvailableOrderService} from './services/available-order.service';
