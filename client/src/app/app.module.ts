@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { WorkerRegComponent } from './registration/worker-reg/worker-reg.component';
@@ -24,7 +25,9 @@ import {OrderService} from './services/order.service';
 import {PassportService} from './services/passport.service';
 import {PriceService} from './services/price.service';
 import {ServiceService} from './services/service.service';
-import { LkAdminComponent } from './lk/lk-admin/lk-admin.component';
+import { WorkerServicesComponent } from './lk/lk-worker/worker-services/worker-services.component';
+import { WorkerOrdersComponent } from './lk/lk-worker/worker-orders/worker-orders.component';
+import {LkAdminComponent} from './lk/lk-admin/lk-admin.component';
 
 @NgModule({
   declarations: [
@@ -35,16 +38,18 @@ import { LkAdminComponent } from './lk/lk-admin/lk-admin.component';
     WorkerAuthComponent,
     LkWorkerComponent,
     LkClientComponent,
+    LkAdminComponent,
     AdminRegComponent,
     AdminAuthComponent,
-    LkClientComponent,
-    LkAdminComponent
+    WorkerServicesComponent,
+    WorkerOrdersComponent
   ],
   imports: [
     BrowserModule,
     HttpModule,
     ReactiveFormsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule
   ],
   providers: [
     WorkerService,
@@ -56,9 +61,7 @@ import { LkAdminComponent } from './lk/lk-admin/lk-admin.component';
     OrderService,
     PassportService,
     PriceService,
-    ServiceService,
-    PriceService,
-    CarTypeService
+    ServiceService
   ],
   bootstrap: [
     AppComponent
