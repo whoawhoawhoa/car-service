@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Worker} from '../../table-classes/worker';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {WorkerService} from '../../services/worker.service';
 
 @Component({
@@ -27,7 +27,7 @@ export class LkWorkerComponent implements OnInit {
     status: new FormControl('', Validators.required)
   });
 
-  constructor(private workerService: WorkerService, private route: ActivatedRoute) { }
+  constructor(private workerService: WorkerService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
     this.getWorker(this.route.snapshot.paramMap.get('login'), this.route.snapshot.paramMap.get('password'));
@@ -62,6 +62,7 @@ export class LkWorkerComponent implements OnInit {
         this.statusCode = successCode;
         this.getWorker(login, password);
         this.workerSource = worker;
+        this.router.navigate(['/lkworker/' + login + '/' + password]);
         this.loadWorkerToEdit();
         this.backToCreateArticle();
       }, errorCode => this.statusCode = errorCode);
