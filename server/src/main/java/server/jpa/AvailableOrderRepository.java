@@ -1,7 +1,6 @@
 package server.jpa;
 
 import org.springframework.data.repository.CrudRepository;
-import sun.security.x509.AVA;
 
 import java.util.List;
 

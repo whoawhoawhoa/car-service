@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {AdminService} from '../../services/admin.service';
-import {Admin} from '../../table-classes/admin';
+import {AdminService} from '../../../services/admin.service';
+import {Admin} from '../../../table-classes/admin';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-admin-reg',

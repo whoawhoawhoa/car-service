@@ -1,7 +1,4 @@
-<h1>Registration</h1>
-<h3> Register as admin</h3>
-<a routerLink="/worker-reg">Register as worker</a>
-<a routerLink="/client-reg">Register as client</a>
+<h3> Register new admin</h3>
 <div>
   <form [formGroup]="adminForm" (ngSubmit)="onAdminFormSubmit()">
     <table>
@@ -16,11 +13,8 @@
         <td><label *ngIf="adminForm.get('password').invalid && processValidation" [ngClass] = "'error'"> Password is required. </label></td>
       </tr>
       <tr>
-        <td>
-          <button routerLink="/admin?login={{login}}">OK</button>
-        </td>
-        <td>
-          <button routerLink="/">Cancel</button>
+        <td colspan="2">
+          <button>OK</button>
         </td>
       </tr>
     </table>

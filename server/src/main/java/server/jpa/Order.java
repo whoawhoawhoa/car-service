@@ -28,7 +28,7 @@ public class Order {
     private int status;
     @ManyToOne
     @JsonIgnore
-    Client client;
+    private Client client;
     @ManyToOne
     @JsonIgnore
     private Worker worker;
