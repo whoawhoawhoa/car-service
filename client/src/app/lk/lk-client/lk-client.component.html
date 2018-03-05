@@ -50,3 +50,40 @@
   </form>
   <br/>
 </div>
+
+<h3> Ваши машины </h3>
+<div>
+  <table>
+    <tr>
+      <th>Номер</th>
+      <th>Марка</th>
+      <th>Цвет</th>
+      <th>Тип кузова</th>
+    </tr>
+    <tr *ngFor="let car of clientCars" >
+      <td>{{car?.number}}</td>
+      <td>{{car?.brand}}</td>
+      <td>{{car?.color}}</td>
+      <td>{{car?.carType}}</td>
+    </tr>
+    </table>
+  {{clientCars|json}}
+</div>
+
+<!--<h3> Ваши заказы </h3>-->
+<!--<div>-->
+  <!--<table>-->
+    <!--<tr>-->
+      <!--<th>Тип работы</th>-->
+      <!--<th>Цена</th>-->
+      <!--<th>Дата</th>-->
+      <!--<th>Ваша оценка рабочему</th>-->
+    <!--</tr>-->
+    <!--<tr *ngFor="let order of clientOrders" >-->
+      <!--<td>{{order.serviceType}}</td>-->
+      <!--<td>{{order.totalPrice}}</td>-->
+      <!--<td>{{order.orderDate}}</td>-->
+      <!--<td>{{order.clientMark}}</td>-->
+    <!--</tr>-->
+  <!--</table>-->
+<!--</div>-->
