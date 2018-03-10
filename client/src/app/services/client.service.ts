@@ -11,6 +11,7 @@ export class ClientService {
   clientUrl = 'http://localhost:9090/client';
   defaultUrl = 'http://localhost:9090/';
 
+
   constructor(private http: Http) { }
 
   getAllClients(): Observable<Client[]> {

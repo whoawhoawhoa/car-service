@@ -10,6 +10,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import org.springframework.web.util.UriComponentsBuilder;
 import server.jpa.Client;
 import server.jpa.ClientRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
