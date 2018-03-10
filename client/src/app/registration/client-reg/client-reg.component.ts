@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {ClientService} from "../../services/client.service";
-import {Client} from "../../table-classes/client";
-import {Router} from "@angular/router";
+import {ClientService} from '../../services/client.service';
+import {Client} from '../../table-classes/client';
+import {Router} from '@angular/router';
+import {UserService} from '../../services/user.service';
+import {User} from '../../table-classes/user';
 
 @Component({
   selector: 'app-client-reg',
@@ -22,7 +24,7 @@ export class ClientRegComponent implements OnInit {
     city: new FormControl('', Validators.required)
   });
 
-  constructor(private clientService: ClientService, private router: Router) { }
+  constructor(private clientService: ClientService, private userService: UserService, private router: Router) { }
 
   ngOnInit() {
   }
@@ -41,7 +43,9 @@ export class ClientRegComponent implements OnInit {
     const pnumber = this.clientForm.get('pnumber').value.trim();
     const city = this.clientForm.get('city').value.trim();
     // Handle create client
-    const client = new Client(null, login, password, name, fname, pnumber, city, null);
+    const user = new User(null, login, password, 2);
+    this.userService.createUser(user);
+    const client = new Client(null, login, password, name, fname, pnumber, city, null, user);
     this.clientService.createClient(client)
       .subscribe(successCode => {
           this.statusCode = successCode;

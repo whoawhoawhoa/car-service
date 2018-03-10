@@ -3,6 +3,8 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {AdminService} from '../../../services/admin.service';
 import {Admin} from '../../../table-classes/admin';
 import {Router} from '@angular/router';
+import {User} from '../../../table-classes/user';
+import {UserService} from '../../../services/user.service';
 
 @Component({
   selector: 'app-admin-reg',
@@ -18,7 +20,7 @@ export class AdminRegComponent implements OnInit {
     password: new FormControl('', Validators.required),
   });
 
-  constructor(private adminService: AdminService) { }
+  constructor(private adminService: AdminService, private userService: UserService) { }
 
   ngOnInit() {
   }
@@ -33,7 +35,9 @@ export class AdminRegComponent implements OnInit {
     const login = this.adminForm.get('login').value.trim();
     const password = this.adminForm.get('password').value.trim();
     // Handle create admin
-    const admin = new Admin(null, login, password);
+    const user = new User(null, login, password, 1);
+    this.userService.createUser(user);
+    const admin = new Admin(null, login, password, user);
     this.adminService.createAdmin(admin)
       .subscribe(successCode => {
           this.statusCode = successCode;
