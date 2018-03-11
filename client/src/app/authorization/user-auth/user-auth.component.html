@@ -1,0 +1,29 @@
+<h1>Authorization</h1>
+<h3> Sign in</h3>
+<a routerLink="/worker-reg">Register as worker</a>
+<a routerLink="/client-reg">Register as client</a>
+<div>
+  <form [formGroup]="userAuthForm" (ngSubmit)="onUserFormSubmit()">
+    <table>
+      <tr>
+        <td>Login</td>
+        <td><input formControlName="login"></td>
+        <td><label *ngIf="userAuthForm.get('login').invalid && processValidation" [ngClass] = "'error'" > Login is required. </label></td>
+      </tr>
+      <tr>
+        <td>Password</td>
+        <td><input formControlName="password"></td>
+        <td><label *ngIf="userAuthForm.get('password').invalid && processValidation" [ngClass] = "'error'"> Password is required. </label></td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <button>OK</button>
+        </td>
+      </tr>
+    </table>
+  </form>
+  <br/>
+  <div *ngIf="user != null" [ngClass] = "'success'">
+    U're sign as {{user | json}}
+  </div>
+</div>

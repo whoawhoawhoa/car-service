@@ -6,12 +6,12 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "admins")
-public class Admin {
+@Table(name = "users")
+public class User {
     @Id
     @Column(name = "id")
-    @SequenceGenerator(name = "adminSeq", sequenceName = "admins_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "adminSeq")
+    @SequenceGenerator(name = "userSeq", sequenceName = "users_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "userSeq")
     private long id;
     @NotNull
     @Column(name = "login")
@@ -19,15 +19,11 @@ public class Admin {
     @NotNull
     @Column(name = "password")
     private String password;
-    @OneToOne(cascade = CascadeType.ALL)
-    private User user;
+    @NotNull
+    @Column(name = "role")
+    private long role;
 
-    public Admin() {
-
-    }
-
-    public void setUser(User user){
-        this.user = user;
+    public User() {
     }
 
     public long getId() {
@@ -54,12 +50,22 @@ public class Admin {
         this.password = password;
     }
 
+    public long getRole() {
+        return role;
+    }
+
+    public void setRole(long role) {
+        this.role = role;
+    }
+
     @Override
     public String toString() {
-        return "Admin{" +
+        return "User{" +
                 "id=" + id +
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
+                ", role=" + role + '\'' +
                 '}';
     }
 }
+

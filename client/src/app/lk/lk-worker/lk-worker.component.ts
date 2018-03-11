@@ -3,6 +3,8 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Worker} from '../../table-classes/worker';
 import {ActivatedRoute, Router} from '@angular/router';
 import {WorkerService} from '../../services/worker.service';
+import {User} from '../../table-classes/user';
+import {UserService} from '../../services/user.service';
 
 @Component({
   selector: 'app-lk-worker',
@@ -11,6 +13,7 @@ import {WorkerService} from '../../services/worker.service';
 })
 export class LkWorkerComponent implements OnInit {
   workerSource: Worker;
+  userSource: User;
   statusCode: number;
   requestProcessing = false;
   workerIdToUpdate = null;
@@ -26,11 +29,20 @@ export class LkWorkerComponent implements OnInit {
     status: new FormControl('', Validators.required)
   });
 
-  constructor(private workerService: WorkerService, private route: ActivatedRoute, private router: Router) { }
+  constructor(private workerService: WorkerService, private route: ActivatedRoute, private router: Router,
+              private userService: UserService) { }
 
   ngOnInit() {
     this.getWorker(this.route.snapshot.paramMap.get('login'), this.route.snapshot.paramMap.get('password'));
+    this.getUser(this.route.snapshot.paramMap.get('login'), this.route.snapshot.paramMap.get('password'));
     this.loadWorkerToEdit();
+  }
+
+  getUser(login: string, password: string) {
+    this.userService.getUser(login, password)
+      .subscribe(
+        data => {this.userSource = data; },
+        errorCode => this.statusCode);
   }
 
   getWorker(login: string, password: string) {
@@ -54,8 +66,8 @@ export class LkWorkerComponent implements OnInit {
     const pnumber = this.workerForm.get('pnumber').value;
     const city = this.workerForm.get('city').value;
     const status = this.workerForm.get('status').value;
-    // Handle update article
-    const worker = new Worker(this.workerIdToUpdate, login, password, name, fName, pnumber, city, 0, status);
+    // Handle update worker
+    const worker = new Worker(this.workerIdToUpdate, login, password, name, fName, pnumber, city, 0, status, this.userSource);
     this.workerService.updateWorker(worker)
       .subscribe(successCode => {
         this.statusCode = successCode;

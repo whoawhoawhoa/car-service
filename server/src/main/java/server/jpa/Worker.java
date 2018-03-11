@@ -42,8 +42,14 @@ public class Worker {
     @JsonIgnore
     @OneToMany(mappedBy = "worker", cascade = CascadeType.ALL)
     private Set<Order> orderSet;
+    @OneToOne(cascade = CascadeType.ALL)
+    private User user;
 
     public Worker() {}
+
+    public void setUser(User user){
+        this.user = user;
+    }
 
     public long getId() {
         return id;

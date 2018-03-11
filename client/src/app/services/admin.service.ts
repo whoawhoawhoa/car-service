@@ -20,7 +20,7 @@ export class AdminService {
   }
 
   getAdmin(login: string, password: string): Observable<Admin> {
-    return this.http.get(this.adminUrl + "?login=" + login + "&password=" + password)
+    return this.http.get(this.adminUrl + '?login=' + login + '&password=' + password)
       .map(this.extractData)
       .catch(this.handleError);
 

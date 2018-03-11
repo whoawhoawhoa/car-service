@@ -7,6 +7,8 @@ import {PriceService} from '../../services/price.service';
 import {CarType} from '../../table-classes/car-type';
 import {CarTypeService} from '../../services/car-type.service';
 import {AdminService} from '../../services/admin.service';
+import {UserService} from '../../services/user.service';
+import {User} from '../../table-classes/user';
 
 @Component({
   selector: 'app-lk-admin',
@@ -19,6 +21,7 @@ export class LkAdminComponent implements OnInit {
   carTypeSource?: CarType;
   prices: Price[];
   adminSource: Admin;
+  userSource: User;
   statusCode: number;
   requestProcessing = false;
   adminIdToUpdate = null;
@@ -45,13 +48,14 @@ export class LkAdminComponent implements OnInit {
 
   constructor(private carTypeService: CarTypeService, private priceService: PriceService,
               private adminService: AdminService, private route: ActivatedRoute,
-              private router: Router) { }
+              private router: Router, private userService: UserService) { }
 
   ngOnInit() {
     this.carTypeService.getAllCarTypes()
       .subscribe(data => this.carTypes = data);
     this.getPrices();
     this.getAdmin(this.route.snapshot.paramMap.get('login'), this.route.snapshot.paramMap.get('password'));
+    this.getUser(this.route.snapshot.paramMap.get('login'), this.route.snapshot.paramMap.get('password'));
     this.loadAdminToEdit();
   }
 
@@ -62,17 +66,24 @@ export class LkAdminComponent implements OnInit {
         errorCode => this.statusCode);
   }
 
+  getUser(login: string, password: string) {
+    this.userService.getUser(login, password)
+      .subscribe(
+        data => {this.userSource = data; },
+        errorCode => this.statusCode);
+  }
+
   onAdminFormSubmit() {
     this.processValidation = true;
     if (this.adminForm.invalid) {
-      return; //Validation failed, exit from method.
+      return; // Validation failed, exit from method.
     }
-    //Form is valid, now perform update
+    // Form is valid, now perform update
     this.preProcessConfigurations();
     const login = this.adminForm.get('login').value;
     const password = this.adminForm.get('password').value;
-    //Handle update client
-    const admin = new Admin(this.adminIdToUpdate, login, password);
+    // Handle update client
+    const admin = new Admin(this.adminIdToUpdate, login, password, this.userSource);
     this.adminService.updateAdmin(admin)
       .subscribe(successCode => {
         this.statusCode = successCode;
@@ -133,7 +144,7 @@ export class LkAdminComponent implements OnInit {
         errorCode => this.statusCode);
   }
 
-  // Handle create and update article
+  // Handle create and update admin
   onPriceFormSubmit() {
     this.carTypeSource = this.carTypes[0];
     this.processValidation = true;
@@ -147,7 +158,7 @@ export class LkAdminComponent implements OnInit {
     const carType = this.priceForm.get('carType').value;
     this.carTypeSource.id = carType;
     if (this.priceIdToUpdate === null) {
-      // Handle create article
+      // Handle create admin
       const price = new Price(null, serviceType, priceField, this.carTypeSource);
       this.priceService.createPrice(price)
         .subscribe(successCode => {
@@ -157,7 +168,7 @@ export class LkAdminComponent implements OnInit {
           },
           errorCode => this.statusCode = errorCode);
     } else {
-      //Handle update article
+      // Handle update admin
       const price = new Price(this.priceIdToUpdate, serviceType, priceField, this.carTypeSource);
       this.priceService.updatePrice(price)
         .subscribe(successCode => {
@@ -168,7 +179,7 @@ export class LkAdminComponent implements OnInit {
           errorCode => this.statusCode = errorCode);
     }
   }
-  //Load article by id to edit
+   // Load admin by id to edit
   loadPriceToEdit(id: string) {
     this.carTypeSource = this.carTypes[0];
     this.preProcessConfigurations();
@@ -181,7 +192,7 @@ export class LkAdminComponent implements OnInit {
         },
         errorCode =>  this.statusCode = errorCode);
   }
-  //Delete article
+  // Delete admin
   deletePrice(priceId: string) {
     this.preProcessConfigurations();
     this.priceService.deletePriceById(priceId)
@@ -200,17 +211,17 @@ export class LkAdminComponent implements OnInit {
         errorCode => this.statusCode);
   }
 
-  //Handle create and update article
+  // Handle create and update admin
   onCarTypeFormSubmit() {
     this.processValidation = true;
     if (this.carTypeForm.invalid) {
-      return; //Validation failed, exit from method.
+      return; // Validation failed, exit from method.
     }
-    //Form is valid, now perform create or update
+    // Form is valid, now perform create or update
     this.preProcessConfigurations();
     const carTypeField = this.carTypeForm.get('carType').value;
     if (this.carTypeIdToUpdate === null) {
-      //Handle create article
+      // Handle create admin
       const carType = new CarType(null, carTypeField);
       this.carTypeService.createCarType(carType)
         .subscribe(successCode => {
@@ -220,7 +231,7 @@ export class LkAdminComponent implements OnInit {
           },
           errorCode => this.statusCode = errorCode);
     } else {
-      //Handle update article
+      // Handle update admin
       const carType = new CarType(this.carTypeIdToUpdate, carTypeField);
       this.carTypeService.updateCarType(carType)
         .subscribe(successCode => {
@@ -232,7 +243,7 @@ export class LkAdminComponent implements OnInit {
           errorCode => this.statusCode = errorCode);
     }
   }
-  //Load article by id to edit
+  // Load admin by id to edit
   loadCarTypeToEdit(id: string) {
     this.preProcessConfigurations();
     this.carTypeService.getCarTypeById(id)
@@ -244,7 +255,7 @@ export class LkAdminComponent implements OnInit {
         },
         errorCode =>  this.statusCode = errorCode);
   }
-  //Delete article
+  // Delete admin
   deleteCarType(carTypeId: string) {
     this.preProcessConfigurations();
     this.carTypeService.deleteCarTypeById(carTypeId)

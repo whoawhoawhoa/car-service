@@ -10,6 +10,8 @@ import {OrderService} from '../../services/order.service';
 import {CarService} from '../../services/car.service';
 import {CarType} from '../../table-classes/car-type';
 import {CarTypeService} from '../../services/car-type.service';
+import {User} from '../../table-classes/user';
+import {UserService} from '../../services/user.service';
 
 @Component({
   selector: 'app-lk-client',
@@ -20,6 +22,7 @@ import {CarTypeService} from '../../services/car-type.service';
 
 export class LkClientComponent implements OnInit {
   clientSource: Client;
+  userSource: User;
   clientCars: Car[];
   carTypes: CarType[];
   carIdToUpdate = null;
@@ -45,16 +48,23 @@ export class LkClientComponent implements OnInit {
     carType: new FormControl('', Validators.required)
   });
 
-  constructor(private clientService: ClientService, private carService: CarService,
+  constructor(private clientService: ClientService, private carService: CarService, private userService: UserService,
               private orderService: OrderService, private carTypeService: CarTypeService, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.carTypeService.getAllCarTypes()
       .subscribe(data => this.carTypes = data);
     this.getClient(this.route.snapshot.paramMap.get('login'), this.route.snapshot.paramMap.get('password'));
+    this.getUser(this.route.snapshot.paramMap.get('login'), this.route.snapshot.paramMap.get('password'));
     this.loadClientToEdit();
 
+  }
 
+  getUser(login: string, password: string) {
+    this.userService.getUser(login, password)
+      .subscribe(
+        data => {this.userSource = data; },
+        errorCode => this.statusCode);
   }
 
   getClient(login: string, password: string) {
@@ -80,7 +90,7 @@ export class LkClientComponent implements OnInit {
     const pnumber = this.clientForm.get('pnumber').value;
     const city = this.clientForm.get('city').value;
     // Handle update client
-    const client = new Client(this.clientIdToUpdate, login, password, name, fName, pnumber, city, 0);
+    const client = new Client(this.clientIdToUpdate, login, password, name, fName, pnumber, city, null, this.userSource);
     this.clientService.updateClient(client)
       .subscribe(successCode => {
         this.statusCode = successCode;
@@ -108,6 +118,7 @@ export class LkClientComponent implements OnInit {
               city: client.city});
             this.processValidation = true;
             this.requestProcessing = false;
+            this.clientSource = client;
           },
           errorCode =>  this.statusCode = errorCode);
     } else {
@@ -127,6 +138,7 @@ export class LkClientComponent implements OnInit {
           errorCode =>  this.statusCode = errorCode);
     }
   }
+
 
   deleteClient(clientLogin: string) {
     this.preProcessConfigurations();
@@ -168,7 +180,7 @@ export class LkClientComponent implements OnInit {
     const color = this.newCarForm.get('color').value.trim();
     let cartype = this.newCarForm.get('carType').value.trim();
     for (const a of this.carTypes) {
-      if (a.id == cartype) {
+      if (a.id === cartype) {
         cartype = a;
       }
     }

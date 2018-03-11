@@ -1,6 +1,7 @@
 package server.jpa;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.sun.deploy.security.ValidationState;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -42,8 +43,14 @@ public class Client {
     @JsonIgnore
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
     private Set<AvailableOrder> availableOrderSet;
+    @OneToOne(cascade = CascadeType.ALL)
+    private User user;
 
     public Client() {}
+
+    public void setUser(User user){
+        this.user = user;
+    }
 
     public long getId() {
         return id;

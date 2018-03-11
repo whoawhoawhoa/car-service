@@ -11,12 +11,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AppRoutingModule } from './app-routing/app-routing.module';
-import { ClientAuthComponent } from './authorization/client-auth/client-auth.component';
-import { WorkerAuthComponent } from './authorization/worker-auth/worker-auth.component';
 import { LkWorkerComponent } from './lk/lk-worker/lk-worker.component';
 import { LkClientComponent } from './lk/lk-client/lk-client.component';
 import { AdminRegComponent } from './lk/lk-admin/admin-reg/admin-reg.component';
-import { AdminAuthComponent } from './authorization/admin-auth/admin-auth.component';
 import {AdminService} from './services/admin.service';
 import {AvailableOrderService} from './services/available-order.service';
 import {CarService} from './services/car.service';
@@ -28,19 +25,19 @@ import {ServiceService} from './services/service.service';
 import { WorkerServicesComponent } from './lk/lk-worker/worker-services/worker-services.component';
 import { WorkerOrdersComponent } from './lk/lk-worker/worker-orders/worker-orders.component';
 import {LkAdminComponent} from './lk/lk-admin/lk-admin.component';
+import {UserAuthComponent} from './authorization/user-auth/user-auth.component';
+import {UserService} from './services/user.service';
 
 @NgModule({
   declarations: [
     AppComponent,
+    UserAuthComponent,
     WorkerRegComponent,
     ClientRegComponent,
-    ClientAuthComponent,
-    WorkerAuthComponent,
     LkWorkerComponent,
     LkClientComponent,
     LkAdminComponent,
     AdminRegComponent,
-    AdminAuthComponent,
     WorkerServicesComponent,
     WorkerOrdersComponent
   ],
@@ -53,6 +50,7 @@ import {LkAdminComponent} from './lk/lk-admin/lk-admin.component';
   ],
   providers: [
     WorkerService,
+    UserService,
     ClientService,
     AdminService,
     AvailableOrderService,
