@@ -6,7 +6,7 @@
     <th>Удалить</th>
   </tr>
   <tr *ngFor="let service of allServices" >
-    <td>{{service.price.price * service.coef}}</td>
+    <td>{{service.price.price * service.coef | number:0}}</td>
     <td>{{service.price.serviceType}} for {{service.price.carType.carType}}</td>
     <td><button (click)="deleteService(service.id)">Delete</button></td>
   </tr>

@@ -19,7 +19,6 @@ import {CarTypeService} from '../../services/car-type.service';
 
 
 export class LkClientComponent implements OnInit {
-
   clientSource: Client;
   clientCars: Car[];
   carTypes: CarType[];
