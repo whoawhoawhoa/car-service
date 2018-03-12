@@ -19,7 +19,7 @@ public class Passport {
     @NotNull
     @Column(name = "issued_by")
     private String issuedBy;
-    @ManyToOne
+    @OneToOne
     private Worker worker;
 
     public Passport() {

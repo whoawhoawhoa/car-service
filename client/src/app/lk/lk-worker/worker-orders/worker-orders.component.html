@@ -1,4 +1,8 @@
 <p>Выполненные заказы</p>
+<div *ngIf="allOrders?.length === 0">
+  Вы пока не выполняли заказы!
+</div>
+<div *ngIf="allOrders?.length != 0">
 <table>
   <tr>
     <th>Оценка клиента</th>
@@ -17,3 +21,4 @@
     <td>{{order?.client?.name + ' ' + order?.client?.fname}}</td>
   </tr>
 </table>
+</div>

@@ -21,6 +21,9 @@ public class User {
     private String password;
     @NotNull
     @Column(name = "role")
+    /* 1 - admin
+    *  2 - client
+    *  3 - worker */
     private long role;
 
     public User() {

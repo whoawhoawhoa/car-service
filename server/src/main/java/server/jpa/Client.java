@@ -1,7 +1,6 @@
 package server.jpa;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.sun.deploy.security.ValidationState;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
