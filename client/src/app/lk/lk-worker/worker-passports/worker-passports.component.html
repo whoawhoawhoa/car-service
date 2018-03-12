@@ -1,0 +1,32 @@
+<div *ngIf="passport == null || passport.worker.status == 4">
+<p> Вам нужно заполнить паспортные данные
+  прежде чем приступить к работе</p>
+  <p>{{comment}}</p>
+<div>
+  <form [formGroup]="passportForm" (ngSubmit)="onPassportFormSubmit()">
+    <table>
+      <tr>
+        <td>Серия и номер</td>
+        <td>
+          <input type="text" formControlName="number">
+        </td>
+      </tr>
+      <tr>
+        <td>Кем выдан</td>
+        <td>
+          <input type="text" formControlName="issuedBy">
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <button>Отправить</button>
+        </td>
+      </tr>
+    </table>
+  </form>
+  <br/>
+</div>
+</div>
+<div *ngIf="passport != null && passport.worker.status != 4">
+  <p>{{comment}}</p>
+</div>

@@ -19,6 +19,10 @@ export class LkWorkerComponent implements OnInit {
   workerIdToUpdate = null;
   processValidation = false;
 
+  readyForm = new FormGroup({
+    ready: new FormControl('')
+  });
+
   workerForm = new FormGroup({
     login: new FormControl('', Validators.required),
     password: new FormControl('', Validators.required),
@@ -125,6 +129,29 @@ export class LkWorkerComponent implements OnInit {
           this.statusCode = successCode;
         },
         errorCode => this.statusCode = errorCode);
+  }
+
+  updateStatus() {
+    const ready = this.readyForm.get('ready').value;
+    if (ready) {
+      this.workerSource.status = 1;
+      this.workerService.updateWorker(this.workerSource)
+        .subscribe(sc => {
+        this.statusCode = sc;
+        this.backToCreateWorker();
+        this.loadWorkerToEdit();
+      }, errorCode =>
+        this.statusCode = errorCode);
+    } else {
+      this.workerSource.status = 0;
+      this.workerService.updateWorker(this.workerSource)
+        .subscribe(sc => {
+          this.statusCode = sc;
+          this.backToCreateWorker();
+          this.loadWorkerToEdit();
+        }, errorCode =>
+          this.statusCode = errorCode);
+    }
   }
 
   preProcessConfigurations() {

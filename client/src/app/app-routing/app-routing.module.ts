@@ -19,7 +19,6 @@ const routes: Routes = [
   { path: '', redirectTo: 'user-auth', pathMatch: 'full'}
 
 ];
-//wtfsadasdasd
 @NgModule({
   imports: [ RouterModule.forRoot(routes) ],
   exports: [ RouterModule ]

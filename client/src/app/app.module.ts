@@ -27,6 +27,8 @@ import { WorkerOrdersComponent } from './lk/lk-worker/worker-orders/worker-order
 import {LkAdminComponent} from './lk/lk-admin/lk-admin.component';
 import {UserAuthComponent} from './authorization/user-auth/user-auth.component';
 import {UserService} from './services/user.service';
+import { WorkerPassportsComponent } from './lk/lk-worker/worker-passports/worker-passports.component';
+import { CheckPassportsComponent } from './lk/lk-admin/check-passports/check-passports.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +41,9 @@ import {UserService} from './services/user.service';
     LkAdminComponent,
     AdminRegComponent,
     WorkerServicesComponent,
-    WorkerOrdersComponent
+    WorkerOrdersComponent,
+    WorkerPassportsComponent,
+    CheckPassportsComponent
   ],
   imports: [
     BrowserModule,
