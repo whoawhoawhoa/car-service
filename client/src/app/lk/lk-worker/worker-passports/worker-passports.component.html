@@ -1,7 +1,6 @@
-<div *ngIf="passport == null || passport.worker.status == 4">
+<div *ngIf="passport == null || passport?.worker.status == 4">
 <p> Вам нужно заполнить паспортные данные
   прежде чем приступить к работе</p>
-  <p>{{comment}}</p>
 <div>
   <form [formGroup]="passportForm" (ngSubmit)="onPassportFormSubmit()">
     <table>
@@ -27,6 +26,6 @@
   <br/>
 </div>
 </div>
-<div *ngIf="passport != null && passport.worker.status != 4">
+<div *ngIf="(passport != null && passport?.worker.status != 4) || passport?.worker.status == 4">
   <p>{{comment}}</p>
 </div>

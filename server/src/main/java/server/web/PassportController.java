@@ -82,9 +82,6 @@ public class PassportController extends WebMvcConfigurerAdapter {
     public ResponseEntity<Passport> updatePassport(@RequestBody Passport passport)
     {
         try {
-            Passport sourcePassport = passportRepository.findOne(passport.getId());
-            if(sourcePassport.equals(passport))
-                return new ResponseEntity<>(HttpStatus.CONFLICT);
             passportRepository.save(passport);
             return new ResponseEntity<>(passport, HttpStatus.OK);
         }catch (Exception e)
