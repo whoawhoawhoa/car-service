@@ -1,7 +1,5 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Passport} from '../../../table-classes/passport';
-import {Admin} from '../../../table-classes/admin';
-import {AdminService} from '../../../services/admin.service';
 import {PassportService} from '../../../services/passport.service';
 import {WorkerService} from '../../../services/worker.service';
 
@@ -36,6 +34,7 @@ export class CheckPassportsComponent implements OnInit {
       this.passportService.updatePassport(passport)
         .subscribe(sc => {
           this.statusCode = sc;
+          this.loadPassports();
           this.backToCreatePassport();
         }, errorCode =>
           this.statusCode = errorCode);
@@ -50,6 +49,7 @@ export class CheckPassportsComponent implements OnInit {
       this.passportService.updatePassport(passport)
         .subscribe(sc => {
           this.statusCode = sc;
+          this.loadPassports();
           this.backToCreatePassport();
         }, errorCode =>
           this.statusCode = errorCode);

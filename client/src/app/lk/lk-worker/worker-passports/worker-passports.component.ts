@@ -29,7 +29,6 @@ export class WorkerPassportsComponent implements OnInit {
 
   ngOnInit() {
     this.getWorker();
-    this.loadPassport();
   }
 
   getWorker() {
@@ -41,7 +40,8 @@ export class WorkerPassportsComponent implements OnInit {
             this.comment = 'Ваш паспорт не прошел проверку!';
           } else {
             this.sourceWorker.status = 3;
-          }},
+          }
+          this.loadPassport(); },
             errorCode => this.statusCode);
   }
 
@@ -53,14 +53,28 @@ export class WorkerPassportsComponent implements OnInit {
     this.preProcessConfigurations();
     const number = this.passportForm.get('number').value;
     const issuedBy = this.passportForm.get('issuedBy').value;
-    this.passport = new Passport(null, number, issuedBy, this.sourceWorker);
-    this.passportService.createPassport(this.passport).
-    subscribe(successCode => {
-        this.statusCode = successCode;
-        this.loadPassport();
-        this.backToCreatePassport();
-      },
-      errorCode => this.statusCode = errorCode);
+    if (this.passport != null) {
+      this.passport.worker.status = 3;
+      this.sourceWorker.status = 3;
+      this.workerService.updateWorker(this.sourceWorker)
+        .subscribe(successCode => this.statusCode = successCode,
+          errorCode => this.statusCode = errorCode);
+      this.passportService.updatePassport(this.passport)
+        .subscribe(successCode => {
+            this.statusCode = successCode;
+            this.loadPassport();
+            this.backToCreatePassport();
+          },
+          errorCode => this.statusCode = errorCode);
+    } else {
+      this.passport = new Passport(null, number, issuedBy, this.sourceWorker);
+      this.passportService.createPassport(this.passport).subscribe(successCode => {
+          this.statusCode = successCode;
+          this.loadPassport();
+          this.backToCreatePassport();
+        },
+        errorCode => this.statusCode = errorCode);
+    }
   }
 
   loadPassport() {
@@ -70,15 +84,12 @@ export class WorkerPassportsComponent implements OnInit {
           data => this.passport = data,
           errorCode => this.statusCode);
     }
-    if (this.passport != null) {
-      this.passportForm.setValue({
-          number: this.passport.number,
-          issuedBy: this.passport.issuedBy
-        }
-      );
+    if (this.passport != null && this.sourceWorker.status !== 4) {
       this.comment = '';
-    } else {
+    } else if (this.sourceWorker.status === 3) {
       this.comment = 'Проверяем ваши паспортные данные... Это может занять некоторое время!';
+    } else {
+      this.comment = 'Ваш паспорт не прошел проверку!';
     }
   }
 
@@ -89,5 +100,6 @@ export class WorkerPassportsComponent implements OnInit {
 
   backToCreatePassport() {
     this.processValidation = false;
+    this.passportForm.reset();
   }
 }
