@@ -25,6 +25,12 @@
 <nav>
   <button (click)="redirectToMain()"> На главную </button>
 </nav>
+<form [formGroup]="readyForm">
+<label *ngIf="workerSource?.status == 1 || workerSource?.status == 2 || workerSource?.status == 0">
+  Готов выполнять заказы:
+  <input type="checkbox"  formControlName="ready" (change)="updateStatus()"/>
+</label>
+</form>
 
 <h3> Форма для обновления данных </h3>
 <div>
@@ -42,16 +48,15 @@
       </td></tr>
       <tr><td>Введите новый город</td><td><input formControlName="city">
       </td></tr>
-      <tr><td>Введите новый статус</td><td><input formControlName="status">
+      <tr><td>Статус:</td><td><input formControlName="status">
       </td></tr>
       <tr><td><button>Обновить</button></td><td><button routerLink=""  (click)="deleteWorker(workerSource.login)">Delete</button>
       </td></tr>
     </table>
   </form>
-
-
   <br/>
 </div>
+
 <div *ngIf="workerSource != null;">
   <app-worker-services [login]="workerSource.login" [password]="workerSource.password">
   </app-worker-services>
@@ -59,4 +64,8 @@
   </app-worker-available-orders>
   <app-worker-orders [login]="workerSource.login" [password]="workerSource.password">
   </app-worker-orders>
+  <div *ngIf="workerSource.status != 1 && workerSource.status != 2 && workerSource.status != 0">
+    <app-worker-passports [login]="workerSource.login" [password]="workerSource.password">
+    </app-worker-passports>
+  </div>
 </div>

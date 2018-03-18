@@ -19,7 +19,7 @@ public class Passport {
     @NotNull
     @Column(name = "issued_by")
     private String issuedBy;
-    @ManyToOne
+    @OneToOne
     private Worker worker;
 
     public Passport() {
@@ -55,6 +55,26 @@ public class Passport {
 
     public void setWorker(Worker worker) {
         this.worker = worker;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Passport passport = (Passport) o;
+
+        if (id != passport.id) return false;
+        if (number != passport.number) return false;
+        return issuedBy != null ? issuedBy.equals(passport.issuedBy) : passport.issuedBy == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + (int) (number ^ (number >>> 32));
+        result = 31 * result + (issuedBy != null ? issuedBy.hashCode() : 0);
+        return result;
     }
 
     @Override

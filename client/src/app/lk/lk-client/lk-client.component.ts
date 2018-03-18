@@ -23,7 +23,6 @@ import {AvailableOrderService} from "../../services/available-order.service";
 
 
 export class LkClientComponent implements OnInit {
-
   clientSource: Client;
   userSource: User;
   clientCars: Car[];

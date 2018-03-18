@@ -30,6 +30,8 @@ import {UserService} from './services/user.service';
 import {MainPageComponent} from "./main-page/main-page.component";
 import { MainPageServicesComponent } from './main-page/main-page-services/main-page-services.component';
 import { WorkerAvailableOrdersComponent } from './lk/lk-worker/worker-available-orders/worker-available-orders.component';
+import { WorkerPassportsComponent } from './lk/lk-worker/worker-passports/worker-passports.component';
+import { CheckPassportsComponent } from './lk/lk-admin/check-passports/check-passports.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +47,9 @@ import { WorkerAvailableOrdersComponent } from './lk/lk-worker/worker-available-
     WorkerOrdersComponent,
     MainPageComponent,
     MainPageServicesComponent,
-    WorkerAvailableOrdersComponent
+    WorkerAvailableOrdersComponent,
+    WorkerPassportsComponent,
+    CheckPassportsComponent
   ],
   imports: [
     BrowserModule,

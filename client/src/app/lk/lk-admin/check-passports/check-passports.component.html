@@ -1,0 +1,21 @@
+<div *ngIf="passportSet != null">
+<p>Необработанные паспорта:</p>
+<table>
+  <tr>
+    <th>Имя</th>
+    <th>Фамилия</th>
+    <th>Серия и номер</th>
+    <th>Кем выдан</th>
+    <th>Принять</th>
+    <th>Отклонить</th>
+  </tr>
+  <tr *ngFor="let passport of passportSet" >
+    <td>{{passport?.worker.name}}</td>
+    <td>{{passport?.worker.fname}}</td>
+    <td>{{passport?.number}}</td>
+    <td>{{passport?.issuedBy}}</td>
+    <td><button (click)="acceptPassport(passport)">Принять</button></td>
+    <td><button (click)="rejectPassport(passport)">Отклонить</button></td>
+  </tr>
+</table>
+</div>
