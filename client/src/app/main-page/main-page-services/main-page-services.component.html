@@ -1,0 +1,37 @@
+<div *ngIf="!isOrdered">
+  <form [formGroup]="finalOrderForm" (ngSubmit)="onFinalOrderFormSubmit()">
+    <label>Детали заказа</label>
+    <p>
+    <table>
+      <tr>
+        <th>Комментарий</th>
+        <th>Адрес</th>
+        <th>Авто</th>
+      </tr>
+      <tr>
+        <td><input formControlName="commentary"></td>
+        <td><input formControlName="address"></td>
+        <td><select formControlName="car">
+              <option *ngFor="let car of sourceCars" value="{{car.id}}">
+                {{car?.carType.carType}} {{car?.brand}}
+              </option>
+            </select>
+        </td>
+      </tr>
+      <tr>
+        <td></td>
+        <td><label *ngIf="finalOrderForm.get('address').invalid && processValidation" [ngClass] = "'error'" > Обязательное поле </label></td>
+        <td><label *ngIf="finalOrderForm.get('car').invalid && processValidation" [ngClass] = "'error'" > Обязательное поле </label></td>
+      </tr>
+      <tr>
+        <button>Принять</button>
+      </tr>
+    </table>
+  </form>
+</div>
+<div *ngIf="isAlreadyOrdered">
+  <p>Данный заказ находится в обработке, отследить его состояние можно в личном кабинете</p>
+</div>
+<div *ngIf="toContinue">
+  <p>Ваш заказ принят, отследить его состояние можно в личном кабинете</p>
+</div>

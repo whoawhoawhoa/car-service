@@ -22,7 +22,6 @@ export class WorkerServicesComponent implements OnInit {
   sourceWorker: Worker;
   @Input() login: string;
   @Input() password: string;
-  err: boolean;
 
   serviceForm = new FormGroup({
     coefficient: new FormControl('', Validators.required),

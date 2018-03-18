@@ -1,11 +1,5 @@
-<h5 align="right">
-  <nav>
-    <a routerLink="" >Выход на главную</a>
-  </nav>
-</h5>
-
-<h1 align="center">Информация о профиле клиента</h1>
-<table align="center" class="table_blur">
+<h1>Информация о профиле клиента</h1>
+<table>
   <tr>
     <th>Логин</th>
     <th>Пароль</th>
@@ -27,7 +21,7 @@
 </table>
 
 <nav>
-  <button (click)="redirectToMain()"> На главную </button>
+  <a routerLink="">Выход на главную</a>
 </nav>
 
 <h3> Форма для обновления данных </h3>
@@ -53,7 +47,25 @@
   <br/>
 </div>
 
-  <form class="add" [formGroup]="newCarForm" (ngSubmit)="onNewCarFormSubmit()">
+<h3> Ваши машины </h3>
+<div>
+  <table>
+    <tr>
+      <th>Номер</th>
+      <th>Марка</th>
+      <th>Цвет</th>
+      <th>Тип кузова</th>
+    </tr>
+    <tr *ngFor="let car of clientCars" >
+      <td>{{car.number}}</td>
+      <td>{{car.brand}}</td>
+      <td>{{car.color}}</td>
+      <td>{{car.carType.carType}}</td>
+      <td><button type="button" (click)="deleteCar(car.id)">Удалить</button></td>
+    </tr>
+    </table>
+
+  <form [formGroup]="newCarForm" (ngSubmit)="onNewCarFormSubmit()">
     <table>
       <tr>
         <td>Number</td>
@@ -70,41 +82,18 @@
         <td><input formControlName="color"></td>
         <td><label *ngIf="newCarForm.get('color').invalid && processValidation" [ngClass] = "'error'"> Color is required. </label></td>
       </tr>
-      <tr>
+     <tr>
         <td>Выберите тип кузова</td><td><select formControlName="carType">
         <option *ngFor="let carType of carTypes" value={{carType.id}}>{{carType.carType}}</option>
       </select>
         <label *ngIf="newCarForm.get('carType').invalid && processValidation" [ngClass] = "'error'"> Обязательное поле </label>
       </td>
-      </tr>
-      <td>
-        <button>OK</button>
-      </td>
+     </tr>
+        <td>
+          <button>OK</button>
+        </td>
     </table>
   </form>
-</div>
-
-<div class="cars">
-<h3 align="right"> Ваши машины </h3>
-
-  <table align="right">
-    <tr>
-      <th>Номер</th>
-      <th>Марка</th>
-      <th>Цвет</th>
-      <th>Тип кузова</th>
-    </tr>
-    <tr *ngFor="let car of clientCars" >
-      <td>{{car.number}}</td>
-      <td>{{car.brand}}</td>
-      <td>{{car.color}}</td>
-      <td>{{car.carType.carType}}</td>
-      <td><button type="button" (click)="deleteCar(car.id)">Удалить</button></td>
-    </tr>
-    </table>
-</div>
-
-
   <div>
 
 
@@ -125,24 +114,6 @@
       </tr>
     </table>
 
-
-    <h3> Ваши активные заказы </h3>
-    <div>
-      <table>
-        <tr>
-          <th>Тип услуги</th>
-          <th>Дата</th>
-          <th>Машина</th>
-        </tr>
-        <tr *ngFor="let avOrder of clientAvOrders" >
-          <td>{{avOrder.serviceType}}</td>
-          <td>{{avOrder.orderDate}}</td>
-          <td>{{avOrder.car.brand}} {{avOrder.car.carType.carType}}</td>
-        </tr>
-      </table>
-
-</div>
-</div>
 </div>
 
 

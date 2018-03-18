@@ -6,7 +6,7 @@ import {LkClientComponent} from '../lk/lk-client/lk-client.component';
 import {LkWorkerComponent} from '../lk/lk-worker/lk-worker.component';
 import {UserAuthComponent} from '../authorization/user-auth/user-auth.component';
 import {LkAdminComponent} from '../lk/lk-admin/lk-admin.component';
-import {MainPageComponent} from "../main-page/main-page.component";
+import {MainPageComponent} from '../main-page/main-page.component';
 import {StartPageComponent} from '../start-page/start-page.component';
 
 const routes: Routes = [
