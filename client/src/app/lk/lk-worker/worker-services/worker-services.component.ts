@@ -66,7 +66,6 @@ export class WorkerServicesComponent implements OnInit {
       return; // Validation failed, exit from method.
     }
     this.preProcessConfigurations();
-    this.err = true;
     const coef = this.serviceForm.get('coefficient').value;
     let pric = this.serviceForm.get('price').value;
     for (const a of this.allPrices) {

@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {ClientService} from '../../services/client.service';
 import {Client} from '../../table-classes/client';
 
@@ -12,6 +12,8 @@ import {CarType} from '../../table-classes/car-type';
 import {CarTypeService} from '../../services/car-type.service';
 import {User} from '../../table-classes/user';
 import {UserService} from '../../services/user.service';
+import {AvailableOrder} from '../../table-classes/available-order';
+import {AvailableOrderService} from '../../services/available-order.service';
 
 @Component({
   selector: 'app-lk-client',
@@ -27,6 +29,7 @@ export class LkClientComponent implements OnInit {
   clientCars: Car[];
   carTypes: CarType[];
   carIdToUpdate = null;
+  clientAvOrders: AvailableOrder[];
   clientOrders: Order[];
   statusCode: number;
   requestProcessing = false;
@@ -49,8 +52,14 @@ export class LkClientComponent implements OnInit {
     carType: new FormControl('', Validators.required)
   });
 
-  constructor(private clientService: ClientService, private carService: CarService, private userService: UserService,
-              private orderService: OrderService, private carTypeService: CarTypeService, private route: ActivatedRoute) { }
+  constructor(private clientService: ClientService,
+              private carService: CarService,
+              private userService: UserService,
+              private orderService: OrderService,
+              private carTypeService: CarTypeService,
+              private route: ActivatedRoute,
+              private router: Router,
+              private avOrderService: AvailableOrderService) { }
 
   ngOnInit() {
     this.carTypeService.getAllCarTypes()
@@ -58,7 +67,10 @@ export class LkClientComponent implements OnInit {
     this.getClient(this.route.snapshot.paramMap.get('login'), this.route.snapshot.paramMap.get('password'));
     this.getUser(this.route.snapshot.paramMap.get('login'), this.route.snapshot.paramMap.get('password'));
     this.loadClientToEdit();
+  }
 
+  redirectToMain() {
+    this.router.navigate(['/main/' + this.clientSource.login + '/' + this.clientSource.password]);
   }
 
   getUser(login: string, password: string) {
@@ -73,8 +85,16 @@ export class LkClientComponent implements OnInit {
       .subscribe(
         data => {this.clientSource = data;
           this.getCars();
-          this.getOrders(); },
+          this.getOrders();
+          this.getAvOrders(); },
         errorCode => this.statusCode);
+  }
+
+  getAvOrders() {
+    this.avOrderService.getOrdersByClientLogin(this.clientSource.login)
+      .subscribe(avOrders => {
+        this.clientAvOrders = avOrders;
+      });
   }
 
   onClientFormSubmit() {
@@ -181,7 +201,7 @@ export class LkClientComponent implements OnInit {
     const color = this.newCarForm.get('color').value.trim();
     let cartype = this.newCarForm.get('carType').value.trim();
     for (const a of this.carTypes) {
-      if (a.id === cartype) {
+      if (a.id == cartype) {
         cartype = a;
       }
     }

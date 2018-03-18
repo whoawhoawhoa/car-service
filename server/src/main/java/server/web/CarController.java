@@ -59,12 +59,11 @@ public class CarController extends WebMvcConfigurerAdapter {
     @RequestMapping(value = "/client_cars", method = RequestMethod.GET)
     public ResponseEntity<List<Car>> getCarsByClientLogin(@RequestParam("login") String login) {
         List<Car> cars = carRepository.findCarsByClientLogin(login);
-        if(cars.size() == 0) {
+        /*if(cars.size() == 0)
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-        else {
+        else */
             return new ResponseEntity<>(cars, HttpStatus.ACCEPTED);
-        }
+
     }
 
     @RequestMapping(value = "/car", method = RequestMethod.POST)
@@ -109,4 +108,12 @@ public class CarController extends WebMvcConfigurerAdapter {
         }
         return new ResponseEntity<>(car, HttpStatus.OK);
     }
+
+    @GetMapping(value = "/carsfororder")
+    public ResponseEntity<List<Car>> getCarsByClientIdAndCarTypeId(@RequestParam("id") long id, @RequestParam("carTypeId") long carTypeId)
+    {
+        List<Car> cars = carRepository.getCarsByClientIdAndCarTypeId(id, carTypeId);
+        return new ResponseEntity<>(cars, HttpStatus.OK);
+    }
+
 }

@@ -87,7 +87,6 @@ export class LkAdminComponent implements OnInit {
     this.adminService.updateAdmin(admin)
       .subscribe(successCode => {
         this.statusCode = successCode;
-        console.log(this.statusCode);
         this.getAdmin(login, password);
         this.adminSource = admin;
         this.router.navigate(['lkadmin/' + login + '/' + password]);

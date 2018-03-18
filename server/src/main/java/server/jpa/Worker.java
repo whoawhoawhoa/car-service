@@ -32,13 +32,20 @@ public class Worker {
     @Column(name = "rating")
     private int rating;
     @Column(name = "status")
+    /*
+    * OFFLINE == 0
+    * READY == 1
+    * BUSY == 2
+    * PASSPORT_UNCHECKED == 3
+    * PASSPORT_REJECTED == 4
+    * */
     private int status;
     @JsonIgnore
     @OneToMany(mappedBy = "worker", cascade = CascadeType.ALL)
     private Set<Service> serviceSet;
     @JsonIgnore
-    @OneToMany(mappedBy = "worker", cascade = CascadeType.ALL)
-    private Set<Passport> passportSet;
+    @OneToOne(mappedBy = "worker", cascade = CascadeType.ALL)
+    private Passport passport;
     @JsonIgnore
     @OneToMany(mappedBy = "worker", cascade = CascadeType.ALL)
     private Set<Order> orderSet;
@@ -49,6 +56,10 @@ public class Worker {
 
     public void setUser(User user){
         this.user = user;
+    }
+
+    public User getUser() {
+        return user;
     }
 
     public long getId() {
@@ -131,12 +142,12 @@ public class Worker {
         this.serviceSet = serviceSet;
     }
 
-    public Set<Passport> getPassportSet() {
-        return passportSet;
+    public Passport getPassport() {
+        return passport;
     }
 
-    public void setPassportSet(Set<Passport> passportSet) {
-        this.passportSet = passportSet;
+    public void setPassport(Passport passport) {
+        this.passport = passport;
     }
 
     public Set<Order> getOrderSet() {

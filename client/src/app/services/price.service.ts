@@ -17,6 +17,18 @@ export class PriceService {
       .catch(this.handleError);
   }
 
+  getPricesByCarType(carType: string) {
+    return this.http.get(this.pricesUrl + 'ByCarType?carType=' + carType)
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
+  getPricesByServiceType(serviceType: string) {
+    return this.http.get(this.pricesUrl + 'ByServiceType?serviceType=' + serviceType)
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
   createPrice(price: Price): Observable<number> {
     const cpHeaders = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({headers: cpHeaders});

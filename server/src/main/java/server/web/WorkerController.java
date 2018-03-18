@@ -62,6 +62,7 @@ public class WorkerController extends WebMvcConfigurerAdapter {
                 Worker sourceWorker = workers.get(0);
                 if (sourceWorker.equals(worker))
                     return new ResponseEntity<>(HttpStatus.CONFLICT);
+                worker.setUser(sourceWorker.getUser());
                 workerRepository.save(worker);
                 return new ResponseEntity<>(worker, HttpStatus.OK);
             } else {

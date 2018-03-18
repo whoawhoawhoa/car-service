@@ -11,10 +11,11 @@ import org.springframework.web.util.UriComponentsBuilder;
 import server.jpa.AvailableOrder;
 import server.jpa.AvailableOrderRepository;
 
+import java.sql.Date;
 import java.util.List;
 
 @Controller
-@CrossOrigin(origins = {"http://localhost:9090"})
+@CrossOrigin(origins = {"http://localhost:4200"})
 public class AvailableOrderController extends WebMvcConfigurerAdapter {
     private final AvailableOrderRepository availableOrderRepository;
 
@@ -31,6 +32,7 @@ public class AvailableOrderController extends WebMvcConfigurerAdapter {
 
     @RequestMapping(value = "/putavorder", method = RequestMethod.POST)
     public ResponseEntity<Void> postAvailableOrder(@RequestBody AvailableOrder order, UriComponentsBuilder builder) {
+        order.setOrderDate(new Date(new java.util.Date().getTime()));
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(builder.path("/putavorder").build().toUri());
         availableOrderRepository.save(order);
@@ -38,8 +40,8 @@ public class AvailableOrderController extends WebMvcConfigurerAdapter {
     }
 
     @RequestMapping(value = "/avorderbyclientlogin", method = RequestMethod.GET)
-    public ResponseEntity<List<AvailableOrder>> getAvailableOrderByClientLogin(@RequestParam("id") long id) {
-        List<AvailableOrder> orders = (List<AvailableOrder>) availableOrderRepository.findAvailableOrderByClientId(id);
+    public ResponseEntity<List<AvailableOrder>> getAvailableOrderByClientLogin(@RequestParam("login") String login) {
+        List<AvailableOrder> orders = (List<AvailableOrder>) availableOrderRepository.findAvailableOrderByClientLogin(login);
         return new ResponseEntity<>(orders, HttpStatus.OK);
     }
 
