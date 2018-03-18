@@ -6,6 +6,7 @@ import {LkClientComponent} from '../lk/lk-client/lk-client.component';
 import {LkWorkerComponent} from '../lk/lk-worker/lk-worker.component';
 import {UserAuthComponent} from '../authorization/user-auth/user-auth.component';
 import {LkAdminComponent} from '../lk/lk-admin/lk-admin.component';
+import {MainPageComponent} from "../main-page/main-page.component";
 
 const routes: Routes = [
   { path: 'lkadmin/:login/:password', component: LkAdminComponent},
@@ -16,9 +17,12 @@ const routes: Routes = [
   { path: 'lkclient/:login/:password', component: LkClientComponent},
   { path: 'client', component: ClientRegComponent },
   { path: 'worker', component: WorkerRegComponent },
-  { path: '', redirectTo: 'user-auth', pathMatch: 'full'}
+  { path: 'main', component: MainPageComponent},
+  { path: 'main/:login/:password', component: MainPageComponent},
+  { path: '', redirectTo: 'main', pathMatch: 'full'}
 
 ];
+
 @NgModule({
   imports: [ RouterModule.forRoot(routes) ],
   exports: [ RouterModule ]
