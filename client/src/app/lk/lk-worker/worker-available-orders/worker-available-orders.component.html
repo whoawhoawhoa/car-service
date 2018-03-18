@@ -1,0 +1,22 @@
+<div>
+  <h3>Активные заказы</h3>
+  <table>
+    <tr>
+      <th>Адрес</th>
+      <th>Услуга</th>
+      <th>Имя клиента</th>
+      <th>Номер клиента</th>
+      <th>Автомобиль</th>
+      <th>Комментарий</th>
+    </tr>
+    <tr *ngFor="let order of sourceAvOrders">
+      <td>{{order.address}}</td>
+      <td>{{order.serviceType}}</td>
+      <td>{{order.client.name}}</td>
+      <td>{{order.client.pnumber}}</td>
+      <td>{{order.car.brand}} {{order.car.number}} {{order.car.carType.carType}}</td>
+      <td>{{order.commentary}}</td>
+      <td><button>Принять</button></td>
+    </tr>
+  </table>
+</div>

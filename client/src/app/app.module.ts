@@ -27,6 +27,9 @@ import { WorkerOrdersComponent } from './lk/lk-worker/worker-orders/worker-order
 import {LkAdminComponent} from './lk/lk-admin/lk-admin.component';
 import {UserAuthComponent} from './authorization/user-auth/user-auth.component';
 import {UserService} from './services/user.service';
+import {MainPageComponent} from "./main-page/main-page.component";
+import { MainPageServicesComponent } from './main-page/main-page-services/main-page-services.component';
+import { WorkerAvailableOrdersComponent } from './lk/lk-worker/worker-available-orders/worker-available-orders.component';
 import { WorkerPassportsComponent } from './lk/lk-worker/worker-passports/worker-passports.component';
 import { CheckPassportsComponent } from './lk/lk-admin/check-passports/check-passports.component';
 
@@ -42,6 +45,9 @@ import { CheckPassportsComponent } from './lk/lk-admin/check-passports/check-pas
     AdminRegComponent,
     WorkerServicesComponent,
     WorkerOrdersComponent,
+    MainPageComponent,
+    MainPageServicesComponent,
+    WorkerAvailableOrdersComponent,
     WorkerPassportsComponent,
     CheckPassportsComponent
   ],

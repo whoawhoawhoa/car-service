@@ -34,6 +34,10 @@ public class Order {
     @ManyToOne
     @JsonIgnore
     private Car car;
+    @Column(name = "address")
+    private String address;
+    @Column(name = "commentary")
+    private String commentary;
 
     public Order() {
     }
@@ -118,6 +122,22 @@ public class Order {
         this.car = car;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getCommentary() {
+        return commentary;
+    }
+
+    public void setCommentary(String commentary) {
+        this.commentary = commentary;
+    }
+
     @Override
     public String toString() {
         return "Order{" +
@@ -128,9 +148,11 @@ public class Order {
                 ", serviceType='" + serviceType + '\'' +
                 ", totalPrice=" + totalPrice +
                 ", status=" + status +
-                ", client=" + client.getLogin() +
-                ", worker=" + worker.getLogin() +
-                ", car=" + car.getId() +
+                ", client=" + client +
+                ", worker=" + worker +
+                ", car=" + car +
+                ", address='" + address + '\'' +
+                ", commentary='" + commentary + '\'' +
                 '}';
     }
 }

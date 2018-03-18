@@ -10,6 +10,7 @@ import server.jpa.Price;
 import server.jpa.PriceRepository;
 
 import java.util.List;
+import java.util.Set;
 
 @Controller
 @CrossOrigin(origins = {"http://localhost:4200"})
@@ -62,5 +63,23 @@ public class PriceController extends WebMvcConfigurerAdapter {
         {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @GetMapping(path = "/pricesByCarType")
+    public ResponseEntity<List<Price>> getPricesByCarTypeCarType(@RequestParam String carType)
+    {
+        List<Price> prices =  priceRepository.findByCarTypeCarType(carType);
+        for (int i = 0; i < prices.size(); i++) {
+            if(prices.get(i).getServiceSet().size() == 0)
+                prices.remove(prices.get(i));
+        }
+        return new ResponseEntity<>(prices, HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/pricesByServiceType")
+    public ResponseEntity<List<Price>> getPricesByServiceType(@RequestParam String serviceType)
+    {
+        List<Price> prices =  priceRepository.findPriceByServiceTypeOrderByCarType(serviceType);
+        return new ResponseEntity<>(prices, HttpStatus.OK);
     }
 }

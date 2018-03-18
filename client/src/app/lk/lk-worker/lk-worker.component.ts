@@ -33,7 +33,9 @@ export class LkWorkerComponent implements OnInit {
     status: new FormControl('', Validators.required)
   });
 
-  constructor(private workerService: WorkerService, private route: ActivatedRoute, private router: Router,
+  constructor(private workerService: WorkerService,
+              private route: ActivatedRoute,
+              private router: Router,
               private userService: UserService) { }
 
   ngOnInit() {
@@ -120,6 +122,11 @@ export class LkWorkerComponent implements OnInit {
           },
           errorCode =>  this.statusCode = errorCode);
     }
+  }
+
+  redirectToMain()
+  {
+    this.router.navigate(['/main/' + this.workerSource.login + '/' + this.workerSource.password]);
   }
 
   deleteWorker(workerLogin: string) {
