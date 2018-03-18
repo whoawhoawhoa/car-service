@@ -1,0 +1,43 @@
+<div *ngIf="isUserReceived">
+  <button id="lkButton" *ngIf="isUserReceived" (click)="redirectToLK()">
+    Личный кабинет
+  </button>
+
+<div *ngIf="!isClient">
+  <label> Вы вошли как работник </label>
+</div>
+
+<div *ngIf="isClient">
+  <label> Вы вошли как клиент </label>
+  <p>
+  <form *ngIf="showService" [formGroup]="orderForm" (ngSubmit)="onPriceFormSubmit()">
+    <label> Выберите услугу </label>
+    <p>
+    <table>
+      <tr>
+        <th>Название услуги</th>
+      </tr>
+      <tr>
+        <td><select formControlName="serviceType">
+              <option *ngFor="let price of priceNames" value="{{price}}">
+                {{price}}
+              </option>
+            </select>
+        </td>
+      </tr>
+      <tr>
+        <label *ngIf="orderForm.get('serviceType').invalid && processValidation" [ngClass] = "'error'" > Обязательное поле </label>
+      </tr>
+      <tr>
+        <button>Заказать</button>
+      </tr>
+    </table>
+  </form>
+  <app-main-page-services *ngIf="showOrderForm"
+                          [sourceClient]="sourceClient"
+                          [serviceType] = orderedServiceType
+                          [cars] = cars>
+
+  </app-main-page-services>
+</div>
+</div>

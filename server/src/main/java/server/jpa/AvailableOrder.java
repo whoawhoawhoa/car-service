@@ -18,11 +18,13 @@ public class AvailableOrder {
     @Column(name = "service_type")
     private String serviceType;
     @ManyToOne
-    @JsonIgnore
     private Client client;
     @ManyToOne
-    @JsonIgnore
     private Car car;
+    @Column(name = "address")
+    private String address;
+    @Column(name = "commentary")
+    private String commentary;
 
     public AvailableOrder() {
     }
@@ -67,6 +69,22 @@ public class AvailableOrder {
         this.car = car;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getCommentary() {
+        return commentary;
+    }
+
+    public void setCommentary(String commentary) {
+        this.commentary = commentary;
+    }
+
     @Override
     public String toString() {
         return "AvailableOrder{" +
@@ -75,6 +93,8 @@ public class AvailableOrder {
                 ", serviceType='" + serviceType + '\'' +
                 ", client=" + client +
                 ", car=" + car +
+                ", address='" + address + '\'' +
+                ", commentary='" + commentary + '\'' +
                 '}';
     }
 }

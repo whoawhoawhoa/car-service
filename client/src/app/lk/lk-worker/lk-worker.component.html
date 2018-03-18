@@ -23,7 +23,7 @@
 </table>
 
 <nav>
-  <a routerLink="">Выход на главную</a>
+  <button (click)="redirectToMain()"> На главную </button>
 </nav>
 
 <h3> Форма для обновления данных </h3>
@@ -55,6 +55,8 @@
 <div *ngIf="workerSource != null;">
   <app-worker-services [login]="workerSource.login" [password]="workerSource.password">
   </app-worker-services>
+  <app-worker-available-orders [login]="workerSource.login" [password]="workerSource.password">
+  </app-worker-available-orders>
   <app-worker-orders [login]="workerSource.login" [password]="workerSource.password">
   </app-worker-orders>
 </div>

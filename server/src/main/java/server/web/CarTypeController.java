@@ -69,5 +69,11 @@ public class CarTypeController extends WebMvcConfigurerAdapter {
         return new ResponseEntity<>(carType, HttpStatus.OK);
     }
 
+    @GetMapping(value = "/car_types_forprices")
+    public ResponseEntity<List<CarType>> getDistinctCarTypesByClientId(@RequestParam String id) {
+        List<CarType> carTypes = carTypeRepository.findDistinctCarTypesByClientId(Long.parseLong(id));
+        return new ResponseEntity<>(carTypes, HttpStatus.OK);
+    }
+
 
 }

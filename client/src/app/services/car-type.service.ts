@@ -31,6 +31,13 @@ export class CarTypeService {
       .catch(this.handleError);
   }
 
+  getDistinctCarTypesByClientId(id: number)
+  {
+    return this.http.get(this.carTypeUrl + 's_forprices?id=' + id)
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
   createCarType(carType: CarType): Observable<number>
   {
     const cpHeaders = new Headers({ 'Content-Type': 'application/json' });
