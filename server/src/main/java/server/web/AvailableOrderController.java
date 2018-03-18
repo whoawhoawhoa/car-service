@@ -39,14 +39,14 @@ public class AvailableOrderController extends WebMvcConfigurerAdapter {
 
     @RequestMapping(value = "/avorderbyclientlogin", method = RequestMethod.GET)
     public ResponseEntity<List<AvailableOrder>> getAvailableOrderByClientLogin(@RequestParam("id") long id) {
-        List<AvailableOrder> orders = (List<AvailableOrder>) availableOrderRepository.findAvailableOrderByClientId(id);
+        List<AvailableOrder> orders = availableOrderRepository.findAvailableOrderByClientId(id);
         return new ResponseEntity<>(orders, HttpStatus.OK);
     }
 
 
     @RequestMapping(value = "/avorderbycarid", method = RequestMethod.GET)
     public ResponseEntity<List<AvailableOrder>> getAvailableOrderByCarId(@RequestParam("id") long id) {
-        List<AvailableOrder> orders = (List<AvailableOrder>) availableOrderRepository.findAvailableOrderByCarId(id);
+        List<AvailableOrder> orders = availableOrderRepository.findAvailableOrderByCarId(id);
         return new ResponseEntity<>(orders, HttpStatus.OK);
     }
 
@@ -55,7 +55,7 @@ public class AvailableOrderController extends WebMvcConfigurerAdapter {
         AvailableOrder sourceOrder;
         sourceOrder = availableOrderRepository.findOne(order.getId());
         if(sourceOrder == order)
-            return new ResponseEntity<AvailableOrder>(HttpStatus.CONFLICT);
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         availableOrderRepository.save(order);
         return new ResponseEntity<>(order, HttpStatus.OK);
     }

@@ -3,6 +3,7 @@ package server.jpa;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.sql.Date;
 
 @Entity
@@ -25,6 +26,11 @@ public class Order {
     private int totalPrice;
     @Column(name = "status")
     private int status;
+    @Column(name="address")
+    @NotNull
+    private String address;
+    @Column(name="commentary")
+    private String commentary;
     @ManyToOne
     @JsonIgnore
     private Client client;
@@ -94,6 +100,22 @@ public class Order {
         this.status = status;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getCommentary() {
+        return commentary;
+    }
+
+    public void setCommentary(String commentary) {
+        this.commentary = commentary;
+    }
+
     public Client getClient() {
         return client;
     }
@@ -128,9 +150,11 @@ public class Order {
                 ", serviceType='" + serviceType + '\'' +
                 ", totalPrice=" + totalPrice +
                 ", status=" + status +
-                ", client=" + client.getLogin() +
-                ", worker=" + worker.getLogin() +
-                ", car=" + car.getId() +
+                ", address='" + address + '\'' +
+                ", commentary='" + commentary + '\'' +
+                ", client=" + client +
+                ", worker=" + worker +
+                ", car=" + car +
                 '}';
     }
 }
