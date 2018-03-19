@@ -8,6 +8,7 @@ export class AvailableOrder {
                public client: Client,
                public car: Car,
                public address: string,
-               public commentary: string) {
+               public commentary: string,
+               public workers: number[]) {
   }
 }

@@ -52,6 +52,12 @@ public class WorkerController extends WebMvcConfigurerAdapter {
         return new ResponseEntity<>(workers, HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/workers_by_id", method = RequestMethod.GET)
+    public ResponseEntity<List<Worker>> getWorkersByIds(@RequestParam List<Integer> ids) {
+        List<Worker> workers = workerRepository.findWorkersByIdIn(ids);
+        return new ResponseEntity<>(workers, HttpStatus.ACCEPTED);
+    }
+
     @RequestMapping(value = "/worker", method = RequestMethod.PUT)
     public ResponseEntity<Worker> updateWorker(@RequestBody Worker worker)
     {

@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import {Http, Response, Headers, RequestOptions} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
 import {Worker} from '../table-classes/worker';
 
 @Injectable()
@@ -30,6 +28,22 @@ export class WorkerService {
   getWorkerByLoginAndPassword(workerLogin: string, workerPassword: string): Observable<Worker> {
     const cpHeaders = new Headers({ 'Content-Type': 'application/json' });
     const newUrl = this.defaultUrl + 'worker?login=' + workerLogin + '&password=' + workerPassword;
+    const options = new RequestOptions({ headers: cpHeaders });
+    return this.http.get(newUrl, options)
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
+  getWorkersByIds(workerIds: number[]): Observable<Worker[]> {
+    const cpHeaders = new Headers({ 'Content-Type': 'application/json' });
+    let newUrl = this.defaultUrl + 'workers?';
+    for (const id of workerIds) {
+      let a = '';
+      if (workerIds.indexOf(id) !== 0) {
+        a = '&';
+      }
+      newUrl = newUrl + a + '=' + id.toString();
+    }
     const options = new RequestOptions({ headers: cpHeaders });
     return this.http.get(newUrl, options)
       .map(this.extractData)

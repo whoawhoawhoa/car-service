@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.sql.Date;
+import java.util.Arrays;
 
 @Entity
 @Table(name = "available_orders")
@@ -24,12 +25,10 @@ public class AvailableOrder {
     @Column(name = "commentary")
     private String commentary;
     @Column(name = "workers")
-    private long[] workers;
+    private int[] workers;
     @ManyToOne
-    @JsonIgnore
     private Client client;
     @ManyToOne
-    @JsonIgnore
     private Car car;
 
     public AvailableOrder() {
@@ -91,11 +90,11 @@ public class AvailableOrder {
         this.commentary = commentary;
     }
 
-    public long[] getWorkers() {
+    public int[] getWorkers() {
         return workers;
     }
 
-    public void setWorkers(long[] workers) {
+    public void setWorkers(int[] workers) {
         this.workers = workers;
     }
 
@@ -107,6 +106,7 @@ public class AvailableOrder {
                 ", serviceType='" + serviceType + '\'' +
                 ", address='" + address + '\'' +
                 ", commentary='" + commentary + '\'' +
+                ", workers=" + Arrays.toString(workers) +
                 ", client=" + client +
                 ", car=" + car +
                 '}';

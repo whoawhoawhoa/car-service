@@ -25,6 +25,11 @@ public class Order {
     @Column(name = "total_price")
     private int totalPrice;
     @Column(name = "status")
+    /*
+    0 - IN_PROCESS
+    1- FINISHED
+    2- REJECTED
+    * */
     private int status;
     @Column(name="address")
     @NotNull
@@ -32,13 +37,10 @@ public class Order {
     @Column(name="commentary")
     private String commentary;
     @ManyToOne
-    @JsonIgnore
     private Client client;
     @ManyToOne
-    @JsonIgnore
     private Worker worker;
     @ManyToOne
-    @JsonIgnore
     private Car car;
 
     public Order() {

@@ -124,8 +124,7 @@ export class LkWorkerComponent implements OnInit {
     }
   }
 
-  redirectToMain()
-  {
+  redirectToMain() {
     this.router.navigate(['/main/' + this.workerSource.login + '/' + this.workerSource.password]);
   }
 

@@ -61,6 +61,15 @@ public class ServiceController extends WebMvcConfigurerAdapter {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @RequestMapping(path = "/serviceForAvOrder", method = RequestMethod.GET)
+    public ResponseEntity<List<Service>> getServicesForAvOrder(@RequestParam long id,
+                                                               @RequestParam String serviceType,
+                                                               @RequestParam String carType) {
+        List<Service> services = serviceRepository.getServicesByWorkerIdAndPriceServiceTypeAndPriceCarTypeCarType(
+                id, serviceType, carType);
+        return new ResponseEntity<>(services, HttpStatus.OK);
+    }
+
     @RequestMapping(path = "/serviceWorker", method = RequestMethod.GET)
     public ResponseEntity<List<Service>> getServicesByWorkerLogin(@RequestParam String login)
     {

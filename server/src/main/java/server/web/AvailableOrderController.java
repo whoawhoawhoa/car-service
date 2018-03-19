@@ -65,6 +65,6 @@ public class AvailableOrderController extends WebMvcConfigurerAdapter {
     @DeleteMapping(value = "/deleteavorder")
     public ResponseEntity<Void> deleteAvailableOrder(@RequestParam long id){
         availableOrderRepository.delete(id);
-        return new ResponseEntity<Void>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
