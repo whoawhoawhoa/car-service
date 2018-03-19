@@ -8,6 +8,7 @@
       <th>Номер клиента</th>
       <th>Автомобиль</th>
       <th>Комментарий</th>
+      <th>Взять заказ</th>
     </tr>
     <tr *ngFor="let order of sourceAvOrders">
       <td>{{order.address}}</td>
@@ -16,7 +17,19 @@
       <td>{{order.client.pnumber}}</td>
       <td>{{order.car.brand}} {{order.car.number}} {{order.car.carType.carType}}</td>
       <td>{{order.commentary}}</td>
-      <td><button>Принять</button></td>
+      <td>
+        <div *ngIf="order.workers === null || order.workers.indexOf(id) < 0">
+          <button (click)="accept(order)">Взять заказ</button>
+        </div>
+        <div *ngIf="order.workers != null && order.workers.indexOf(id) > -1">
+          <label>Вы подали заявку на этот заказ</label>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <button (click)="getAvOrders()">Обновить статус заказов</button>
+      </td>
     </tr>
   </table>
 </div>

@@ -56,6 +56,9 @@ export class WorkerPassportsComponent implements OnInit {
     if (this.passport != null) {
       this.passport.worker.status = 3;
       this.sourceWorker.status = 3;
+      this.passport.number = number
+      this.passport.issuedBy = issuedBy;
+      this.passport.worker = this.sourceWorker;
       this.workerService.updateWorker(this.sourceWorker)
         .subscribe(successCode => this.statusCode = successCode,
           errorCode => this.statusCode = errorCode);

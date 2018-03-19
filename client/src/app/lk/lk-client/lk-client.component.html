@@ -94,12 +94,9 @@
         </td>
     </table>
   </form>
-  <div>
-
-
-  </div>
-
-  <h3> Ваши заказы </h3>
+</div>
+<div>
+<h3> Ваши заказы </h3>
   <div>
     <table>
       <tr>
@@ -113,23 +110,12 @@
         <td>{{order.totalPrice}}</td>
       </tr>
     </table>
+  </div>
 
-
+  <div *ngIf="clientAvOrders.length != 0">
     <h3> Ваши активные заказы </h3>
-    <div>
-      <table>
-        <tr>
-          <th>Тип услуги</th>
-          <th>Дата</th>
-          <th>Машина</th>
-        </tr>
-        <tr *ngFor="let avOrder of clientAvOrders" >
-          <td>{{avOrder.serviceType}}</td>
-          <td>{{avOrder.orderDate}}</td>
-          <td>{{avOrder.car.brand}} {{avOrder.car.carType.carType}}</td>
-        </tr>
-      </table>
-
-</div>
-</div>
+    <div *ngFor="let avOrder of clientAvOrders">
+      <app-client-available-order [avOrder]="avOrder" ></app-client-available-order>
+    </div>
+  </div>
 </div>

@@ -1,0 +1,21 @@
+<div *ngIf="avOrder !== null">
+<label>Ваш заказ: {{avOrder?.serviceType}} для {{avOrder?.car.brand}} {{avOrder?.car.carType.carType}}</label>
+<button (click)="refreshStatus()">Обновить статус</button>
+<div>
+  <label>Ваш заказ готовы принять:</label>
+  <table>
+    <tr>
+      <th>Работник</th>
+      <th>Рейтинг</th>
+      <th>Стоимость</th>
+      <th>Выбрать</th>
+    </tr>
+    <tr *ngFor="let service of services" >
+      <td>{{service.worker.name}} {{service.worker.fname}}</td>
+      <td>{{service.worker.rating}}</td>
+      <td>{{service.coef * service.price.price}}</td>
+      <td><button (click)="choose(service.worker, service)">Выбрать</button></td>
+    </tr>
+  </table>
+</div>
+</div>

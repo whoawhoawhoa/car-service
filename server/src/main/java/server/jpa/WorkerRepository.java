@@ -7,4 +7,5 @@ import java.util.List;
 public interface WorkerRepository extends CrudRepository<Worker, Long> {
     List<Worker> findWorkerByLogin(String login);
     List<Worker> findWorkerByLoginAndPassword(String login, String password);
+    List<Worker> findWorkersByIdIn(List<Integer> ids);
 }

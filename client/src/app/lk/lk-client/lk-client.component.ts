@@ -12,8 +12,8 @@ import {CarType} from '../../table-classes/car-type';
 import {CarTypeService} from '../../services/car-type.service';
 import {User} from '../../table-classes/user';
 import {UserService} from '../../services/user.service';
-import {AvailableOrder} from "../../table-classes/available-order";
-import {AvailableOrderService} from "../../services/available-order.service";
+import {AvailableOrder} from '../../table-classes/available-order';
+import {AvailableOrderService} from '../../services/available-order.service';
 
 @Component({
   selector: 'app-lk-client',
@@ -68,8 +68,7 @@ export class LkClientComponent implements OnInit {
     this.loadClientToEdit();
   }
 
-  redirectToMain()
-  {
+  redirectToMain() {
     this.router.navigate(['/main/' + this.clientSource.login + '/' + this.clientSource.password]);
   }
 
@@ -86,16 +85,15 @@ export class LkClientComponent implements OnInit {
         data => {this.clientSource = data;
           this.getCars();
           this.getOrders();
-          this.getAvOrders()},
+          this.getAvOrders(); },
         errorCode => this.statusCode);
   }
 
-  getAvOrders()
-  {
+  getAvOrders() {
     this.avOrderService.getOrdersByClientLogin(this.clientSource.login)
-      .subscribe(avOrders =>{
+      .subscribe(avOrders => {
         this.clientAvOrders = avOrders;
-      })
+      });
   }
 
   onClientFormSubmit() {

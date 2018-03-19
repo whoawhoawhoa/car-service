@@ -1,5 +1,6 @@
 package server.web;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ import java.util.List;
 public class AdminController extends WebMvcConfigurerAdapter {
     private final AdminRepository adminRepository;
 
+    @Autowired
     public AdminController(AdminRepository adminRepository) {
         this.adminRepository = adminRepository;
     }

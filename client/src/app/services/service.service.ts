@@ -46,6 +46,16 @@ export class ServiceService {
       .catch(this.handleError);
   }
 
+  getServicesForAvOrder(workerId: number, serviceType: string, carType: string): Observable<Service[]> {
+    const cpHeaders = new Headers({ 'Content-Type': 'application/json' });
+    const newUrl = this.defaultUrl + 'serviceForAvOrder?id=' + workerId +
+      '&serviceType=' + serviceType + '&carType=' + carType;
+    const options = new RequestOptions({ headers: cpHeaders });
+    return this.http.get(newUrl, options)
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
   updateService(service: Service): Observable<number> {
     const cpHeaders = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({ headers: cpHeaders });
