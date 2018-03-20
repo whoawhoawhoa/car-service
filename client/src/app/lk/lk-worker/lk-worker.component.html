@@ -58,12 +58,16 @@
 </div>
 
 <div *ngIf="workerSource != null;">
-  <app-worker-services [login]="workerSource.login" [password]="workerSource.password">
-  </app-worker-services>
+  <div *ngIf="workerSource.status == 1 || workerSource.status == 2 || workerSource.status == 0">
+    <app-worker-services [login]="workerSource.login" [password]="workerSource.password">
+    </app-worker-services>
+    <app-worker-orders [login]="workerSource.login" [password]="workerSource.password">
+    </app-worker-orders>
+  </div>
+  <div *ngIf="workerSource.status == 1">
   <app-worker-available-orders [login]="workerSource.login" [id]="workerSource.id">
   </app-worker-available-orders>
-  <app-worker-orders [login]="workerSource.login" [password]="workerSource.password">
-  </app-worker-orders>
+  </div>
   <div *ngIf="workerSource.status != 1 && workerSource.status != 2 && workerSource.status != 0">
     <app-worker-passports [login]="workerSource.login" [password]="workerSource.password">
     </app-worker-passports>

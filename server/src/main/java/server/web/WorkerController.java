@@ -27,10 +27,14 @@ public class WorkerController extends WebMvcConfigurerAdapter {
     public ResponseEntity<Void> postWorker(@RequestBody Worker worker, UriComponentsBuilder builder) {
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(builder.path("/worker").build().toUri());
-        if(workerRepository.findWorkerByLogin(worker.getLogin()).size() != 0) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        if(isValid(worker)) {
+            if (workerRepository.findWorkerByLogin(worker.getLogin()).size() != 0) {
+                return new ResponseEntity<>(HttpStatus.CONFLICT);
+            }
+            workerRepository.save(worker);
+        } else {
+            return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
         }
-        workerRepository.save(worker);
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 
