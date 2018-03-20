@@ -112,7 +112,7 @@
     </table>
   </div>
 
-  <div *ngIf="clientAvOrders.length != 0">
+  <div *ngIf="clientAvOrders !== null && clientAvOrders !== undefined && clientAvOrders.length !== 0">
     <h3> Ваши активные заказы </h3>
     <div *ngFor="let avOrder of clientAvOrders">
       <app-client-available-order [avOrder]="avOrder" ></app-client-available-order>

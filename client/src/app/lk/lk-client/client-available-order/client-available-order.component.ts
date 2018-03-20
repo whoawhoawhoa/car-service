@@ -7,6 +7,7 @@ import {ServiceService} from '../../../services/service.service';
 import {Order} from '../../../table-classes/order';
 import {OrderService} from '../../../services/order.service';
 import {AvailableOrderService} from '../../../services/available-order.service';
+import {LkClientComponent} from "../lk-client.component";
 
 @Component({
   selector: 'app-client-available-order',
@@ -30,17 +31,19 @@ export class ClientAvailableOrderComponent implements OnInit {
   loadWorkerList() {
     this.workers = [];
     this.services = [];
-    this.workerService.getWorkersByIds(this.avOrder.workers)
-      .subscribe(data => {
-        this.workers = data;
-        for (const id of this.avOrder.workers) {
-          this.serviceService.getServicesForAvOrder(id, this.avOrder.serviceType,
-            this.avOrder.car.carType.carType)
-            .subscribe(new_data => {
-              this.services.push(new_data[0]);
-            });
-        }
-      });
+    if (this.avOrder.workers !== null) {
+      this.workerService.getWorkersByIds(this.avOrder.workers)
+        .subscribe(data => {
+          this.workers = data;
+          for (const id of this.avOrder.workers) {
+            this.serviceService.getServicesForAvOrder(id, this.avOrder.serviceType,
+              this.avOrder.car.carType.carType)
+              .subscribe(new_data => {
+                this.services.push(new_data[0]);
+              });
+          }
+        });
+    }
   }
 
   refreshStatus() {
