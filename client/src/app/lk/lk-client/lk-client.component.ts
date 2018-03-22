@@ -41,7 +41,8 @@ export class LkClientComponent implements OnInit {
     name: new FormControl('', Validators.required),
     fName: new FormControl('', Validators.required),
     pnumber: new FormControl('', Validators.required),
-    city: new FormControl('', Validators.required)
+    city: new FormControl('', Validators.required),
+    email: new FormControl('', Validators.required)
   });
 
   newCarForm = new FormGroup({
@@ -109,8 +110,9 @@ export class LkClientComponent implements OnInit {
     const fName = this.clientForm.get('fName').value;
     const pnumber = this.clientForm.get('pnumber').value;
     const city = this.clientForm.get('city').value;
+    const email = this.clientForm.get('email').value;
     // Handle update client
-    const client = new Client(this.clientIdToUpdate, login, password, name, fName, pnumber, city, null, this.userSource);
+    const client = new Client(this.clientIdToUpdate, login, password, name, fName, pnumber, city, null, this.userSource, email);
     this.clientService.updateClient(client)
       .subscribe(successCode => {
         this.statusCode = successCode;
@@ -135,7 +137,8 @@ export class LkClientComponent implements OnInit {
               name: client.name,
               fName: client.fname,
               pnumber: client.pnumber,
-              city: client.city});
+              city: client.city,
+              email: client.email});
             this.processValidation = true;
             this.requestProcessing = false;
             this.clientSource = client;
@@ -151,7 +154,8 @@ export class LkClientComponent implements OnInit {
               name: client.name,
               fName: client.fname,
               pnumber: client.pnumber,
-              city: client.city});
+              city: client.city,
+              email: client.email});
             this.processValidation = true;
             this.requestProcessing = false;
           },

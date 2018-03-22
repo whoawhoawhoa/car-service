@@ -8,6 +8,8 @@ public interface ServiceRepository extends CrudRepository<Service, Long> {
     List<Service> getServicesByWorkerLogin(String login);
     List<Service> getServicesByPriceId(Long id);
     List<Service> getServicesByWorkerLoginAndPriceId(String login, Long id);
-    List<Service> getServicesByWorkerIdAndPriceServiceTypeAndPriceCarTypeCarType(
-            long id, String serviceType, String carType);
+    List<Service> getServicesByWorkerIdAndPriceServiceTypeAndPriceCarTypeCarType
+            (long id, String serviceType, String carType);
+    List<Service> getServicesByPriceServiceTypeAndPriceCarTypeId
+            (String serviceType, long carType);
 }

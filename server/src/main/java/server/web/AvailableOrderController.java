@@ -10,6 +10,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import org.springframework.web.util.UriComponentsBuilder;
 import server.jpa.AvailableOrder;
 import server.jpa.AvailableOrderRepository;
+import server.springmvc.messaging.MessageSender;
 
 import java.sql.Date;
 import java.util.List;
@@ -18,10 +19,16 @@ import java.util.List;
 @CrossOrigin(origins = {"http://localhost:4200"})
 public class AvailableOrderController extends WebMvcConfigurerAdapter {
     private final AvailableOrderRepository availableOrderRepository;
+    private final ServiceController serviceController;
+    private MessageSender ms;
 
     @Autowired
-    public AvailableOrderController(AvailableOrderRepository availableOrderRepository) {
+    public AvailableOrderController(AvailableOrderRepository availableOrderRepository,
+                                    ServiceController serviceController,
+                                    MessageSender messageSender) {
         this.availableOrderRepository = availableOrderRepository;
+        this.serviceController = serviceController;
+        this.ms = messageSender;
     }
 
     @RequestMapping(value = "/available_orders", method = RequestMethod.GET)
@@ -35,6 +42,7 @@ public class AvailableOrderController extends WebMvcConfigurerAdapter {
         order.setOrderDate(new Date(new java.util.Date().getTime()));
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(builder.path("/putavorder").build().toUri());
+        checkWorkers(order);
         availableOrderRepository.save(order);
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
@@ -66,5 +74,19 @@ public class AvailableOrderController extends WebMvcConfigurerAdapter {
     public ResponseEntity<Void> deleteAvailableOrder(@RequestParam long id){
         availableOrderRepository.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    private void checkWorkers(AvailableOrder avOrder)
+    {
+        String serviceType = avOrder.getServiceType();
+        Long carTypeId = avOrder.getCar().getCarType().getId();
+        List<String> workersEmails = serviceController.getWorkersEmailsByServices(serviceType, carTypeId);
+        String msg = "";
+        if(workersEmails != null) {
+            for (String email: workersEmails) {
+                msg+= email + " ";
+            }
+            ms.sendMessage("toNotify " + msg);
+        }
     }
 }

@@ -8,6 +8,7 @@
     <th>Номер тлф</th>
     <th>Город</th>
     <th>Рейтинг</th>
+    <th>Email</th>
   </tr>
   <tr>
     <td>{{clientSource?.login}}</td>
@@ -17,6 +18,7 @@
     <td>{{clientSource?.pnumber}}</td>
     <td>{{clientSource?.city}}</td>
     <td>{{clientSource?.rating}}</td>
+    <td>{{clientSource?.email}}</td>
   </tr>
 </table>
 
@@ -39,6 +41,8 @@
       <tr><td>Введите новый номер телефона</td><td><input formControlName="pnumber">
       </td></tr>
       <tr><td>Введите новый город</td><td><input formControlName="city">
+      </td></tr>
+      <tr><td>Введите новый Email</td><td><input formControlName="email">
       </td></tr>
       <tr><td><button>Обновить</button></td><td><button routerLink="" (click)="deleteClient(clientSource.login)">Delete</button>
       </td></tr>

@@ -10,7 +10,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import org.springframework.web.util.UriComponentsBuilder;
 import server.jpa.Client;
 import server.jpa.ClientRepository;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -91,7 +90,6 @@ public class ClientController extends WebMvcConfigurerAdapter {
         try
         {
             Client sourceClient = clientRepository.findClientById(client.getId());
-            System.out.println(sourceClient.equals(client));
             if(sourceClient.equals(client))
                 return new ResponseEntity<>(HttpStatus.CONFLICT);
             clientRepository.save(client);

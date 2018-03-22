@@ -44,6 +44,8 @@ public class Client {
     private Set<AvailableOrder> availableOrderSet;
     @OneToOne(cascade = CascadeType.ALL)
     private User user;
+    @Column(name= "email")
+    private String email;
 
     public Client() {}
 
@@ -139,6 +141,14 @@ public class Client {
         this.availableOrderSet = availableOrderSet;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     @Override
     public String toString() {
         return "Client{" +
@@ -147,9 +157,9 @@ public class Client {
                 ", password='" + password + '\'' +
                 ", name='" + name + '\'' +
                 ", fname='" + fname + '\'' +
-                ", number=" + pnumber +
+                ", pnumber=" + pnumber +
                 ", city='" + city + '\'' +
-                ", rating=" + rating +
+                ", email='" + email + '\'' +
                 '}';
     }
 
@@ -165,12 +175,13 @@ public class Client {
                 Objects.equals(password, client.password) &&
                 Objects.equals(name, client.name) &&
                 Objects.equals(fname, client.fname) &&
-                Objects.equals(city, client.city);
+                Objects.equals(city, client.city) &&
+                Objects.equals(email, client.email);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, login, password, name, fname, pnumber, city, rating);
+        return Objects.hash(id, login, password, name, fname, pnumber, city, rating, email);
     }
 }

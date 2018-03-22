@@ -21,7 +21,8 @@ export class ClientRegComponent implements OnInit {
     name: new FormControl('', Validators.required),
     fname: new FormControl('', Validators.required),
     pnumber: new FormControl('', Validators.required),
-    city: new FormControl('', Validators.required)
+    city: new FormControl('', Validators.required),
+    email: new FormControl('', Validators.required)
   });
 
   constructor(private clientService: ClientService, private userService: UserService, private router: Router) { }
@@ -42,10 +43,11 @@ export class ClientRegComponent implements OnInit {
     const fname = this.clientForm.get('fname').value.trim();
     const pnumber = this.clientForm.get('pnumber').value.trim();
     const city = this.clientForm.get('city').value.trim();
+    const email = this.clientForm.get('email').value;
     // Handle create client
     const user = new User(null, login, password, 2);
     this.userService.createUser(user);
-    const client = new Client(null, login, password, name, fname, pnumber, city, null, user);
+    const client = new Client(null, login, password, name, fname, pnumber, city, null, user, email);
     this.clientService.createClient(client)
       .subscribe(successCode => {
           this.statusCode = successCode;
