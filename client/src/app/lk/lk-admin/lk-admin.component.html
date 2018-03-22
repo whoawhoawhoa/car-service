@@ -1,94 +1,139 @@
-<h1>Информация о профиле админа</h1>
-<table>
-  <tr>
-    <th>Логин</th>
-    <th>Пароль</th>
-  </tr>
-  <tr>
-    <td>{{adminSource?.login}}</td>
-    <td>{{adminSource?.password}}</td>
-  </tr>
-</table>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<nav>
-  <a routerLink="">Выход на главную</a>
+
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+  <a href="#" class="navbar-brand">
+    <img src="http://car-service63.ru/bitrix/templates/main/images/logo-retina.png"
+         width="150" height="40" alt="logo">
+  </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a href="#" class="nav-link">Главная</a>
+      </li>
+    </ul>
+  </div>
 </nav>
 
+<div align="center">
+  <h1>Информация о профиле админа</h1>
+  <table>
+    <tr>
+      <th><h5>Логин&#160;&#160;&#160;&#160;&#160;</h5></th>
+      <th><h5>Пароль&#160;&#160;&#160;&#160;&#160;</h5></th>
+    </tr>
+    <tr>
+      <td>{{adminSource?.login}}&#160;&#160;&#160;&#160;&#160;</td>
+      <td>{{adminSource?.password}}&#160;&#160;&#160;&#160;&#160;</td>
+    </tr>
+  </table>
+</div>
 
-<h3> Форма для обновления данных </h3>
-<div>
+
+
+<div id="updateTable">
+  <h3> Форма для обновления данных </h3>
   <form [formGroup]="adminForm" (ngSubmit)="onAdminFormSubmit()">
     <table>
-      <tr><td>Введите новый логин</td><td><input formControlName="login">
+      <tr><td>Введите новый логин</td><td><input formControlName="login" class="form-control mr-sm-2">
         <td><label *ngIf="adminForm.get('login').invalid && processValidation" [ngClass] = "'error'" > Обязательное поле </label></td>
       </tr>
-      <tr><td>Введите новый пароль</td><td><input formControlName="password">
+      <tr><td>Введите новый пароль</td><td><input formControlName="password" class="form-control mr-sm-2">
         <td><label *ngIf="adminForm.get('password').invalid && processValidation" [ngClass] = "'error'" > Обязательное поле </label></td>
       </tr>
-      <tr><td><button>Обновить</button></td><td><button (click)="deleteAdmin(adminSource.id)">Delete</button>
-      </td></tr>
+      <tr>
+        <td><button class="btn btn-outline-success my-2 my-sm-0">Обновить</button></td>
+        <td><button (click)="deleteAdmin(adminSource.id)" class="btn btn-danger">Удалить аккаунт</button></td>
+      </tr>
     </table>
   </form>
 </div>
+
 <div id="forPrice">
-  <h3>Форма для услуг</h3>
+  <h3>Форма для добавления услуг</h3>
   <form [formGroup]="priceForm" (ngSubmit)="onPriceFormSubmit()">
     <table>
-      <tr><td>Введите название</td><td><input formControlName="serviceType">
+      <tr><td>Введите название&#160;&#160;&#160;</td><td><input formControlName="serviceType" class="form-control mr-sm-2">
         <label *ngIf="priceForm.get('serviceType').invalid && processValidation" [ngClass] = "'error'"> Обязательное поле </label>
       </td></tr>
-      <tr><td>Введите цену</td><td><input formControlName="price">
-        <label *ngIf="priceForm.get('price').invalid && processValidation" [ngClass] = "'error'"> Обязательное поле </label>
-      </td></tr>
-      <tr><td>Выберите тип кузова</td><td><select formControlName="carType">
+      <tr>
+        <td>Введите цену&#160;&#160;&#160;</td>
+        <td><input formControlName="price" class="form-control mr-sm-2">
+        <label *ngIf="priceForm.get('price').invalid && processValidation" [ngClass] = "'error'"> Обязательное поле </label></td>
+      </tr>
+      <tr><td>Выберите тип кузова&#160;&#160;&#160;</td>
+        <td><select formControlName="carType" class="form-control mr-sm-2">
                                               <option *ngFor="let carType of carTypes" value={{carType.id}}>{{carType.carType}}</option>
                                           </select>
         <label *ngIf="priceForm.get('carType').invalid && processValidation" [ngClass] = "'error'"> Обязательное поле </label>
-      </td></tr>
+      </td>
+      </tr>
       <tr><td colspan="2">
-        <button *ngIf="!priceIdToUpdate">CREATE</button>
-        <button *ngIf="priceIdToUpdate">UPDATE</button>
-        <button (click)="backToCreatePrice()" *ngIf="priceIdToUpdate">Go Back</button>
+        <button *ngIf="!priceIdToUpdate" class="btn btn-outline-success my-2 my-sm-0">Создать</button>
+        <button *ngIf="priceIdToUpdate" class="btn btn-outline-success my-2 my-sm-0">Изменить</button>
+        <button (click)="backToCreatePrice()" *ngIf="priceIdToUpdate" class="btn btn-danger">Отмена</button>
       </td></tr>
     </table>
   </form>
+
+
   <table>
-    <tr><th> ID</th> <th> Тип услуги</th> <th>Исходная цена</th><th>Тип кузова</th>
+    <tr>
+      <th>ID&#160;&#160;&#160;</th>
+      <th>Тип услуги&#160;&#160;&#160;</th>
+      <th>Исходная цена&#160;&#160;&#160;</th>
+      <th>Тип кузова&#160;&#160;&#160;</th>
     </tr>
     <tr *ngFor="let price of prices" >
-      <td>{{price?.id}}</td>
-      <td>{{price?.serviceType}}</td>
-      <td>{{price?.price}}</td>
-      <td>{{price?.carType.carType}}</td>
-      <td><button type="button" (click)="loadPriceToEdit(price.id)">Изменить</button> </td>
-      <td><button type="button" (click)="deletePrice(price.id)">Удалить</button></td>
+      <td>{{price?.id}}&#160;&#160;&#160;</td>
+      <td>{{price?.serviceType}}&#160;&#160;&#160;</td>
+      <td>{{price?.price}}&#160;&#160;&#160;</td>
+      <td>{{price?.carType.carType}}&#160;&#160;&#160;</td>
+      <td><button type="button" (click)="loadPriceToEdit(price.id)" class="btn btn-outline-success my-2 my-sm-0">Изменить</button> </td>
+      <td><button type="button" (click)="deletePrice(price.id)" class="btn btn-danger">Удалить</button></td>
     </tr>
   </table>
 </div>
-<div>
-  <h3>Форма для типов машин</h3>
+
+<div id="newCarType">
+  <h3>Форма для нового типа машины</h3>
   <form [formGroup]="carTypeForm" (ngSubmit)="onCarTypeFormSubmit()">
     <table>
-      <tr><td>Введите название</td><td><input formControlName="carType">
+      <tr>
+        <td>Введите название&#160;&#160;&#160;</td>
+        <td><input formControlName="carType" class="form-control mr-sm-2">
         <label *ngIf="carTypeForm.get('carType').invalid && processValidation" [ngClass] = "'error'"> Обязательное поле </label>
-      </td></tr>
+        </td>
+      </tr>
       <tr><td colspan="2">
-        <button *ngIf="!carTypeIdToUpdate">CREATE</button>
-        <button *ngIf="carTypeIdToUpdate">UPDATE</button>
-        <button (click)="backToCreateCarType()" *ngIf="carTypeIdToUpdate">Go Back</button>
+        <button *ngIf="!carTypeIdToUpdate" class="btn btn-outline-success my-2 my-sm-0">Создать</button>
+        <button *ngIf="carTypeIdToUpdate" class="btn btn-outline-success my-2 my-sm-0">Изменить</button>
+        <button (click)="backToCreateCarType()" *ngIf="carTypeIdToUpdate" class="btn btn-danger">Отмена</button>
       </td></tr>
     </table>
   </form>
   <table>
-    <tr><th> ID</th> <th> Тип кузова</th>
+    <tr><th>ID&#160;&#160;&#160;</th> <th>Тип кузова&#160;&#160;&#160;</th>
     </tr>
     <tr *ngFor="let carType of carTypes" >
-      <td>{{carType?.id}}</td>
-      <td>{{carType?.carType}}</td>
-      <td><button type="button" (click)="loadCarTypeToEdit(carType.id)">Изменить</button> </td>
-      <td><button type="button" (click)="deleteCarType(carType.id)">Удалить</button></td>
+      <td>{{carType?.id}}&#160;&#160;&#160;</td>
+      <td>{{carType?.carType}}&#160;&#160;&#160;</td>
+      <td><button type="button" (click)="loadCarTypeToEdit(carType.id)" class="btn btn-outline-success my-2 my-sm-0">Изменить</button> </td>
+      <td><button type="button" (click)="deleteCarType(carType.id)" class="btn btn-danger">Удалить</button></td>
     </tr>
   </table>
 </div>
+
 <app-admin-reg></app-admin-reg>
 <app-check-passports></app-check-passports>
+
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>

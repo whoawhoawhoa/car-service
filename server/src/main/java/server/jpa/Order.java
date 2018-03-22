@@ -3,6 +3,7 @@ package server.jpa;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.sql.Date;
 
 @Entity
@@ -24,20 +25,23 @@ public class Order {
     @Column(name = "total_price")
     private int totalPrice;
     @Column(name = "status")
+    /*
+    0 - IN_PROCESS
+    1- FINISHED
+    2- REJECTED
+    * */
     private int status;
+    @Column(name="address")
+    @NotNull
+    private String address;
+    @Column(name="commentary")
+    private String commentary;
     @ManyToOne
-    @JsonIgnore
     private Client client;
     @ManyToOne
-    @JsonIgnore
     private Worker worker;
     @ManyToOne
-    @JsonIgnore
     private Car car;
-    @Column(name = "address")
-    private String address;
-    @Column(name = "commentary")
-    private String commentary;
 
     public Order() {
     }
@@ -98,6 +102,22 @@ public class Order {
         this.status = status;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getCommentary() {
+        return commentary;
+    }
+
+    public void setCommentary(String commentary) {
+        this.commentary = commentary;
+    }
+
     public Client getClient() {
         return client;
     }
@@ -122,22 +142,6 @@ public class Order {
         this.car = car;
     }
 
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getCommentary() {
-        return commentary;
-    }
-
-    public void setCommentary(String commentary) {
-        this.commentary = commentary;
-    }
-
     @Override
     public String toString() {
         return "Order{" +
@@ -148,11 +152,11 @@ public class Order {
                 ", serviceType='" + serviceType + '\'' +
                 ", totalPrice=" + totalPrice +
                 ", status=" + status +
+                ", address='" + address + '\'' +
+                ", commentary='" + commentary + '\'' +
                 ", client=" + client +
                 ", worker=" + worker +
                 ", car=" + car +
-                ", address='" + address + '\'' +
-                ", commentary='" + commentary + '\'' +
                 '}';
     }
 }

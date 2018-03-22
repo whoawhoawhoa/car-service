@@ -1,20 +1,21 @@
-<h3> Register new admin</h3>
-<div>
+
+<div id="register">
+  <h3> Зарегестрировать нового админа</h3>
   <form [formGroup]="adminForm" (ngSubmit)="onAdminFormSubmit()">
     <table>
       <tr>
-        <td>Login</td>
-        <td><input formControlName="login"></td>
+        <td>Логин</td>
+        <td><input formControlName="login" class="form-control mr-sm-2"></td>
         <td><label *ngIf="adminForm.get('login').invalid && processValidation" [ngClass] = "'error'" > Login is required. </label></td>
       </tr>
       <tr>
-        <td>Password</td>
-        <td><input formControlName="password"></td>
+        <td>Пароль</td>
+        <td><input formControlName="password" class="form-control mr-sm-2"></td>
         <td><label *ngIf="adminForm.get('password').invalid && processValidation" [ngClass] = "'error'"> Password is required. </label></td>
       </tr>
       <tr>
         <td colspan="2">
-          <button>OK</button>
+          <button class="btn btn-outline-success my-2 my-sm-0">OK</button>
         </td>
       </tr>
     </table>
@@ -22,13 +23,13 @@
   <br/>
   <div *ngIf="statusCode;">
     <div *ngIf="statusCode === 201" [ngClass] = "'success'">
-      Admin added successfully.
+     Успешно добавлен
     </div>
     <div *ngIf="statusCode === 409" [ngClass] = "'success'">
-      This login already exists.
+      Такой логин уже существует
     </div>
     <div *ngIf="statusCode === 500" [ngClass] = "'error'">
-      Internal Server Error.
+      Ошибка сервера
     </div>
   </div>
 </div>

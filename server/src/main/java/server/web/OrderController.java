@@ -39,35 +39,35 @@ public class OrderController extends WebMvcConfigurerAdapter {
 
     @RequestMapping(value = "/orderbyclient", method = RequestMethod.GET)
     public ResponseEntity<List<Order>> getOrderByClientLogin(@RequestParam("login") String login) {
-        List<Order> orders = (List<Order>) orderRepository.findOrderByClientLogin(login);
+        List<Order> orders = orderRepository.findOrderByClientLogin(login);
         return new ResponseEntity<>(orders, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/orderbyworker", method = RequestMethod.GET)
     public ResponseEntity<List<Order>> getOrderByWorkerLogin(@RequestParam("login") String login) {
-        List<Order> orders = (List<Order>) orderRepository.findOrderByWorkerLogin(login);
+        List<Order> orders = orderRepository.findOrderByWorkerLogin(login);
         return new ResponseEntity<>(orders, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/orderbycarid", method = RequestMethod.GET)
     public ResponseEntity<List<Order>> getOrderByCarId(@RequestParam("id") long id) {
-        List<Order> orders = (List<Order>) orderRepository.findOrderByCarId(id);
+        List<Order> orders = orderRepository.findOrderByCarId(id);
         return new ResponseEntity<>(orders, HttpStatus.OK);
     }
 
-    @PutMapping(value = "/orderupdate")
+    @PutMapping(value = "/order")
     public ResponseEntity<Order> updateOrder(@RequestBody Order order){
         Order sourceOrder;
         sourceOrder = orderRepository.findOne(order.getId());
         if(sourceOrder == order)
-            return new ResponseEntity<Order>(HttpStatus.CONFLICT);
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         orderRepository.save(order);
         return new ResponseEntity<>(order, HttpStatus.OK);
     }
 
-    @DeleteMapping(value = "/deleteorder")
+    @DeleteMapping(value = "/order")
     public ResponseEntity<Void> deleteOrder(@RequestParam long id){
         orderRepository.delete(id);
-        return new ResponseEntity<Void>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

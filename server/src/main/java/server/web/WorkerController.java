@@ -27,10 +27,14 @@ public class WorkerController extends WebMvcConfigurerAdapter {
     public ResponseEntity<Void> postWorker(@RequestBody Worker worker, UriComponentsBuilder builder) {
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(builder.path("/worker").build().toUri());
-        if(workerRepository.findWorkerByLogin(worker.getLogin()).size() != 0) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        if(isValid(worker)) {
+            if (workerRepository.findWorkerByLogin(worker.getLogin()).size() != 0) {
+                return new ResponseEntity<>(HttpStatus.CONFLICT);
+            }
+            workerRepository.save(worker);
+        } else {
+            return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
         }
-        workerRepository.save(worker);
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 
@@ -50,6 +54,12 @@ public class WorkerController extends WebMvcConfigurerAdapter {
     public ResponseEntity<List<Worker>> getAllWorkers() {
         List<Worker> workers = (List<Worker>) workerRepository.findAll();
         return new ResponseEntity<>(workers, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/workers_by_id", method = RequestMethod.GET)
+    public ResponseEntity<List<Worker>> getWorkersByIds(@RequestParam List<Integer> ids) {
+        List<Worker> workers = workerRepository.findWorkersByIdIn(ids);
+        return new ResponseEntity<>(workers, HttpStatus.ACCEPTED);
     }
 
     @RequestMapping(value = "/worker", method = RequestMethod.PUT)

@@ -7,8 +7,8 @@ import {Order} from '../table-classes/order';
 
 @Injectable()
 export class OrderService {
-  allOrdersUrl = 'http://localhost:9090/services';
-  orderUrl = 'http://localhost:9090/service';
+  allOrdersUrl = 'http://localhost:9090/orders';
+  orderUrl = 'http://localhost:9090/order';
   clientsOrdersUrl = 'http://localhost:9090/orderbyclient';
   defaultUrl = 'http://localhost:9090/';
 
@@ -46,7 +46,7 @@ export class OrderService {
 
   getOrdersByWorkerLogin(workerLogin: string): Observable<Order[]> {
     const cpHeaders = new Headers({ 'Content-Type': 'application/json' });
-    const newUrl = this.defaultUrl + 'serviceWorker?login=' + workerLogin;
+    const newUrl = this.defaultUrl + 'orderbyworker?login=' + workerLogin;
     const options = new RequestOptions({ headers: cpHeaders });
     return this.http.get(newUrl, options)
       .map(this.extractData)

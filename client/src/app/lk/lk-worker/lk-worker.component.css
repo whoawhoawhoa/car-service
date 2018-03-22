@@ -1,0 +1,6 @@
+#updateTable {
+  position: absolute; /* Абсолютное позиционирование */
+  top:250px;
+  left: 150px;
+  width: 450px; /* Ширина слоя  */
+}

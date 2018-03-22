@@ -3,7 +3,9 @@ package server.jpa;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.sql.Date;
+import java.util.Arrays;
 
 @Entity
 @Table(name = "available_orders")
@@ -17,14 +19,17 @@ public class AvailableOrder {
     private Date orderDate;
     @Column(name = "service_type")
     private String serviceType;
+    @Column(name="address")
+    @NotNull
+    private String address;
+    @Column(name = "commentary")
+    private String commentary;
+    @Column(name = "workers")
+    private int[] workers;
     @ManyToOne
     private Client client;
     @ManyToOne
     private Car car;
-    @Column(name = "address")
-    private String address;
-    @Column(name = "commentary")
-    private String commentary;
 
     public AvailableOrder() {
     }
@@ -85,16 +90,25 @@ public class AvailableOrder {
         this.commentary = commentary;
     }
 
+    public int[] getWorkers() {
+        return workers;
+    }
+
+    public void setWorkers(int[] workers) {
+        this.workers = workers;
+    }
+
     @Override
     public String toString() {
         return "AvailableOrder{" +
                 "id=" + id +
                 ", orderDate=" + orderDate +
                 ", serviceType='" + serviceType + '\'' +
-                ", client=" + client +
-                ", car=" + car +
                 ", address='" + address + '\'' +
                 ", commentary='" + commentary + '\'' +
+                ", workers=" + Arrays.toString(workers) +
+                ", client=" + client +
+                ", car=" + car +
                 '}';
     }
 }

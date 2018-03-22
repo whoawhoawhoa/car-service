@@ -1,13 +1,14 @@
-<div>
-  <h3>Активные заказы</h3>
+<div id="avOrders">
+  <h3 id="activeOrder" align="center">Активные заказы</h3>
   <table>
     <tr>
-      <th>Адрес</th>
-      <th>Услуга</th>
-      <th>Имя клиента</th>
-      <th>Номер клиента</th>
-      <th>Автомобиль</th>
-      <th>Комментарий</th>
+      <th>Адрес&#160;&#160;&#160;&#160;&#160;&#160;</th>
+      <th>Услуга&#160;&#160;&#160;&#160;&#160;&#160;</th>
+      <th>Имя клиента&#160;&#160;&#160;&#160;&#160;&#160;</th>
+      <th>Номер клиента&#160;&#160;&#160;&#160;&#160;&#160;</th>
+      <th>Автомобиль&#160;&#160;&#160;&#160;&#160;&#160;</th>
+      <th>Комментарий&#160;&#160;&#160;&#160;&#160;&#160;</th>
+      <th>Взять заказ&#160;&#160;&#160;&#160;&#160;&#160;</th>
     </tr>
     <tr *ngFor="let order of sourceAvOrders">
       <td>{{order.address}}</td>
@@ -16,7 +17,19 @@
       <td>{{order.client.pnumber}}</td>
       <td>{{order.car.brand}} {{order.car.number}} {{order.car.carType.carType}}</td>
       <td>{{order.commentary}}</td>
-      <td><button>Принять</button></td>
+      <td>
+        <div *ngIf="order.workers === null || order.workers.indexOf(id) < 0">
+          <button (click)="accept(order)">Взять заказ</button>
+        </div>
+        <div *ngIf="order.workers != null && order.workers.indexOf(id) > -1">
+          <label>Вы подали заявку на этот заказ</label>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <button (click)="getAvOrders()">Обновить статус заказов</button>
+      </td>
     </tr>
   </table>
 </div>

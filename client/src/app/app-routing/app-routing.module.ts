@@ -21,7 +21,7 @@ const routes: Routes = [
   { path: 'worker', component: WorkerRegComponent },
   { path: 'main', component: MainPageComponent},
   { path: 'main/:login/:password', component: MainPageComponent},
-  { path: '', redirectTo: 'main', pathMatch: 'full'}
+  { path: '', redirectTo: 'start-page', pathMatch: 'full'}
 
 ];
 

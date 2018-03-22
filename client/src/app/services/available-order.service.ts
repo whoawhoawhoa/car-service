@@ -5,10 +5,11 @@ import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class AvailableOrderService {
-
+  updateAvOrderUrl = 'http://localhost:9090/avorderupdate';
   avOrderUrl = 'http://localhost:9090/putavorder';
   getAvOrderUrl = 'http://localhost:9090/avorder';
   getAvOrdersUrl = 'http://localhost:9090/available_orders';
+  deleteAvOrderUrl = 'http://localhost:9090/deleteavorder';
 
   constructor(private http: Http) { }
 
@@ -29,6 +30,20 @@ export class AvailableOrderService {
   getAllAvailableOrders() {
     return this.http.get(this.getAvOrdersUrl)
       .map(this.extractData)
+      .catch(this.handleError);
+  }
+
+  updateAvOrder(avOrder: AvailableOrder): Observable<number> {
+    const cpHeaders = new Headers({ 'Content-Type': 'application/json' });
+    const options = new RequestOptions({ headers: cpHeaders });
+    return this.http.put(this.updateAvOrderUrl, avOrder, options)
+      .map(success => success.status)
+      .catch(this.handleError);
+  }
+
+  deleteAvOrderById(avOrderId: number): Observable<number> {
+    return this.http.delete(this.deleteAvOrderUrl + '?id=' + avOrderId)
+      .map(success => success.status)
       .catch(this.handleError);
   }
 

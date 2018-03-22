@@ -2,7 +2,6 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
   <a href="#" class="navbar-brand">
     <img src="http://car-service63.ru/bitrix/templates/main/images/logo-retina.png"
@@ -15,25 +14,30 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <a routerLink="/start-page" class="nav-link">Home</a>
+        <a routerLink="/start-page" class="nav-link">Главная</a>
       </li>
       <li class="nav-item active">
-        <a href="#" class="nav-link">Sign in</a>
+        <a href="#" class="nav-link">Войти</a>
       </li>
       <li class="nav-item">
-        <a routerLink="/client-reg" class="nav-link">Sign up as client</a>
+        <a routerLink="/client-reg" class="nav-link">Зарегестрироваться, как клиент</a>
       </li>
       <li class="nav-item">
-        <a routerLink="/worker-reg" class="nav-link">Sign up as worker</a>
+        <a routerLink="/worker-reg" class="nav-link">Зарегестрироваться, как сотрудник</a>
       </li>
     </ul>
   </div>
 </nav>
+<p>&#160;</p>
+<p>&#160;</p>
+<p>&#160;</p>
+
+
 
 <div>
   <form class="form-signin" [formGroup]="userAuthForm" (ngSubmit)="onUserFormSubmit()">
-    <h1 class="h3 mb-3 font-weight-normal" font="normal" weight="normal" align="center">Authorization</h1>
-    <h3 align="center"> Sign in</h3>
+    <h1 class="h1 mb-3 font-weight-normal" font="normal" weight="normal" align="center">Авторизация</h1>
+    <h3 align="center"> Войти</h3>
     <table align="center">
       <tr>
         <td class="sr-only">Login</td>
@@ -46,7 +50,7 @@
         <td><label *ngIf="userAuthForm.get('password').invalid && processValidation" [ngClass] = "'error'"> Password is required. </label></td>
       </tr>
       <tr>
-        <td colspan="2">
+        <td align="right" colspan="2">
           <button class="btn btn-outline-success my-2 my-sm-0">OK</button>
         </td>
       </tr>
