@@ -1,30 +1,3 @@
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-
-
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
-  <a href="#" class="navbar-brand">
-    <img src="http://car-service63.ru/bitrix/templates/main/images/logo-retina.png"
-         width="150" height="40" alt="logo">
-  </a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item">
-        <a href="#" class="nav-link">Главная</a>
-      </li>
-      <li class="nav-item">
-        <button class="btn btn-outline-success my-2 my-sm-0" (click)="redirectToMain()"> Заказать услугу </button>
-      </li>
-    </ul>
-  </div>
-</nav>
-
-
 <h1 align="center">Информация о профиле клиента</h1>
 <table align="center">
   <tr>
@@ -161,6 +134,7 @@
       </tr>
     </table>
 </div>
+  </div>
 
   <div *ngIf="clientAvOrders !== null && clientAvOrders !== undefined && clientAvOrders.length !== 0">
     <h3> Ваши активные заказы </h3>

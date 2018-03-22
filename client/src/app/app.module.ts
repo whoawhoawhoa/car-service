@@ -27,8 +27,6 @@ import { WorkerOrdersComponent } from './lk/lk-worker/worker-orders/worker-order
 import {LkAdminComponent} from './lk/lk-admin/lk-admin.component';
 import {UserAuthComponent} from './authorization/user-auth/user-auth.component';
 import {UserService} from './services/user.service';
-import {StartPageComponent} from './start-page/start-page.component';
-import {CarouselModule} from 'ngx-bootstrap';
 import {MainPageComponent} from './main-page/main-page.component';
 import { MainPageServicesComponent } from './main-page/main-page-services/main-page-services.component';
 import { WorkerAvailableOrdersComponent } from './lk/lk-worker/worker-available-orders/worker-available-orders.component';
@@ -61,8 +59,7 @@ import { ClientAvailableOrderComponent } from './lk/lk-client/client-available-o
     HttpModule,
     ReactiveFormsModule,
     AppRoutingModule,
-    FormsModule,
-    CarouselModule
+    FormsModule
   ],
   providers: [
     WorkerService,
