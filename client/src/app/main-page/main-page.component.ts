@@ -56,30 +56,30 @@ export class MainPageComponent implements OnInit {
   }
 
   getUser() {
-   const login = this.route.snapshot.paramMap.get('login');
-   const password = this.route.snapshot.paramMap.get('password');
-   if (login == null || password == null) {
-     return;
-   } else {
-     this.userService.getUser(login, password)
-       .subscribe(data => {
-         this.sourceUser = data;
-         this.isUserReceived = true;
-         this.role = this.sourceUser.role;
-         if (this.role == 2) {
-           this.clientService
-             .getClientByLoginAndPassword(this.sourceUser.login, this.sourceUser.password)
-             .subscribe(new_data => {this.sourceClient = new_data;
-                                     this.isClient = true;
-                                     this.getCars(); });
-         }
-         if (this.role == 3) {
-           this.workerService
-             .getWorkerByLoginAndPassword(this.sourceUser.login, this.sourceUser.password)
-             .subscribe(new_data => {this.sourceWorker = new_data; });
-         }
-       });
-   }
+    const login = this.route.snapshot.paramMap.get('login');
+    const password = this.route.snapshot.paramMap.get('password');
+    if (login == null || password == null) {
+      return;
+    } else {
+      this.userService.getUser(login, password)
+        .subscribe(data => {
+          this.sourceUser = data;
+          this.isUserReceived = true;
+          this.role = this.sourceUser.role;
+          if (this.role == 2) {
+            this.clientService
+              .getClientByLoginAndPassword(this.sourceUser.login, this.sourceUser.password)
+              .subscribe(new_data => {this.sourceClient = new_data;
+                this.isClient = true;
+                this.getCars(); });
+          }
+          if (this.role == 3) {
+            this.workerService
+              .getWorkerByLoginAndPassword(this.sourceUser.login, this.sourceUser.password)
+              .subscribe(new_data => {this.sourceWorker = new_data; });
+          }
+        });
+    }
   }
 
   redirectToLK() {

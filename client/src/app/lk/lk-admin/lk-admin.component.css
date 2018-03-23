@@ -7,7 +7,7 @@
 
 #updateTable {
   position: absolute; /* Абсолютное позиционирование */
-  left: 175px;
+  left: 100px;
   width: 450px; /* Ширина слоя  */
   top: 200px;
 }
@@ -15,14 +15,14 @@
 #forPrice {
   position: relative; /* Относительное позиционирование */
   left: 700px; /* Смещаем слой вправо на ширину левого слоя */
-  width: 700px; /* Ширина слоя */
+  width: 600px; /* Ширина слоя */
   padding: 10px; /* Поля вокруг текста */
   top:5px;
 }
 #newCarType{
-  position: relative; /* Относительное позиционирование */
-  left: 160px;
+  position: absolute; /* Относительное позиционирование */
+  left: 90px;
   width: 700px; /* Ширина слоя */
   padding: 10px; /* Поля вокруг текста */
-  top:20px;
+  top:580px;
 }

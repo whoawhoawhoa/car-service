@@ -33,6 +33,8 @@ import { WorkerAvailableOrdersComponent } from './lk/lk-worker/worker-available-
 import { WorkerPassportsComponent } from './lk/lk-worker/worker-passports/worker-passports.component';
 import { CheckPassportsComponent } from './lk/lk-admin/check-passports/check-passports.component';
 import { ClientAvailableOrderComponent } from './lk/lk-client/client-available-order/client-available-order.component';
+import {StartPageComponent} from "./start-page/start-page.component";
+import {CarouselModule} from "ngx-bootstrap";
 
 @NgModule({
   declarations: [
@@ -59,7 +61,8 @@ import { ClientAvailableOrderComponent } from './lk/lk-client/client-available-o
     HttpModule,
     ReactiveFormsModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    CarouselModule
   ],
   providers: [
     WorkerService,

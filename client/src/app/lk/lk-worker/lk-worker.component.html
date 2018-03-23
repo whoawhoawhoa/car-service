@@ -16,12 +16,7 @@
         <a routerLink="/start-page" class="nav-link">Главная</a>
       </li>
       <li class="nav-item">
-        <form [formGroup]="readyForm">
-          <label class="nav-link" *ngIf="workerSource?.status == 1 || workerSource?.status == 2 || workerSource?.status == 0">
-            Готов выполнять заказы:
-            <input type="checkbox"  formControlName="ready" (change)="updateStatus()"/>
-          </label>
-        </form>
+        <button class="btn btn-outline-success my-2 my-sm-0" (click)="redirectToOrders()"> Заказы </button>
       </li>
     </ul>
   </div>
@@ -84,10 +79,6 @@
         <td><input formControlName="city" class="form-control mr-sm-2"></td>
       </tr>
       <tr>
-        <td>Статус:</td>
-        <td><input formControlName="status" class="form-control mr-sm-2"></td>
-      </tr>
-      <tr>
         <td>
           <button class="btn btn-outline-success my-2 my-sm-0">Обновить</button>
         </td>
@@ -104,13 +95,6 @@
   <div *ngIf="workerSource.status == 1 || workerSource.status == 2 || workerSource.status == 0">
     <app-worker-services [login]="workerSource.login" [password]="workerSource.password">
     </app-worker-services>
-    <app-worker-orders [login]="workerSource.login" [password]="workerSource.password">
-    </app-worker-orders>
-  </div>
-  <div *ngIf="workerSource.status == 1">
-  <app-worker-available-orders [login]="workerSource.login" [id]="workerSource.id">
-  </app-worker-available-orders>
-  </div>
   <div *ngIf="workerSource.status != 1 && workerSource.status != 2 && workerSource.status != 0">
     <app-worker-passports [login]="workerSource.login" [password]="workerSource.password">
     </app-worker-passports>

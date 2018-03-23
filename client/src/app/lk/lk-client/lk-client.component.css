@@ -19,5 +19,10 @@
   position: relative; /* Относительное позиционирование */
   left: 750px; /* Смещаем слой вправо на ширину левого слоя */
   width: 550px; /* Ширина слоя */
-  top: 110px;
+  top: 125px;
+}
+#avOrders{
+  position: relative;
+  left: 150px;
+  top: 100px;
 }

@@ -1,0 +1,9 @@
+#passports{
+  position: relative; /* Относительное позиционирование */
+  left: 700px;
+  width: 600px; /* Ширина слоя */
+  padding: 10px; /* Поля вокруг текста */
+  top:50px;
+}
+
+

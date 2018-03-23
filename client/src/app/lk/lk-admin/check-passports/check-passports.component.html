@@ -1,21 +1,21 @@
-<div *ngIf="passportSet != null">
-<p>Необработанные паспорта:</p>
+<div id="passports" *ngIf="passportSet?.length != 0">
+<h3 >Необработанные паспорта</h3>
 <table>
   <tr>
-    <th>Имя</th>
-    <th>Фамилия</th>
-    <th>Серия и номер</th>
-    <th>Кем выдан</th>
-    <th>Принять</th>
-    <th>Отклонить</th>
+    <th>Имя&#160;&#160;&#160;&#160;&#160;&#160;</th>
+    <th>Фамилия&#160;&#160;&#160;&#160;&#160;&#160;</th>
+    <th>Серия и номер&#160;&#160;&#160;&#160;&#160;&#160;</th>
+    <th>Кем выдан&#160;&#160;&#160;&#160;&#160;&#160;</th>
+    <th>Принять&#160;&#160;&#160;&#160;&#160;&#160;</th>
+    <th>Отклонить&#160;&#160;&#160;&#160;&#160;&#160;</th>
   </tr>
   <tr *ngFor="let passport of passportSet" >
     <td>{{passport?.worker.name}}</td>
     <td>{{passport?.worker.fname}}</td>
     <td>{{passport?.number}}</td>
     <td>{{passport?.issuedBy}}</td>
-    <td><button (click)="acceptPassport(passport)">Принять</button></td>
-    <td><button (click)="rejectPassport(passport)">Отклонить</button></td>
+    <td><button (click)="acceptPassport(passport)" class="btn btn-outline-success my-2 my-sm-0">Принять</button></td>
+    <td><button (click)="rejectPassport(passport)" class="btn btn-danger">Отклонить</button></td>
   </tr>
 </table>
 </div>

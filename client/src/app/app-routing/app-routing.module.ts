@@ -8,6 +8,7 @@ import {UserAuthComponent} from '../authorization/user-auth/user-auth.component'
 import {LkAdminComponent} from '../lk/lk-admin/lk-admin.component';
 import {MainPageComponent} from '../main-page/main-page.component';
 import {StartPageComponent} from '../start-page/start-page.component';
+import {WorkerOrdersComponent} from '../lk/lk-worker/worker-orders/worker-orders.component';
 
 const routes: Routes = [
   { path: 'lkadmin/:login/:password', component: LkAdminComponent},
@@ -21,8 +22,8 @@ const routes: Routes = [
   { path: 'worker', component: WorkerRegComponent },
   { path: 'main', component: MainPageComponent},
   { path: 'main/:login/:password', component: MainPageComponent},
-  { path: '', redirectTo: 'start-page', pathMatch: 'full'}
-
+  { path: '', redirectTo: 'start-page', pathMatch: 'full'},
+  { path: 'worker-orders/:login/:password', component: WorkerOrdersComponent}
 ];
 
 @NgModule({

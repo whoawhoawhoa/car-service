@@ -4,3 +4,7 @@
   left: 150px;
   width: 450px; /* Ширина слоя  */
 }
+#div{
+  position: relative;
+  width: 800px;
+}

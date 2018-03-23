@@ -73,6 +73,10 @@ export class LkClientComponent implements OnInit {
     this.router.navigate(['/main/' + this.clientSource.login + '/' + this.clientSource.password]);
   }
 
+  redirectToOrders() {
+    this.router.navigate(['/availableordersforclient/' + this.clientSource.login + '/' + this.clientSource.password]);
+  }
+
   getUser(login: string, password: string) {
     this.userService.getUser(login, password)
       .subscribe(
