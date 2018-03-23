@@ -1,4 +1,4 @@
-package server.springmvc.configuration;
+package server.jms.configuration;
 
 import javax.jms.ConnectionFactory;
 
@@ -10,7 +10,7 @@ import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
 
 @Configuration
 @EnableJms
-public class MessagingListnerConfiguration {
+public class MessagingListenerConfiguration {
 
 	@Autowired
 	ConnectionFactory connectionFactory;

@@ -121,5 +121,6 @@
     <div *ngFor="let avOrder of clientAvOrders">
       <app-client-available-order [avOrder]="avOrder" ></app-client-available-order>
     </div>
+    <button (click)="refreshAvOrder()">обноффка</button>
   </div>
 </div>

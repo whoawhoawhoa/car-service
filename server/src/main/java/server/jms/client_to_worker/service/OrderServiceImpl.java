@@ -1,11 +1,9 @@
-package server.springmvc.service;
+package server.jms.client_to_worker.service;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import server.springmvc.messaging.MessageSender;
-
-import java.util.List;
+import server.jms.client_to_worker.messaging.MessageSender;
 
 
 @Service("orderService")

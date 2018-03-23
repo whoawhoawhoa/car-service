@@ -8,9 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.util.UriComponentsBuilder;
+import server.jms.client_to_worker.messaging.MessageSender;
 import server.jpa.AvailableOrder;
 import server.jpa.AvailableOrderRepository;
-import server.springmvc.messaging.MessageSender;
 
 import java.sql.Date;
 import java.util.List;
@@ -29,6 +29,13 @@ public class AvailableOrderController extends WebMvcConfigurerAdapter {
         this.availableOrderRepository = availableOrderRepository;
         this.serviceController = serviceController;
         this.ms = messageSender;
+    }
+
+    @GetMapping(value = "/available_order")
+    public ResponseEntity<AvailableOrder> getAvailableOrderById(@RequestParam long id)
+    {
+        AvailableOrder avOrder = availableOrderRepository.findOne(id);
+        return new ResponseEntity<>(avOrder, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/available_orders", method = RequestMethod.GET)

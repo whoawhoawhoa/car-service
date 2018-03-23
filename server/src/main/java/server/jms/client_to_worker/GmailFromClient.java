@@ -1,4 +1,4 @@
-package server.springmvc;
+package server.jms.client_to_worker;
 
 import org.apache.activemq.broker.region.policy.LastImageSubscriptionRecoveryPolicy;
 
@@ -17,7 +17,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 
-public class Gmail {
+public class GmailFromClient {
 
     final String emailPort = "587";// gmail's smtp port
     final String smtpAuth = "true";
@@ -27,14 +27,14 @@ public class Gmail {
     String fromEmail = "projectservertest@gmail.com";
     String fromPassword = "projectservertest1";
     String emailSubject = "Test";
-    String emailBody = "dratuti";
+    String emailBody;
     List<String> toList;
 
     Properties emailProperties;
     Session mailSession;
     MimeMessage emailMessage;
 
-    public Gmail(String[] toArray) throws UnsupportedEncodingException, MessagingException {
+    public GmailFromClient(String[] toArray) throws UnsupportedEncodingException, MessagingException {
 
         emailProperties = System.getProperties();
         emailProperties.put("mail.smtp.port", emailPort);
@@ -46,15 +46,18 @@ public class Gmail {
         if(purpose.equals("toNotify")) {
             emailBody = "Вам доступен новый заказ для выполнения!\n" +
                     "Подробности можно увидеть в личном кабинете: http://localhost:4200/user-auth";
-            this.toList = toList;
         }
-        if(purpose.equals(""))
+        if(purpose.equals("toReportOnConfirm")){
+            emailBody = "Ваша заявка на заказ принята!\n" +
+                    "Проверить детали заказа можно в ичном кабинете: http://localhost:4200/user-auth";
+
+        }
+        this.toList = toList;
         createEmailMessage();
-        sendEmail();
     }
 
-    public MimeMessage createEmailMessage() throws AddressException,
-            MessagingException, UnsupportedEncodingException {
+    public MimeMessage createEmailMessage()
+            throws MessagingException, UnsupportedEncodingException {
 
         mailSession = Session.getDefaultInstance(emailProperties, null);
         emailMessage = new MimeMessage(mailSession);

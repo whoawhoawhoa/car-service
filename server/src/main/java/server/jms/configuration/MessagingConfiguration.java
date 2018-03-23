@@ -1,6 +1,4 @@
-package server.springmvc.configuration;
-
-import java.util.Arrays;
+package server.jms.configuration;
 
 import org.apache.activemq.spring.ActiveMQConnectionFactory;
 import org.springframework.context.annotation.Bean;
@@ -12,21 +10,21 @@ public class MessagingConfiguration {
 
 	private static final String DEFAULT_BROKER_URL = "tcp://localhost:61616";
 	
-	private static final String ORDER_QUEUE = "order-response-queue";
+	private static final String CLIENT_TO_WORKER_QUEUE = "client-to-worker-queue";
 
 	@Bean
 	public ActiveMQConnectionFactory connectionFactory(){
 		ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory();
 		connectionFactory.setBrokerURL(DEFAULT_BROKER_URL);
-		connectionFactory.setTrustedPackages(Arrays.asList("server.springmvc"));
+		connectionFactory.setTrustAllPackages(true);
 		return connectionFactory;
 	}
 	
-	@Bean 
-	public JmsTemplate jmsTemplate(){
+	@Bean
+	public JmsTemplate clientJmsTemplate(){
 		JmsTemplate template = new JmsTemplate();
 		template.setConnectionFactory(connectionFactory());
-		template.setDefaultDestinationName(ORDER_QUEUE);
+		template.setDefaultDestinationName(CLIENT_TO_WORKER_QUEUE);
 		return template;
 	}
 	

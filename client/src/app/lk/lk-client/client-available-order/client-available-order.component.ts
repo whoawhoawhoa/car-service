@@ -31,7 +31,7 @@ export class ClientAvailableOrderComponent implements OnInit {
   loadWorkerList() {
     this.workers = [];
     this.services = [];
-    if (this.avOrder.workers !== null) {
+    if (this.avOrder.workers != null) {
       this.workerService.getWorkersByIds(this.avOrder.workers)
         .subscribe(data => {
           this.workers = data;
@@ -44,10 +44,6 @@ export class ClientAvailableOrderComponent implements OnInit {
           }
         });
     }
-  }
-
-  refreshStatus() {
-    this.loadWorkerList();
   }
 
   choose(worker: Worker, service: Service) {

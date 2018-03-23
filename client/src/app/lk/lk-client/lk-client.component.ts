@@ -91,7 +91,7 @@ export class LkClientComponent implements OnInit {
   }
 
   getAvOrders() {
-    this.avOrderService.getOrdersByClientLogin(this.clientSource.login)
+    this.avOrderService.getAvOrdersByClientLogin(this.clientSource.login)
       .subscribe(avOrders => {
         this.clientAvOrders = avOrders;
       });
@@ -224,6 +224,14 @@ export class LkClientComponent implements OnInit {
       .subscribe(
         data => this.clientOrders = data,
         errorCode => this.statusCode);
+  }
+
+  refreshAvOrder()
+  {
+    this.avOrderService.getAllAvailableOrders()
+      .subscribe(data => {
+        this.clientAvOrders = data;
+      })
   }
 
   preProcessConfigurations() {

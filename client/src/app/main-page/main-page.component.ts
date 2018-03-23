@@ -111,6 +111,7 @@ export class MainPageComponent implements OnInit {
         carTypeNames.splice(i, 1);
       }
     }
+    for (let i = 0; i < carTypeNames.length; i++)
 
     this.getPrices(carTypeNames);
   }
@@ -121,19 +122,22 @@ export class MainPageComponent implements OnInit {
       this.priceService.getPricesByCarType(carTypes[i])
         .subscribe(prices => {
           const temporaryArray = prices;
-          for (let j = 0; j < temporaryArray.length; j++) {
-            this.priceNames.push(temporaryArray[j].serviceType);
-          }
-          this.priceNames.sort();
-          let counter = 1;
-
-          for (let q = 1, k = 1; q < this.priceNames.length; ++q) {
-            if (this.priceNames[q] !== this.priceNames[q - 1]) {
-              this.priceNames[k++] = this.priceNames[q];
-              counter++;
+          if(temporaryArray.length != 0)
+          {
+            for (let j = 0; j < temporaryArray.length; j++) {
+              this.priceNames.push(temporaryArray[j].serviceType);
             }
+            this.priceNames.sort();
+            let counter = 1;
+
+            for (let q = 1, k = 1; q < this.priceNames.length; ++q) {
+              if (this.priceNames[q] !== this.priceNames[q - 1]) {
+                this.priceNames[k++] = this.priceNames[q];
+                counter++;
+              }
+            }
+            this.priceNames.length = counter;
           }
-          this.priceNames.length = counter;
         });
     }
   }
