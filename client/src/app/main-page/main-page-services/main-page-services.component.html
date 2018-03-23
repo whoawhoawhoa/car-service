@@ -1,6 +1,8 @@
+
+
 <div *ngIf="!isOrdered">
   <form [formGroup]="finalOrderForm" (ngSubmit)="onFinalOrderFormSubmit()">
-    <label>Детали заказа</label>
+    <h1>Детали заказа</h1>
     <p>
     <table>
       <tr>
@@ -9,9 +11,9 @@
         <th>Авто</th>
       </tr>
       <tr>
-        <td><input formControlName="commentary"></td>
-        <td><input formControlName="address"></td>
-        <td><select formControlName="car">
+        <td><input formControlName="commentary" class="form-control mr-sm-2"></td>
+        <td><input formControlName="address" class="form-control mr-sm-2"></td>
+        <td><select formControlName="car" class="form-control mr-sm-2">
               <option *ngFor="let car of sourceCars" value="{{car.id}}">
                 {{car?.carType.carType}} {{car?.brand}}
               </option>
@@ -24,7 +26,7 @@
         <td><label *ngIf="finalOrderForm.get('car').invalid && processValidation" [ngClass] = "'error'" > Обязательное поле </label></td>
       </tr>
       <tr>
-        <button>Принять</button>
+        <button class="btn btn-outline-success my-2 my-sm-0">Принять</button>
       </tr>
     </table>
   </form>

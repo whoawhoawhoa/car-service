@@ -1,6 +1,28 @@
-#forPrice
-{
-  position: absolute;
-  right: 425px;
-  top: 145px;
+/*#forPrice*/
+/*{*/
+  /*position: absolute;*/
+  /*right: 425px;*/
+  /*top: 145px;*/
+/*}*/
+
+#updateTable {
+  position: absolute; /* Абсолютное позиционирование */
+  left: 100px;
+  width: 450px; /* Ширина слоя  */
+  top: 200px;
+}
+
+#forPrice {
+  position: relative; /* Относительное позиционирование */
+  left: 700px; /* Смещаем слой вправо на ширину левого слоя */
+  width: 600px; /* Ширина слоя */
+  padding: 10px; /* Поля вокруг текста */
+  top:5px;
+}
+#newCarType{
+  position: absolute; /* Относительное позиционирование */
+  left: 90px;
+  width: 700px; /* Ширина слоя */
+  padding: 10px; /* Поля вокруг текста */
+  top:580px;
 }

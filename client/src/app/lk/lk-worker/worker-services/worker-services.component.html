@@ -1,24 +1,27 @@
-<p>Имеющиеся сервисы</p>
-<table>
-  <tr>
-    <th>Цена</th>
-    <th>Услуга</th>
-    <th>Удалить</th>
-  </tr>
-  <tr *ngFor="let service of allServices" >
-    <td>{{service.price.price * service.coef | number:0}}</td>
-    <td>{{service.price.serviceType}} for {{service.price.carType.carType}}</td>
-    <td><button (click)="deleteService(service.id)">Delete</button></td>
-  </tr>
-</table>
+<div id="services">
+  <h3>Ваши имеющиеся сервисы</h3>
+  <table>
+    <tr>
+      <th>Цена&#160;&#160;&#160;&#160;&#160;&#160;</th>
+      <th>Услуга&#160;&#160;&#160;&#160;&#160;&#160;</th>
+      <th>Удалить&#160;&#160;&#160;&#160;&#160;&#160;</th>
+    </tr>
+    <tr *ngFor="let service of allServices" >
+      <td>{{service.price.price * service.coef | number:0}}&#160;&#160;&#160;&#160;&#160;&#160;</td>
+      <td>{{service.price.serviceType}} for {{service.price.carType.carType}}&#160;&#160;&#160;&#160;&#160;&#160;</td>
+      <td><button class="btn btn-danger" (click)="deleteService(service.id)">Удалить</button></td>
+    </tr>
+  </table>
+</div>
 
 
-<p> Новый сервис </p>
-<div>
+
+<div id="newService">
+  <h3> Создайте новый сервис! </h3>
   <form [formGroup]="serviceForm" (ngSubmit)="onServiceFormSubmit()">
     <table>
       <tr>
-        <td>Услуга</td>
+        <td>Услуга&#160;&#160;&#160;&#160;</td>
         <td>
           <select name="prices"  formControlName="price">
             <option *ngFor="let price of allPrices" value="{{price.id}}">
@@ -29,18 +32,14 @@
         </td>
       </tr>
       <tr>
-        <td>Цена</td>
+        <td>Цена&#160;&#160;&#160;&#160;</td>
         <td>
-          <!--<label>{{price?.price * 0.5}}</label>-->
-          <!--<input type="range" min="{{price?.price * 0.5}}" max="{{price?.price * 2.0}}" step="any"-->
-                   <!--[formControlName]="coefficient">-->
-          <!--<label>{{price?.price * 2.0}}</label>-->
-          <input type="text" formControlName="coefficient">
+          <input type="text" formControlName="coefficient" class="form-control mr-sm-2">
       </td>
       </tr>
       <tr>
         <td colspan="2">
-          <button>Создать</button>
+          <button class="btn btn-outline-success my-2 my-sm-0">Создать</button>
         </td>
       </tr>
     </table>

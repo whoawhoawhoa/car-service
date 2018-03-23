@@ -128,6 +128,10 @@ export class LkWorkerComponent implements OnInit {
     this.router.navigate(['/main/' + this.workerSource.login + '/' + this.workerSource.password]);
   }
 
+  redirectToOrders() {
+    this.router.navigate(['/worker-orders/' + this.workerSource.login + '/' + this.workerSource.password]);
+  }
+
   deleteWorker(workerLogin: string) {
     this.preProcessConfigurations();
     this.workerService.deleteWorkerByLogin(workerLogin)

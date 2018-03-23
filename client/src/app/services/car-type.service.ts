@@ -25,8 +25,7 @@ export class CarTypeService {
   }
 
 
-  createCarType(carType: CarType): Observable<number>
-  {
+  createCarType(carType: CarType): Observable<number> {
     const cpHeaders = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({headers: cpHeaders});
     return this.http.post(this.carTypeUrl, carType, options)
@@ -34,8 +33,7 @@ export class CarTypeService {
       .catch(this.handleError);
   }
 
-  updateCarType(carType: CarType): Observable<number>
-  {
+  updateCarType(carType: CarType): Observable<number> {
     const cpHeaders = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({ headers: cpHeaders });
     return this.http.put(this.carTypeUpdateUrl, carType, options)
@@ -43,8 +41,7 @@ export class CarTypeService {
       .catch(this.handleError);
   }
 
-  deleteCarTypeById(id: string): Observable<number>
-  {
+  deleteCarTypeById(id: string): Observable<number> {
     return this.http.delete(this.deleteCarTypeUrl + '?id=' + id)
       .map(success => success.status)
       .catch(this.handleError);

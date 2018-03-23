@@ -17,16 +17,14 @@ export class PriceService {
       .catch(this.handleError);
   }
 
-  getPricesByCarType(carType: string)
-  {
-    return this.http.get(this.pricesUrl + "ByCarType?carType=" + carType)
+  getPricesByCarType(carType: string) {
+    return this.http.get(this.pricesUrl + 'ByCarType?carType=' + carType)
       .map(this.extractData)
       .catch(this.handleError);
   }
 
-  getPricesByServiceType(serviceType: string)
-  {
-    return this.http.get(this.pricesUrl + "ByServiceType?serviceType=" + serviceType)
+  getPricesByServiceType(serviceType: string) {
+    return this.http.get(this.pricesUrl + 'ByServiceType?serviceType=' + serviceType)
       .map(this.extractData)
       .catch(this.handleError);
   }

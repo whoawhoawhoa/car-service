@@ -1,6 +1,7 @@
-
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
   <a href="#" class="navbar-brand">
@@ -8,16 +9,16 @@
          width="150" height="40" alt="logo">
   </a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-  aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item">
-        <a routerLink="/start-page" class="nav-link">Главная</a>
-      </li>
       <li class="nav-item active">
-        <a href="#" class="nav-link">Войти</a>
+        <a href="#" class="nav-link">Главная страница</a>
+      </li>
+      <li class="nav-item">
+        <a routerLink="/user-auth" class="nav-link">Войти</a>
       </li>
       <li class="nav-item">
         <a routerLink="/client-reg" class="nav-link">Зарегестрироваться, как клиент</a>
@@ -28,40 +29,31 @@
     </ul>
   </div>
 </nav>
-<p>&#160;</p>
-<p>&#160;</p>
-<p>&#160;</p>
 
+<carousel>
+  <slide>
+    <img src="https://pp.userapi.com/c840230/v840230323/8850a/6kRAtd5dR7M.jpg" alt="First slide" style="display: block; width: 100%;">
+    <div class="carousel-caption d-none d-md-block">
+      <h5>Срочно нужно помыть машину, но нет времени?</h5>
+      <p>Просто сообщите нам, где она припаркована, и  мы сделаем все сами!</p>
+    </div>
+  </slide>
+  <slide>
+    <img src="https://pp.userapi.com/c840230/v840230323/88512/b3yIGOp7Tp8.jpg" alt="Second slide" style="display: block; width: 100%;">
+    <div class="carousel-caption d-none d-md-block">
+      <h5>Не успеваете съездить заправиться?</h5>
+      <p>Оставьте заявку на заправку Вашего автомобиля, и в ближайшее время Вашу машину заправят!</p>
+    </div>
+  </slide>
+  <slide>
+    <img src="https://pp.userapi.com/c840230/v840230323/8851a/4dkO3pChY9c.jpg" alt="Third slide" style="display: block; width: 100%;">
+    <div class="carousel-caption d-none d-md-block">
+      <h5>Сломались в дороге?</h5>
+      <p>Наши специалисты подъедут на указанные Вами координаты и хелпанут!</p>
+    </div>
+  </slide>
+</carousel>
 
-
-<div>
-  <form class="form-signin" [formGroup]="userAuthForm" (ngSubmit)="onUserFormSubmit()">
-    <h1 class="h1 mb-3 font-weight-normal" font="normal" weight="normal" align="center">Авторизация</h1>
-    <h3 align="center"> Войти</h3>
-    <table align="center">
-      <tr>
-        <td class="sr-only">Login</td>
-        <td><input type="email" class="form-control mr-sm-2" formControlName="login" placeholder="Login" aria-label="Login"></td>
-        <td><label *ngIf="userAuthForm.get('login').invalid && processValidation" [ngClass] = "'error'" > Login is required. </label></td>
-      </tr>
-      <tr>
-        <td class="sr-only">Password</td>
-        <td><input type="password" class="form-control mr-sm-2" formControlName="password" placeholder="Password" aria-label="Password"></td>
-        <td><label *ngIf="userAuthForm.get('password').invalid && processValidation" [ngClass] = "'error'"> Password is required. </label></td>
-      </tr>
-      <tr>
-        <td align="right" colspan="2">
-          <button class="btn btn-outline-success my-2 my-sm-0">OK</button>
-        </td>
-      </tr>
-    </table>
-  </form>
-  <br/>
-  <div *ngIf="user != null" [ngClass] = "'success'">
-    U're sign as {{user | json}}
-  </div>
-</div>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
