@@ -106,6 +106,9 @@ public class WorkerController extends WebMvcConfigurerAdapter {
         check = worker.getCity();
         if(!check.matches("[a-zA-Z]+"))
             return false;
+        check = worker.getEmail();
+        if(!check.matches("[a-zA-Z0-9]+[@][a-zA-Z]+[.][a-zA-Z]+"))
+            return false;
         return true;
     }
 }

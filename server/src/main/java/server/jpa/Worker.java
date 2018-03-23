@@ -4,12 +4,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Table(name = "workers")
-public class Worker {
+public class Worker implements Serializable {
     @Id
     @Column(name = "id")
     @SequenceGenerator(name = "workerSeq", sequenceName = "workers_seq", allocationSize = 1)
@@ -40,6 +41,8 @@ public class Worker {
     * PASSPORT_REJECTED == 4
     * */
     private int status;
+    @Column(name = "email")
+    private String email;
     @JsonIgnore
     @OneToMany(mappedBy = "worker", cascade = CascadeType.ALL)
     private Set<Service> serviceSet;
@@ -132,6 +135,14 @@ public class Worker {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public Set<Service> getServiceSet() {

@@ -7,7 +7,6 @@ import {ServiceService} from '../../../services/service.service';
 import {Order} from '../../../table-classes/order';
 import {OrderService} from '../../../services/order.service';
 import {AvailableOrderService} from '../../../services/available-order.service';
-import {LkClientComponent} from "../lk-client.component";
 
 @Component({
   selector: 'app-client-available-order',
@@ -44,10 +43,6 @@ export class ClientAvailableOrderComponent implements OnInit {
           }
         });
     }
-  }
-
-  refreshStatus() {
-    this.loadWorkerList();
   }
 
   choose(worker: Worker, service: Service) {

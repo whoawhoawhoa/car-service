@@ -4,12 +4,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Table(name = "clients")
-public class Client {
+public class Client implements Serializable {
     @Id
     @Column(name = "id")
     @SequenceGenerator(name = "clientSeq", sequenceName = "clients_seq", allocationSize = 1)
@@ -33,6 +34,8 @@ public class Client {
     private String city;
     @Column(name = "rating")
     private int rating;
+    @Column(name = "email")
+    private String email;
     @JsonIgnore
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
     private Set<Car> carSet;
@@ -113,6 +116,14 @@ public class Client {
 
     public void setRating(int rating) {
         this.rating = rating;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public Set<Car> getCarSet() {

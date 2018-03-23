@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.util.UriComponentsBuilder;
+import server.jms.worker_to_client.service.WorkerJmsService;
 import server.jpa.AvailableOrder;
 import server.jpa.AvailableOrderRepository;
 
@@ -18,10 +19,12 @@ import java.util.List;
 @CrossOrigin(origins = {"http://localhost:4200"})
 public class AvailableOrderController extends WebMvcConfigurerAdapter {
     private final AvailableOrderRepository availableOrderRepository;
+    private final WorkerJmsService workerJmsService;
 
     @Autowired
-    public AvailableOrderController(AvailableOrderRepository availableOrderRepository) {
+    public AvailableOrderController(AvailableOrderRepository availableOrderRepository, WorkerJmsService workerJmsService) {
         this.availableOrderRepository = availableOrderRepository;
+        this.workerJmsService = workerJmsService;
     }
 
     @RequestMapping(value = "/available_orders", method = RequestMethod.GET)
@@ -35,7 +38,11 @@ public class AvailableOrderController extends WebMvcConfigurerAdapter {
         order.setOrderDate(new Date(new java.util.Date().getTime()));
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(builder.path("/putavorder").build().toUri());
-        availableOrderRepository.save(order);
+        try {
+            availableOrderRepository.save(order);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 
@@ -58,7 +65,12 @@ public class AvailableOrderController extends WebMvcConfigurerAdapter {
         sourceOrder = availableOrderRepository.findOne(order.getId());
         if(sourceOrder == order)
             return new ResponseEntity<>(HttpStatus.CONFLICT);
-        availableOrderRepository.save(order);
+        try {
+            availableOrderRepository.save(order);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        workerJmsService.sendMessage(order);
         return new ResponseEntity<>(order, HttpStatus.OK);
     }
 

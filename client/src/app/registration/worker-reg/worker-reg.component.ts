@@ -22,7 +22,8 @@ export class WorkerRegComponent implements OnInit {
     name: new FormControl('', Validators.required),
     fname: new FormControl('', Validators.required),
     pnumber: new FormControl('', Validators.required),
-    city: new FormControl('', Validators.required)
+    city: new FormControl('', Validators.required),
+    email: new FormControl('', Validators.required)
   });
 
   constructor(private router: Router, private workerService: WorkerService, private userService: UserService) { }
@@ -43,11 +44,12 @@ export class WorkerRegComponent implements OnInit {
     const fname = this.workerForm.get('fname').value.trim();
     const pnumber = this.workerForm.get('pnumber').value.trim();
     const city = this.workerForm.get('city').value.trim();
+    const email = this.workerForm.get('email').value;
     // Handle create worker
     const user = new User(null, login, password, 3);
     this.userService.createUser(user);
     const worker = new Worker(null, login, password, name, fname, pnumber, city,
-      null, 3, user);
+      null, 3, email, user);
     this.workerService.createWorker(worker)
       .subscribe(successCode => {
           this.statusCode = successCode;

@@ -9,6 +9,7 @@
     <th>Город</th>
     <th>Рейтинг</th>
     <th>Статус</th>
+    <th>Email</th>
   </tr>
   <tr>
     <td>{{workerSource?.login}}</td>
@@ -19,6 +20,7 @@
     <td>{{workerSource?.city}}</td>
     <td>{{workerSource?.rating}}</td>
     <td>{{workerSource?.status}}</td>
+    <td>{{workerSource?.email}}</td>
   </tr>
 </table>
 
@@ -49,6 +51,8 @@
       <tr><td>Введите новый город</td><td><input formControlName="city">
       </td></tr>
       <tr><td>Статус:</td><td><input formControlName="status">
+      </td></tr>
+      <tr><td>Введите новый Email</td><td><input formControlName="email">
       </td></tr>
       <tr><td><button>Обновить</button></td><td><button routerLink=""  (click)="deleteWorker(workerSource.login)">Delete</button>
       </td></tr>

@@ -35,6 +35,11 @@
         <td><label *ngIf="workerForm.get('city').invalid && processValidation" [ngClass] = "'error'"> City is required. </label></td>
       </tr>
       <tr>
+        <td>Email</td>
+        <td><input formControlName="email"></td>
+        <td><label *ngIf="workerForm.get('email').invalid && processValidation" [ngClass] = "'error'"> Email is required. </label></td>
+      </tr>
+      <tr>
         <td>
           <button>OK</button>
         </td>
