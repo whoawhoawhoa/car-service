@@ -17,7 +17,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 
-public class GmailFromClient {
+public class ClientGmail {
 
     final String emailPort = "587";// gmail's smtp port
     final String smtpAuth = "true";
@@ -34,7 +34,7 @@ public class GmailFromClient {
     Session mailSession;
     MimeMessage emailMessage;
 
-    public GmailFromClient(String[] toArray) throws UnsupportedEncodingException, MessagingException {
+    public ClientGmail(String[] toArray) throws UnsupportedEncodingException, MessagingException {
 
         emailProperties = System.getProperties();
         emailProperties.put("mail.smtp.port", emailPort);

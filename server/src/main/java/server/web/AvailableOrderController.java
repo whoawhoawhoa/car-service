@@ -8,7 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.util.UriComponentsBuilder;
-import server.jms.client_to_worker.messaging.MessageSender;
+import server.jms.client_to_worker.messaging.ClientJmsSender;
 import server.jpa.AvailableOrder;
 import server.jpa.AvailableOrderRepository;
 
@@ -20,12 +20,12 @@ import java.util.List;
 public class AvailableOrderController extends WebMvcConfigurerAdapter {
     private final AvailableOrderRepository availableOrderRepository;
     private final ServiceController serviceController;
-    private MessageSender ms;
+    private ClientJmsSender ms;
 
     @Autowired
     public AvailableOrderController(AvailableOrderRepository availableOrderRepository,
                                     ServiceController serviceController,
-                                    MessageSender messageSender) {
+                                    ClientJmsSender messageSender) {
         this.availableOrderRepository = availableOrderRepository;
         this.serviceController = serviceController;
         this.ms = messageSender;

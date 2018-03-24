@@ -8,9 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.util.UriComponentsBuilder;
+import server.jms.client_to_worker.messaging.ClientJmsSender;
 import server.jpa.Order;
 import server.jpa.OrderRepository;
-import server.jms.client_to_worker.service.client_to_worker_messaging.MessageSender;
 
 import java.util.List;
 
@@ -18,10 +18,10 @@ import java.util.List;
 @CrossOrigin(origins = {"http://localhost:4200"})
 public class OrderController extends WebMvcConfigurerAdapter {
     private final OrderRepository orderRepository;
-    private MessageSender ms;
+    private ClientJmsSender ms;
 
     @Autowired
-    public OrderController(OrderRepository orderRepository, MessageSender ms) {
+    public OrderController(OrderRepository orderRepository, ClientJmsSender ms) {
         this.orderRepository = orderRepository;
         this.ms = ms;
     }

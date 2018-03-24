@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 
 
 @Component
-public class MessageSender {
+public class ClientJmsSender {
 
 	@Autowired
 	JmsTemplate clientJmsTemplate;
