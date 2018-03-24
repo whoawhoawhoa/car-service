@@ -23,6 +23,7 @@ import {AvailableOrderService} from '../../services/available-order.service';
 
 
 export class LkClientComponent implements OnInit {
+
   clientSource: Client;
   userSource: User;
   clientCars: Car[];
@@ -71,6 +72,10 @@ export class LkClientComponent implements OnInit {
 
   redirectToMain() {
     this.router.navigate(['/main/' + this.clientSource.login + '/' + this.clientSource.password]);
+  }
+
+  redirectToOrders() {
+    this.router.navigate(['/availableordersforclient/' + this.clientSource.login + '/' + this.clientSource.password]);
   }
 
   getUser(login: string, password: string) {
@@ -204,7 +209,7 @@ export class LkClientComponent implements OnInit {
     const color = this.newCarForm.get('color').value.trim();
     let cartype = this.newCarForm.get('carType').value.trim();
     for (const a of this.carTypes) {
-      if (a.id == cartype) {
+      if (a.id === cartype) {
         cartype = a;
       }
     }
@@ -226,12 +231,11 @@ export class LkClientComponent implements OnInit {
         errorCode => this.statusCode);
   }
 
-  refreshAvOrder()
-  {
+  refreshAvOrder() {
     this.avOrderService.getAllAvailableOrders()
       .subscribe(data => {
         this.clientAvOrders = data;
-      })
+      });
   }
 
   preProcessConfigurations() {

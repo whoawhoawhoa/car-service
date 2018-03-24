@@ -19,20 +19,20 @@ import javax.mail.internet.MimeMessage;
 
 public class ClientGmail {
 
-    final String emailPort = "587";// gmail's smtp port
-    final String smtpAuth = "true";
-    final String starttls = "true";
-    final String emailHost = "smtp.gmail.com";
+    private final String emailPort = "587";// gmail's smtp port
+    private final String smtpAuth = "true";
+    private final String starttls = "true";
+    private final String emailHost = "smtp.gmail.com";
 
-    String fromEmail = "projectservertest@gmail.com";
-    String fromPassword = "projectservertest1";
-    String emailSubject = "Test";
-    String emailBody;
-    List<String> toList;
+    private String fromEmail = "projectservertest@gmail.com";
+    private String fromPassword = "projectservertest1";
+    private String emailSubject = "Test";
+    private String emailBody;
+    private List<String> toList;
 
-    Properties emailProperties;
-    Session mailSession;
-    MimeMessage emailMessage;
+    private Properties emailProperties;
+    private Session mailSession;
+    private MimeMessage emailMessage;
 
     public ClientGmail(String[] toArray) throws UnsupportedEncodingException, MessagingException {
 
@@ -40,23 +40,26 @@ public class ClientGmail {
         emailProperties.put("mail.smtp.port", emailPort);
         emailProperties.put("mail.smtp.auth", smtpAuth);
         emailProperties.put("mail.smtp.starttls.enable", starttls);
+        emailProperties.put("mail.smtp.ssl.trust", "smtp.gmail.com");
         ArrayList<String> toList = new ArrayList<>(Arrays.asList(toArray));
         String purpose = toList.get(0);
         toList.remove(0);
         if(purpose.equals("toNotify")) {
-            emailBody = "Вам доступен новый заказ для выполнения!\n" +
-                    "Подробности можно увидеть в личном кабинете: http://localhost:4200/user-auth";
+            emailBody = "<html><body>Вам доступен новый заказ для выполнения!\n" +
+                    "Подробности можно увидеть в <a href=\"http://localhost:4200/user-auth\">" +
+                    "личном кабинете!</a></body></html>";
         }
         if(purpose.equals("toReportOnConfirm")){
-            emailBody = "Ваша заявка на заказ принята!\n" +
-                    "Проверить детали заказа можно в ичном кабинете: http://localhost:4200/user-auth";
+            emailBody = "<html><body>Ваша заявка на заказ принята!\n" +
+                    "Проверить детали заказа можно в <a href=\"http://localhost:4200/user-auth\">" +
+                    "личном кабинете!</a></body></html>";
 
         }
         this.toList = toList;
         createEmailMessage();
     }
 
-    public MimeMessage createEmailMessage()
+    private MimeMessage createEmailMessage()
             throws MessagingException, UnsupportedEncodingException {
 
         mailSession = Session.getDefaultInstance(emailProperties, null);
@@ -70,12 +73,11 @@ public class ClientGmail {
         emailMessage.setFrom(new InternetAddress(fromEmail, fromEmail));
 
         emailMessage.setSubject(emailSubject);
-        //emailMessage.setContent(emailBody, "text/html");// for a html email
-         emailMessage.setText(emailBody);// for a text email
+         emailMessage.setText(emailBody, "utf-8", "html");
         return emailMessage;
     }
 
-    public void sendEmail() throws AddressException, MessagingException {
+    public void sendEmail() throws MessagingException {
 
         Transport transport = mailSession.getTransport("smtp");
         transport.connect(emailHost, fromEmail, fromPassword);

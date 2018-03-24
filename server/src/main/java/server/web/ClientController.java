@@ -36,6 +36,9 @@ public class ClientController extends WebMvcConfigurerAdapter {
         check = client.getCity();
         if(!check.matches("[a-zA-Z]+"))
             return false;
+        check = client.getEmail();
+        if(!check.matches("[a-zA-Z0-9]+[@][a-zA-Z]+[.][a-zA-Z]+"))
+            return false;
         return true;
     }
 

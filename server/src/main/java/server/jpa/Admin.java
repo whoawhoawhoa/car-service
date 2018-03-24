@@ -4,10 +4,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "admins")
-public class Admin {
+public class Admin implements Serializable {
     @Id
     @Column(name = "id")
     @SequenceGenerator(name = "adminSeq", sequenceName = "admins_seq", allocationSize = 1)

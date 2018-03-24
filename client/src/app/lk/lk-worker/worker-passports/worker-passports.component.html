@@ -1,6 +1,9 @@
-<div *ngIf="passport == null || passport?.worker.status == 4">
-  <h1>Паспортные данные</h1>
-<p> Вам нужно заполнить паспортные данные
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<div *ngIf="passport == null || passport?.worker.status == 4" id="passport">
+  <h3>Паспортные данные</h3>
+<p> Вам нужно заполнить паспортные данные,
   прежде чем приступить к работе</p>
 <div>
   <form [formGroup]="passportForm" (ngSubmit)="onPassportFormSubmit()">
@@ -8,18 +11,18 @@
       <tr>
         <td>Серия и номер</td>
         <td>
-          <input type="text" formControlName="number">
+          <input type="text" formControlName="number" class="form-control mr-sm-2">
         </td>
       </tr>
       <tr>
         <td>Кем выдан</td>
         <td>
-          <input type="text" formControlName="issuedBy">
+          <input type="text" formControlName="issuedBy" class="form-control mr-sm-2">
         </td>
       </tr>
       <tr>
         <td colspan="2">
-          <button>Отправить</button>
+          <button class="btn btn-outline-success my-2 my-sm-0">Отправить</button>
         </td>
       </tr>
     </table>
@@ -28,5 +31,9 @@
 </div>
 </div>
 <div *ngIf="(passport != null && passport?.worker.status != 4) || passport?.worker.status == 4">
-  <p>{{comment}}</p>
+  <h3 id="comment">{{comment}}</h3>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>

@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.util.UriComponentsBuilder;
 import server.jms.client_to_worker.messaging.ClientJmsSender;
+import server.jms.client_to_worker.messaging.ClientJmsSender;
+import server.jms.worker_to_client.service.WorkerJmsService;
 import server.jpa.AvailableOrder;
 import server.jpa.AvailableOrderRepository;
 
@@ -21,21 +23,17 @@ public class AvailableOrderController extends WebMvcConfigurerAdapter {
     private final AvailableOrderRepository availableOrderRepository;
     private final ServiceController serviceController;
     private ClientJmsSender ms;
+    private final WorkerJmsService workerJmsService;
 
     @Autowired
     public AvailableOrderController(AvailableOrderRepository availableOrderRepository,
                                     ServiceController serviceController,
-                                    ClientJmsSender messageSender) {
+                                    ClientJmsSender clientJmsSender,
+                                    WorkerJmsService workerJmsService) {
         this.availableOrderRepository = availableOrderRepository;
         this.serviceController = serviceController;
-        this.ms = messageSender;
-    }
-
-    @GetMapping(value = "/available_order")
-    public ResponseEntity<AvailableOrder> getAvailableOrderById(@RequestParam long id)
-    {
-        AvailableOrder avOrder = availableOrderRepository.findOne(id);
-        return new ResponseEntity<>(avOrder, HttpStatus.OK);
+        this.ms = clientJmsSender;
+        this.workerJmsService = workerJmsService;
     }
 
     @RequestMapping(value = "/available_orders", method = RequestMethod.GET)
@@ -50,7 +48,11 @@ public class AvailableOrderController extends WebMvcConfigurerAdapter {
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(builder.path("/putavorder").build().toUri());
         checkWorkers(order);
-        availableOrderRepository.save(order);
+        try {
+            availableOrderRepository.save(order);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 
@@ -73,7 +75,12 @@ public class AvailableOrderController extends WebMvcConfigurerAdapter {
         sourceOrder = availableOrderRepository.findOne(order.getId());
         if(sourceOrder == order)
             return new ResponseEntity<>(HttpStatus.CONFLICT);
-        availableOrderRepository.save(order);
+        try {
+            availableOrderRepository.save(order);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        workerJmsService.sendMessage(order);
         return new ResponseEntity<>(order, HttpStatus.OK);
     }
 
@@ -88,10 +95,10 @@ public class AvailableOrderController extends WebMvcConfigurerAdapter {
         String serviceType = avOrder.getServiceType();
         Long carTypeId = avOrder.getCar().getCarType().getId();
         List<String> workersEmails = serviceController.getWorkersEmailsByServices(serviceType, carTypeId);
-        String msg = "";
+        StringBuilder msg = new StringBuilder();
         if(workersEmails != null) {
             for (String email: workersEmails) {
-                msg+= email + " ";
+                msg.append(email).append(" ");
             }
             ms.sendMessage("toNotify " + msg);
         }

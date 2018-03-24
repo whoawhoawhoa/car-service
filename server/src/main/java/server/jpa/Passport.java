@@ -4,10 +4,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "passports")
-public class Passport {
+public class Passport implements Serializable {
     @Id
     @Column(name = "id")
     @SequenceGenerator(name = "passportSeq", sequenceName = "passports_seq", allocationSize = 1)

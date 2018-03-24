@@ -11,12 +11,12 @@ public class ClientJmsServiceImpl implements ClientJmsService {
 
 
 	@Autowired
-	ClientJmsSender messageSender;
+    ClientJmsSender clientJmsSender;
 
 	
 	@Override
 	public void sendOrder(String order) {
-		messageSender.sendMessage(order);
+		clientJmsSender.sendMessage(order);
 	}
 
 }

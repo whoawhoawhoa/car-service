@@ -19,14 +19,13 @@ public class ClientJmsReceiver {
 	private static final String CLIENT_TO_WORKER_QUEUE = "client-to-worker-queue";
 	
 	@Autowired
-	ClientJmsService orderService;
-	
+	ClientJmsService clientJmsService;
+
 	
 	@JmsListener(destination = CLIENT_TO_WORKER_QUEUE)
 	public void receiveMessage(final Message<String> message) throws JMSException, UnsupportedEncodingException, MessagingException {
 
 		String response = message.getPayload();
-		System.out.println(response);
 		String[] emails = response.split(" ");
 		ClientGmail gmail = new ClientGmail(emails);
 		gmail.sendEmail();
