@@ -1,15 +1,11 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Service} from '../../table-classes/service';
 import {Car} from '../../table-classes/car';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {CarService} from '../../services/car.service';
 import {AvailableOrder} from '../../table-classes/available-order';
 import {Client} from '../../table-classes/client';
 import {AvailableOrderService} from '../../services/available-order.service';
 import {PriceService} from '../../services/price.service';
 import {Price} from '../../table-classes/price';
-import {Router} from '@angular/router';
-import {MainPageComponent} from '../main-page.component';
 
 @Component({
   selector: 'app-main-page-services',
@@ -28,11 +24,8 @@ export class MainPageServicesComponent implements OnInit {
   toContinue = false;
   isAlreadyOrdered = false;
 
-  constructor(private carService: CarService,
-              private avoOrderService: AvailableOrderService,
-              private priceService: PriceService,
-              private router: Router,
-              private mpc: MainPageComponent) { }
+  constructor(private avoOrderService: AvailableOrderService,
+              private priceService: PriceService) { }
 
   finalOrderForm = new FormGroup({
     commentary: new FormControl(''),
@@ -71,17 +64,17 @@ export class MainPageServicesComponent implements OnInit {
     const carId = this.finalOrderForm.get('car').value;
     let car = new Car(null, null, null, null, null, null);
     for (let i = 0; i < this.cars.length; i++) {
-      if (this.cars[i].id == carId) {
+      if (this.cars[i].id === carId) {
         car = this.cars[i];
       }
     }
     const avOrder = new AvailableOrder(null, null, this.serviceType, this.sourceClient, car, address, comment, null);
-    this.avoOrderService.getOrdersByClientLogin(this.sourceClient.login)
+    this.avoOrderService.getAvOrdersByClientLogin(this.sourceClient.login)
       .subscribe(orders => {
         const currentOrders = orders;
         for (let i = 0; i < currentOrders.length; i++) {
-          if (currentOrders[i].serviceType == avOrder.serviceType
-            && currentOrders[i].car.id == avOrder.car.id) {
+          if (currentOrders[i].serviceType === avOrder.serviceType
+            && currentOrders[i].car.id === avOrder.car.id) {
             this.isAlreadyOrdered = true;
             break;
           }

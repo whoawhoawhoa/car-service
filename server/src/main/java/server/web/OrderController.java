@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.util.UriComponentsBuilder;
+import server.jms.client_to_worker.messaging.ClientJmsSender;
 import server.jpa.Order;
 import server.jpa.OrderRepository;
 
@@ -17,10 +18,12 @@ import java.util.List;
 @CrossOrigin(origins = {"http://localhost:4200"})
 public class OrderController extends WebMvcConfigurerAdapter {
     private final OrderRepository orderRepository;
+    private ClientJmsSender ms;
 
     @Autowired
-    public OrderController(OrderRepository orderRepository) {
+    public OrderController(OrderRepository orderRepository, ClientJmsSender ms) {
         this.orderRepository = orderRepository;
+        this.ms = ms;
     }
 
     @RequestMapping(value = "/orders", method = RequestMethod.GET)
@@ -33,7 +36,10 @@ public class OrderController extends WebMvcConfigurerAdapter {
     public ResponseEntity<Void> postOrder(@RequestBody Order order, UriComponentsBuilder builder) {
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(builder.path("/order").build().toUri());
+
+        ms.sendMessage("toReportOnConfirm " + order.getWorker().getEmail());
         orderRepository.save(order);
+
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 

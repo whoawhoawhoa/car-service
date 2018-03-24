@@ -21,7 +21,7 @@ export class AvailableOrderService {
       .catch(this.handleError);
   }
 
-  getOrdersByClientLogin(login: string) {
+  getAvOrdersByClientLogin(login: string) {
     return this.http.get(this.getAvOrderUrl + 'byclientlogin?login=' + login)
       .map(this.extractData)
       .catch(this.handleError);

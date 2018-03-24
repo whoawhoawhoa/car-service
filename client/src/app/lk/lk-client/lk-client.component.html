@@ -32,6 +32,7 @@
     <th>Номер тлф&#160;&#160;&#160;&#160;</th>
     <th>Город&#160;&#160;&#160;&#160;</th>
     <th>Рейтинг&#160;&#160;&#160;&#160;</th>
+    <th>Email&#160;&#160;&#160;&#160;</th>
   </tr>
   <tr>
     <td>{{clientSource?.login}}</td>
@@ -41,6 +42,7 @@
     <td>{{clientSource?.pnumber}}</td>
     <td>{{clientSource?.city}}</td>
     <td>{{clientSource?.rating}}</td>
+    <td>{{clientSource?.email}}</td>
   </tr>
 </table>
 <p>&#160;</p>
@@ -73,6 +75,10 @@
       <tr>
         <td>Введите новый город</td>
         <td><input formControlName="city" class="form-control mr-sm-2"></td>
+      </tr>
+      <tr>
+        <td>Введите новый Email</td>
+        <td><input formControlName="email" class="form-control mr-sm-2"></td>
       </tr>
       <tr>
         <td><button class="btn btn-outline-success my-2 my-sm-0">Обновить</button></td>
@@ -164,6 +170,7 @@
     <div *ngFor="let avOrder of clientAvOrders">
       <app-client-available-order [avOrder]="avOrder" ></app-client-available-order>
     </div>
+    <button (click)="refreshAvOrder()" class="btn btn-outline-success my-2 my-sm-0">Обновить статус</button>
   </div>
 
 

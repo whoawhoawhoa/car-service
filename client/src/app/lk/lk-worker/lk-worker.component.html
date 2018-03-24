@@ -35,6 +35,7 @@
     <th>Город&#160;&#160;&#160;&#160;&#160;&#160;</th>
     <th>Рейтинг&#160;&#160;&#160;&#160;&#160;&#160;</th>
     <th>Статус&#160;&#160;&#160;&#160;&#160;&#160;</th>
+    <th>Email&#160;&#160;&#160;&#160;&#160;&#160;</th>
   </tr>
   <tr>
     <td>{{workerSource?.login}}&#160;&#160;&#160;&#160;</td>
@@ -45,6 +46,7 @@
     <td>{{workerSource?.city}}&#160;&#160;&#160;&#160;</td>
     <td>{{workerSource?.rating}}&#160;&#160;&#160;&#160;</td>
     <td>{{workerSource?.status}}&#160;&#160;&#160;&#160;</td>
+    <td>{{workerSource?.email}}&#160;&#160;&#160;&#160;</td>
   </tr>
 </table>
 
@@ -77,6 +79,10 @@
       <tr>
         <td>Введите новый город</td>
         <td><input formControlName="city" class="form-control mr-sm-2"></td>
+      </tr>
+      <tr>
+        <td>Введите новый Email</td>
+        <td><input formControlName="email" class="form-control mr-sm-2"></td>
       </tr>
       <tr>
         <td>

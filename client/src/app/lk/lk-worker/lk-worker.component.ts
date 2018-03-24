@@ -30,7 +30,8 @@ export class LkWorkerComponent implements OnInit {
     fName: new FormControl('', Validators.required),
     pnumber: new FormControl('', Validators.required),
     city: new FormControl('', Validators.required),
-    status: new FormControl('', Validators.required)
+    status: new FormControl('', Validators.required),
+    email: new FormControl('', Validators.required)
   });
 
   constructor(private workerService: WorkerService,
@@ -72,8 +73,10 @@ export class LkWorkerComponent implements OnInit {
     const pnumber = this.workerForm.get('pnumber').value;
     const city = this.workerForm.get('city').value;
     const status = this.workerForm.get('status').value;
+    const email = this.workerForm.get('email').value;
     // Handle update worker
-    const worker = new Worker(this.workerIdToUpdate, login, password, name, fName, pnumber, city, 0, status, this.userSource);
+    const worker = new Worker(this.workerIdToUpdate, login, password, name, fName,
+      pnumber, city, 0, status, this.userSource, email);
     this.workerService.updateWorker(worker)
       .subscribe(successCode => {
         this.statusCode = successCode;
@@ -99,7 +102,8 @@ export class LkWorkerComponent implements OnInit {
               fName: worker.fname,
               pnumber: worker.pnumber,
               city: worker.city,
-              status: worker.status});
+              status: worker.status,
+              email: worker.email});
             this.processValidation = true;
             this.requestProcessing = false;
             this.workerSource = worker;
@@ -116,7 +120,8 @@ export class LkWorkerComponent implements OnInit {
               fName: worker.fname,
               pnumber: worker.pnumber,
               city: worker.city,
-              status: worker.status});
+              status: worker.status,
+              email: worker.email});
             this.processValidation = true;
             this.requestProcessing = false;
           },

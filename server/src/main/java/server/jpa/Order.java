@@ -1,14 +1,13 @@
 package server.jpa;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.sql.Date;
 
 @Entity
 @Table(name = "orders")
-public class Order {
+public class Order implements Serializable {
     @Id
     @Column(name = "id")
     @SequenceGenerator(name = "orderSeq", sequenceName = "orders_seq", allocationSize = 1)

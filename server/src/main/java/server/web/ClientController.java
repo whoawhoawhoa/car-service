@@ -10,7 +10,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import org.springframework.web.util.UriComponentsBuilder;
 import server.jpa.Client;
 import server.jpa.ClientRepository;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -36,6 +35,9 @@ public class ClientController extends WebMvcConfigurerAdapter {
             return false;
         check = client.getCity();
         if(!check.matches("[a-zA-Z]+"))
+            return false;
+        check = client.getEmail();
+        if(!check.matches("[a-zA-Z0-9]+[@][a-zA-Z]+[.][a-zA-Z]+"))
             return false;
         return true;
     }
@@ -91,7 +93,6 @@ public class ClientController extends WebMvcConfigurerAdapter {
         try
         {
             Client sourceClient = clientRepository.findClientById(client.getId());
-            System.out.println(sourceClient.equals(client));
             if(sourceClient.equals(client))
                 return new ResponseEntity<>(HttpStatus.CONFLICT);
             clientRepository.save(client);

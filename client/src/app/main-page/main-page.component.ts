@@ -9,10 +9,8 @@ import {Worker} from '../table-classes/worker';
 import {Car} from '../table-classes/car';
 import {CarService} from '../services/car.service';
 import {CarType} from '../table-classes/car-type';
-import {CarTypeService} from '../services/car-type.service';
 import {PriceService} from '../services/price.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {AvailableOrderService} from '../services/available-order.service';
 
 @Component({
   selector: 'app-main-page',
@@ -41,9 +39,7 @@ export class MainPageComponent implements OnInit {
               private router: Router,
               private userService: UserService,
               private priceService: PriceService,
-              private carService: CarService,
-              private carTypeService: CarTypeService,
-              private avOrderService: AvailableOrderService) {
+              private carService: CarService) {
     this.carTypes = [];
   }
 
@@ -56,37 +52,37 @@ export class MainPageComponent implements OnInit {
   }
 
   getUser() {
-    const login = this.route.snapshot.paramMap.get('login');
-    const password = this.route.snapshot.paramMap.get('password');
-    if (login == null || password == null) {
-      return;
-    } else {
-      this.userService.getUser(login, password)
-        .subscribe(data => {
-          this.sourceUser = data;
-          this.isUserReceived = true;
-          this.role = this.sourceUser.role;
-          if (this.role == 2) {
-            this.clientService
-              .getClientByLoginAndPassword(this.sourceUser.login, this.sourceUser.password)
-              .subscribe(new_data => {this.sourceClient = new_data;
-                this.isClient = true;
-                this.getCars(); });
-          }
-          if (this.role == 3) {
-            this.workerService
-              .getWorkerByLoginAndPassword(this.sourceUser.login, this.sourceUser.password)
-              .subscribe(new_data => {this.sourceWorker = new_data; });
-          }
-        });
-    }
+   const login = this.route.snapshot.paramMap.get('login');
+   const password = this.route.snapshot.paramMap.get('password');
+   if (login == null || password == null) {
+     return;
+   } else {
+     this.userService.getUser(login, password)
+       .subscribe(data => {
+         this.sourceUser = data;
+         this.isUserReceived = true;
+         this.role = this.sourceUser.role;
+         if (this.role === 2) {
+           this.clientService
+             .getClientByLoginAndPassword(this.sourceUser.login, this.sourceUser.password)
+             .subscribe(new_data => {this.sourceClient = new_data;
+                                     this.isClient = true;
+                                     this.getCars(); });
+         }
+         if (this.role === 3) {
+           this.workerService
+             .getWorkerByLoginAndPassword(this.sourceUser.login, this.sourceUser.password)
+             .subscribe(new_data => {this.sourceWorker = new_data; });
+         }
+       });
+   }
   }
 
   redirectToLK() {
-    if (this.role == 2) {
+    if (this.role === 2) {
       this.router.navigate(['lkclient/' + this.sourceUser.login + '/' + this.sourceUser.password]);
     }
-    if (this.role == 3) {
+    if (this.role === 3) {
       this.router.navigate(['lkworker/' + this.sourceUser.login + '/' + this.sourceUser.password]);
     }
   }
@@ -107,7 +103,7 @@ export class MainPageComponent implements OnInit {
     carTypeNames.sort();
 
     for (let i = 1; i < carTypeNames.length; i++) {
-      if (carTypeNames[i] == carTypeNames[i - 1]) {
+      if (carTypeNames[i] === carTypeNames[i - 1]) {
         carTypeNames.splice(i, 1);
       }
     }
@@ -121,19 +117,21 @@ export class MainPageComponent implements OnInit {
       this.priceService.getPricesByCarType(carTypes[i])
         .subscribe(prices => {
           const temporaryArray = prices;
-          for (let j = 0; j < temporaryArray.length; j++) {
-            this.priceNames.push(temporaryArray[j].serviceType);
-          }
-          this.priceNames.sort();
-          let counter = 1;
-
-          for (let q = 1, k = 1; q < this.priceNames.length; ++q) {
-            if (this.priceNames[q] !== this.priceNames[q - 1]) {
-              this.priceNames[k++] = this.priceNames[q];
-              counter++;
+          if (temporaryArray.length !== 0) {
+            for (let j = 0; j < temporaryArray.length; j++) {
+              this.priceNames.push(temporaryArray[j].serviceType);
             }
+            this.priceNames.sort();
+            let counter = 1;
+
+            for (let q = 1, k = 1; q < this.priceNames.length; ++q) {
+              if (this.priceNames[q] !== this.priceNames[q - 1]) {
+                this.priceNames[k++] = this.priceNames[q];
+                counter++;
+              }
+            }
+            this.priceNames.length = counter;
           }
-          this.priceNames.length = counter;
         });
     }
   }
