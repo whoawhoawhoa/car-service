@@ -3,17 +3,12 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ClientService} from '../../services/client.service';
 import {Client} from '../../table-classes/client';
-
 import {Car} from '../../table-classes/car';
-import {Order} from '../../table-classes/order';
-import {OrderService} from '../../services/order.service';
 import {CarService} from '../../services/car.service';
 import {CarType} from '../../table-classes/car-type';
 import {CarTypeService} from '../../services/car-type.service';
 import {User} from '../../table-classes/user';
 import {UserService} from '../../services/user.service';
-import {AvailableOrder} from '../../table-classes/available-order';
-import {AvailableOrderService} from '../../services/available-order.service';
 
 @Component({
   selector: 'app-lk-client',
@@ -23,14 +18,11 @@ import {AvailableOrderService} from '../../services/available-order.service';
 
 
 export class LkClientComponent implements OnInit {
-
   clientSource: Client;
   userSource: User;
   clientCars: Car[];
   carTypes: CarType[];
   carIdToUpdate = null;
-  clientAvOrders: AvailableOrder[];
-  clientOrders: Order[];
   statusCode: number;
   requestProcessing = false;
   clientIdToUpdate = null;
@@ -56,11 +48,9 @@ export class LkClientComponent implements OnInit {
   constructor(private clientService: ClientService,
               private carService: CarService,
               private userService: UserService,
-              private orderService: OrderService,
               private carTypeService: CarTypeService,
               private route: ActivatedRoute,
-              private router: Router,
-              private avOrderService: AvailableOrderService) { }
+              private router: Router) { }
 
   ngOnInit() {
     this.carTypeService.getAllCarTypes()
@@ -75,7 +65,11 @@ export class LkClientComponent implements OnInit {
   }
 
   redirectToOrders() {
-    this.router.navigate(['/availableordersforclient/' + this.clientSource.login + '/' + this.clientSource.password]);
+    this.router.navigate(['/client-orders/' + this.clientSource.login + '/' + this.clientSource.password]);
+  }
+
+  redirectToLK() {
+    this.router.navigate(['/lkclient/' + this.clientSource.login + '/' + this.clientSource.password]);
   }
 
   getUser(login: string, password: string) {
@@ -89,17 +83,8 @@ export class LkClientComponent implements OnInit {
     this.clientService.getClientByLoginAndPassword(login, password)
       .subscribe(
         data => {this.clientSource = data;
-          this.getCars();
-          this.getOrders();
-          this.getAvOrders(); },
+          this.getCars(); },
         errorCode => this.statusCode);
-  }
-
-  getAvOrders() {
-    this.avOrderService.getAvOrdersByClientLogin(this.clientSource.login)
-      .subscribe(avOrders => {
-        this.clientAvOrders = avOrders;
-      });
   }
 
   onClientFormSubmit() {
@@ -224,20 +209,6 @@ export class LkClientComponent implements OnInit {
         errorCode => this.statusCode = errorCode);
   }
 
-  getOrders() {
-    this.orderService.getOrderByClientLogin(this.clientSource.login)
-      .subscribe(
-        data => this.clientOrders = data,
-        errorCode => this.statusCode);
-  }
-
-  refreshAvOrder() {
-    this.avOrderService.getAllAvailableOrders()
-      .subscribe(data => {
-        this.clientAvOrders = data;
-      });
-  }
-
   preProcessConfigurations() {
     this.statusCode = null;
     this.requestProcessing = true;
@@ -249,6 +220,4 @@ export class LkClientComponent implements OnInit {
     this.clientIdToUpdate = null;
     this.processValidation = false;
   }
-
-
 }

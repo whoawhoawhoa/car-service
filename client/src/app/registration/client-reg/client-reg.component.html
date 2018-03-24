@@ -19,10 +19,10 @@
         <a routerLink="/user-auth" class="nav-link">Войти</a>
       </li>
       <li class="nav-item active">
-        <a routerLink="/client-reg" class="nav-link">Зарегестрироваться, как клиент</a>
+        <a routerLink="/client-reg" class="nav-link">Зарегистрироваться, как клиент</a>
       </li>
       <li class="nav-item">
-        <a routerLink="/worker-reg" class="nav-link">Зарегестрироваться, как сотрудник</a>
+        <a routerLink="/worker-reg" class="nav-link">Зарегистрироваться, как сотрудник</a>
       </li>
     </ul>
   </div>
@@ -67,8 +67,8 @@
       </tr>
       <tr>
         <td>Email</td>
-        <td><input formControlName="email"></td>
-        <td><label *ngIf="clientForm.get('email').invalid && processValidation" [ngClass] = "'error'"> Email is required. </label></td>
+        <td><input formControlName="email" class="form-control mr-sm-2"></td>
+        <td><label *ngIf="clientForm.get('email').invalid && processValidation" [ngClass] = "'error'"> Email не указан </label></td>
       </tr>
       <tr>
         <td>
