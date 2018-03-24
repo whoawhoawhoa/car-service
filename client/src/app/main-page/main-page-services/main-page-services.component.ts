@@ -64,7 +64,7 @@ export class MainPageServicesComponent implements OnInit {
     const carId = this.finalOrderForm.get('car').value;
     let car = new Car(null, null, null, null, null, null);
     for (let i = 0; i < this.cars.length; i++) {
-      if (this.cars[i].id === carId) {
+      if (this.cars[i].id == carId) {
         car = this.cars[i];
       }
     }
@@ -73,8 +73,8 @@ export class MainPageServicesComponent implements OnInit {
       .subscribe(orders => {
         const currentOrders = orders;
         for (let i = 0; i < currentOrders.length; i++) {
-          if (currentOrders[i].serviceType === avOrder.serviceType
-            && currentOrders[i].car.id === avOrder.car.id) {
+          if (currentOrders[i].serviceType == avOrder.serviceType
+            && currentOrders[i].car.id == avOrder.car.id) {
             this.isAlreadyOrdered = true;
             break;
           }
