@@ -48,8 +48,7 @@ export class CarService {
       .catch(this.handleError);
   }
 
-  getCarsByClientIdAndCarType(id: number, carTypeId: number)
-  {
+  getCarsByClientIdAndCarType(id: number, carTypeId: number) {
     return this.http.get(this.carUrl + 'sfororder?id=' + id + '&carTypeId=' + carTypeId)
       .map(this.extractData)
       .catch(this.handleError);
