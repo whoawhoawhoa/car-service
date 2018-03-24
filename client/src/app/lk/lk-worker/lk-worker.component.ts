@@ -76,7 +76,7 @@ export class LkWorkerComponent implements OnInit {
     const email = this.workerForm.get('email').value;
     // Handle update worker
     const worker = new Worker(this.workerIdToUpdate, login, password, name, fName,
-      pnumber, city, 0, status, email, this.userSource);
+      pnumber, city, 0, status, this.userSource, email);
     this.workerService.updateWorker(worker)
       .subscribe(successCode => {
         this.statusCode = successCode;

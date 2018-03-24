@@ -49,7 +49,7 @@ export class WorkerRegComponent implements OnInit {
     const user = new User(null, login, password, 3);
     this.userService.createUser(user);
     const worker = new Worker(null, login, password, name, fname, pnumber, city,
-      null, 3, email, user);
+      null, 3, user, email);
     this.workerService.createWorker(worker)
       .subscribe(successCode => {
           this.statusCode = successCode;

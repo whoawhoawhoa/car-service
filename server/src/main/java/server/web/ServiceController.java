@@ -9,6 +9,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import server.jpa.Service;
 import server.jpa.ServiceRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -82,5 +83,24 @@ public class ServiceController extends WebMvcConfigurerAdapter {
     {
         List<Service> services =  serviceRepository.getServicesByPriceId(Long.parseLong(id));
         return new ResponseEntity<>(services, HttpStatus.OK);
+    }
+
+    @RequestMapping(path = "/servicesForSendingMails", method = RequestMethod.GET)
+    public ResponseEntity<List<Service>> getServicesByServiceTypeAndCarType(@RequestParam("serviceType") String serviceType, @RequestParam("carTypeId") long carTypeId)
+    {
+        List<Service> services =  serviceRepository.getServicesByPriceServiceTypeAndPriceCarTypeId(serviceType, carTypeId);
+        return new ResponseEntity<>(services, HttpStatus.OK);
+    }
+
+    public List<String> getWorkersEmailsByServices(String serviceType, long carTypeId)
+    {
+        List<Service> services =  serviceRepository.getServicesByPriceServiceTypeAndPriceCarTypeId(serviceType, carTypeId);
+        ArrayList<String> workersEmails = new ArrayList<>();
+        if(services.size() != 0)
+            for (Service service: services)
+                if(service.getWorker().getStatus() == 1) {
+                    workersEmails.add(service.getWorker().getEmail());
+                }
+        return workersEmails;
     }
 }

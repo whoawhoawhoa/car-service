@@ -91,7 +91,7 @@ export class LkClientComponent implements OnInit {
   }
 
   getAvOrders() {
-    this.avOrderService.getOrdersByClientLogin(this.clientSource.login)
+    this.avOrderService.getAvOrdersByClientLogin(this.clientSource.login)
       .subscribe(avOrders => {
         this.clientAvOrders = avOrders;
       });
@@ -112,8 +112,7 @@ export class LkClientComponent implements OnInit {
     const city = this.clientForm.get('city').value;
     const email = this.clientForm.get('email').value;
     // Handle update client
-    const client = new Client(this.clientIdToUpdate, login, password, name, fName,
-      pnumber, city, null, email, this.userSource);
+    const client = new Client(this.clientIdToUpdate, login, password, name, fName, pnumber, city, null, this.userSource, email);
     this.clientService.updateClient(client)
       .subscribe(successCode => {
         this.statusCode = successCode;

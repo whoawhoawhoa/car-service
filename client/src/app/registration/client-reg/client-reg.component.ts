@@ -47,7 +47,7 @@ export class ClientRegComponent implements OnInit {
     // Handle create client
     const user = new User(null, login, password, 2);
     this.userService.createUser(user);
-    const client = new Client(null, login, password, name, fname, pnumber, city, null, email, user);
+    const client = new Client(null, login, password, name, fname, pnumber, city, null, user, email);
     this.clientService.createClient(client)
       .subscribe(successCode => {
           this.statusCode = successCode;

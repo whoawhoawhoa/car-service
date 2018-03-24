@@ -10,6 +10,7 @@ export class AvailableOrderService {
   getAvOrderUrl = 'http://localhost:9090/avorder';
   getAvOrdersUrl = 'http://localhost:9090/available_orders';
   deleteAvOrderUrl = 'http://localhost:9090/deleteavorder';
+  getAvOrderUrlTest = 'http://localhost:9090/available_order';
 
   constructor(private http: Http) { }
 
@@ -21,7 +22,7 @@ export class AvailableOrderService {
       .catch(this.handleError);
   }
 
-  getOrdersByClientLogin(login: string) {
+  getAvOrdersByClientLogin(login: string) {
     return this.http.get(this.getAvOrderUrl + 'byclientlogin?login=' + login)
       .map(this.extractData)
       .catch(this.handleError);

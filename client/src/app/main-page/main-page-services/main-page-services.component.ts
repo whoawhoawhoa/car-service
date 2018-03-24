@@ -76,7 +76,7 @@ export class MainPageServicesComponent implements OnInit {
       }
     }
     const avOrder = new AvailableOrder(null, null, this.serviceType, this.sourceClient, car, address, comment, null);
-    this.avoOrderService.getOrdersByClientLogin(this.sourceClient.login)
+    this.avoOrderService.getAvOrdersByClientLogin(this.sourceClient.login)
       .subscribe(orders => {
         const currentOrders = orders;
         for (let i = 0; i < currentOrders.length; i++) {

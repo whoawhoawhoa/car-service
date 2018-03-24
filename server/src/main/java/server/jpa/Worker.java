@@ -54,6 +54,8 @@ public class Worker implements Serializable {
     private Set<Order> orderSet;
     @OneToOne(cascade = CascadeType.ALL)
     private User user;
+    @Column(name = "email")
+    private String email;
 
     public Worker() {}
 
@@ -169,19 +171,12 @@ public class Worker implements Serializable {
         this.orderSet = orderSet;
     }
 
-    @Override
-    public String toString() {
-        return "Worker{" +
-                "id=" + id +
-                ", login='" + login + '\'' +
-                ", password='" + password + '\'' +
-                ", name='" + name + '\'' +
-                ", fname='" + fname + '\'' +
-                ", number=" + pnumber +
-                ", city='" + city + '\'' +
-                ", rating=" + rating +
-                ", status='" + status + '\'' +
-                '}';
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Override
@@ -197,12 +192,30 @@ public class Worker implements Serializable {
                 Objects.equals(password, worker.password) &&
                 Objects.equals(name, worker.name) &&
                 Objects.equals(fname, worker.fname) &&
-                Objects.equals(city, worker.city);
+                Objects.equals(city, worker.city) &&
+                Objects.equals(email, worker.email);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, login, password, name, fname, pnumber, city, rating, status);
+        return Objects.hash(id, login, password, name, fname, pnumber, city, rating, status, email);
     }
+
+    @Override
+    public String toString() {
+        return "Worker{" +
+                "id=" + id +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", name='" + name + '\'' +
+                ", fname='" + fname + '\'' +
+                ", pnumber=" + pnumber +
+                ", city='" + city + '\'' +
+                ", rating=" + rating +
+                ", status=" + status +
+                ", email='" + email + '\'' +
+                '}';
+    }
+
 }
