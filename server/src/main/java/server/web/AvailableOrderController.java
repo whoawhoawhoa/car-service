@@ -8,7 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.util.UriComponentsBuilder;
-import server.jms.client_to_worker.messaging.MessageSender;
+import server.jms.client_to_worker.messaging.ClientJmsSender;
 import server.jms.worker_to_client.service.WorkerJmsService;
 import server.jpa.AvailableOrder;
 import server.jpa.AvailableOrderRepository;
@@ -21,17 +21,17 @@ import java.util.List;
 public class AvailableOrderController extends WebMvcConfigurerAdapter {
     private final AvailableOrderRepository availableOrderRepository;
     private final ServiceController serviceController;
-    private MessageSender ms;
+    private ClientJmsSender ms;
     private final WorkerJmsService workerJmsService;
 
     @Autowired
     public AvailableOrderController(AvailableOrderRepository availableOrderRepository,
                                     ServiceController serviceController,
-                                    MessageSender messageSender,
+                                    ClientJmsSender clientJmsSender,
                                     WorkerJmsService workerJmsService) {
         this.availableOrderRepository = availableOrderRepository;
         this.serviceController = serviceController;
-        this.ms = messageSender;
+        this.ms = clientJmsSender;
         this.workerJmsService = workerJmsService;
     }
 
@@ -94,10 +94,10 @@ public class AvailableOrderController extends WebMvcConfigurerAdapter {
         String serviceType = avOrder.getServiceType();
         Long carTypeId = avOrder.getCar().getCarType().getId();
         List<String> workersEmails = serviceController.getWorkersEmailsByServices(serviceType, carTypeId);
-        String msg = "";
+        StringBuilder msg = new StringBuilder();
         if(workersEmails != null) {
             for (String email: workersEmails) {
-                msg+= email + " ";
+                msg.append(email).append(" ");
             }
             ms.sendMessage("toNotify " + msg);
         }

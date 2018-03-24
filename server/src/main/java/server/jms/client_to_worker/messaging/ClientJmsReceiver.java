@@ -7,28 +7,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;
-import server.jms.client_to_worker.GmailFromClient;
-import server.jms.client_to_worker.service.OrderService;
+import server.jms.client_to_worker.ClientGmail;
+import server.jms.client_to_worker.service.ClientJmsService;
 
 import java.io.UnsupportedEncodingException;
 
 
 @Component
-public class MessageReceiver {
+public class ClientJmsReceiver {
 
 	private static final String CLIENT_TO_WORKER_QUEUE = "client-to-worker-queue";
 	
 	@Autowired
-	OrderService orderService;
+	ClientJmsService clientJmsService;
 	
 	
 	@JmsListener(destination = CLIENT_TO_WORKER_QUEUE)
 	public void receiveMessage(final Message<String> message) throws JMSException, UnsupportedEncodingException, MessagingException {
 
 		String response = message.getPayload();
-		System.out.println(response);
 		String[] emails = response.split(" ");
-		GmailFromClient gmail = new GmailFromClient(emails);
+		ClientGmail gmail = new ClientGmail(emails);
 		gmail.sendEmail();
 	}
 

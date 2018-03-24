@@ -36,14 +36,14 @@ public class WorkerGmail {
         String emailSubject = "Ваш заказ хотят выполнить!";
         String emailBody;
         if(order.getWorkers().length == 1) {
-            emailBody = "Ваш заказ уже хочет взять работник!\n Проверьте состояние заказа в личном кабинете:  " +
-                    "http://localhost:4200/lkclient/" + order.getClient().getLogin() + "/" +
-                    order.getClient().getPassword();
+            emailBody = "<html><body>Ваш заказ уже хочет взять работник!\n Проверьте состояние заказа в " +
+                    "<a href=\"http://localhost:4200/user-auth\">" +
+                    "личном кабинете!</a></body></html>";
         } else {
-            emailBody = "На Ваш заказ уже подали заявку " + order.getWorkers().length + " работников!\n" +
-                    " Проверьте состояние заказа в личном кабинете:  " +
-                    "http://localhost:4200/lkclient/" + order.getClient().getLogin() + "/" +
-                    order.getClient().getPassword();
+            emailBody = "<html><body>На Ваш заказ уже подали заявку " + order.getWorkers().length + " работников!\n" +
+                    " Проверьте состояние заказа в " +
+                    "<a href=\"http://localhost:4200/user-auth\">" +
+                    "личном кабинете!</a></body></html>";
         }
         mailSession = Session.getDefaultInstance(emailProperties, null);
         emailMessage = new MimeMessage(mailSession);
@@ -53,7 +53,7 @@ public class WorkerGmail {
         }
 
         emailMessage.setSubject(emailSubject);
-        emailMessage.setText(emailBody);
+        emailMessage.setText(emailBody, "utf-8", "html");
 
     }
 

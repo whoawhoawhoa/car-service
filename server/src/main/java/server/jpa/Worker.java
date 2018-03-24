@@ -41,8 +41,6 @@ public class Worker implements Serializable {
     * PASSPORT_REJECTED == 4
     * */
     private int status;
-    @Column(name = "email")
-    private String email;
     @JsonIgnore
     @OneToMany(mappedBy = "worker", cascade = CascadeType.ALL)
     private Set<Service> serviceSet;
@@ -137,14 +135,6 @@ public class Worker implements Serializable {
 
     public void setStatus(int status) {
         this.status = status;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public Set<Service> getServiceSet() {

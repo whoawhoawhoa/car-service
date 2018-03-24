@@ -1,7 +1,7 @@
 package server.jms.client_to_worker.service;
 
 
-public interface OrderService {
+public interface ClientJmsService {
 	void sendOrder(String order);
 
 }

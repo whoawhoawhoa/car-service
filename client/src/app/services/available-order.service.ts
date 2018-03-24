@@ -10,7 +10,6 @@ export class AvailableOrderService {
   getAvOrderUrl = 'http://localhost:9090/avorder';
   getAvOrdersUrl = 'http://localhost:9090/available_orders';
   deleteAvOrderUrl = 'http://localhost:9090/deleteavorder';
-  getAvOrderUrlTest = 'http://localhost:9090/available_order';
 
   constructor(private http: Http) { }
 

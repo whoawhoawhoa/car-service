@@ -204,7 +204,7 @@ export class LkClientComponent implements OnInit {
     const color = this.newCarForm.get('color').value.trim();
     let cartype = this.newCarForm.get('carType').value.trim();
     for (const a of this.carTypes) {
-      if (a.id == cartype) {
+      if (a.id === cartype) {
         cartype = a;
       }
     }

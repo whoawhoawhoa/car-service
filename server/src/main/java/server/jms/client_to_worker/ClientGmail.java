@@ -17,7 +17,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 
-public class GmailFromClient {
+public class ClientGmail {
 
     private final String emailPort = "587";// gmail's smtp port
     private final String smtpAuth = "true";
@@ -34,7 +34,7 @@ public class GmailFromClient {
     private Session mailSession;
     private MimeMessage emailMessage;
 
-    public GmailFromClient(String[] toArray) throws UnsupportedEncodingException, MessagingException {
+    public ClientGmail(String[] toArray) throws UnsupportedEncodingException, MessagingException {
 
         emailProperties = System.getProperties();
         emailProperties.put("mail.smtp.port", emailPort);
@@ -45,19 +45,21 @@ public class GmailFromClient {
         String purpose = toList.get(0);
         toList.remove(0);
         if(purpose.equals("toNotify")) {
-            emailBody = "Вам доступен новый заказ для выполнения!\n" +
-                    "Подробности можно увидеть в личном кабинете: http://localhost:4200/user-auth";
+            emailBody = "<html><body>Вам доступен новый заказ для выполнения!\n" +
+                    "Подробности можно увидеть в <a href=\"http://localhost:4200/user-auth\">" +
+                    "личном кабинете!</a></body></html>";
         }
         if(purpose.equals("toReportOnConfirm")){
-            emailBody = "Ваша заявка на заказ принята!\n" +
-                    "Проверить детали заказа можно в ичном кабинете: http://localhost:4200/user-auth";
+            emailBody = "<html><body>Ваша заявка на заказ принята!\n" +
+                    "Проверить детали заказа можно в <a href=\"http://localhost:4200/user-auth\">" +
+                    "личном кабинете!</a></body></html>";
 
         }
         this.toList = toList;
         createEmailMessage();
     }
 
-    public MimeMessage createEmailMessage()
+    private MimeMessage createEmailMessage()
             throws MessagingException, UnsupportedEncodingException {
 
         mailSession = Session.getDefaultInstance(emailProperties, null);
@@ -71,12 +73,11 @@ public class GmailFromClient {
         emailMessage.setFrom(new InternetAddress(fromEmail, fromEmail));
 
         emailMessage.setSubject(emailSubject);
-        //emailMessage.setContent(emailBody, "text/html");// for a html email
-         emailMessage.setText(emailBody);// for a text email
+         emailMessage.setText(emailBody, "utf-8", "html");
         return emailMessage;
     }
 
-    public void sendEmail() throws AddressException, MessagingException {
+    public void sendEmail() throws MessagingException {
 
         Transport transport = mailSession.getTransport("smtp");
         transport.connect(emailHost, fromEmail, fromPassword);

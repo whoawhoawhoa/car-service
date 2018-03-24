@@ -13,20 +13,14 @@ import org.springframework.stereotype.Component;
 
 
 @Component
-public class MessageSender {
+public class ClientJmsSender {
 
 	@Autowired
 	JmsTemplate clientJmsTemplate;
 
 	public void sendMessage(final String order) {
 
-		clientJmsTemplate.send(new MessageCreator(){
-				@Override
-				public Message createMessage(Session session) throws JMSException{
-					ObjectMessage objectMessage = session.createObjectMessage(order);
-					return objectMessage;
-				}
-			});
+		clientJmsTemplate.send(session -> session.createObjectMessage(order));
 	}
 
 }
