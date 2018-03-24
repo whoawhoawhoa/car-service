@@ -1,14 +1,38 @@
-<h1>Информация о профиле клиента</h1>
-<table>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+  <a href="#" class="navbar-brand">
+    <img src="http://car-service63.ru/bitrix/templates/main/images/logo-retina.png"
+         width="150" height="40" alt="logo">
+  </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a href="#" class="nav-link">Главная</a>
+      </li>
+      <li class="nav-item">
+        <button class="btn btn-outline-success my-2 my-sm-0" (click)="redirectToMain()"> Заказать услугу </button>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<h1 align="center">Информация о профиле клиента</h1>
+<table align="center">
   <tr>
-    <th>Логин</th>
-    <th>Пароль</th>
-    <th>Имя</th>
-    <th>Фамилия</th>
-    <th>Номер тлф</th>
-    <th>Город</th>
-    <th>Рейтинг</th>
-    <th>Email</th>
+    <th>Логин&#160;&#160;&#160;&#160;</th>
+    <th>Пароль&#160;&#160;&#160;&#160;</th>
+    <th>Имя&#160;&#160;&#160;&#160;</th>
+    <th>Фамилия&#160;&#160;&#160;&#160;</th>
+    <th>Номер тлф&#160;&#160;&#160;&#160;</th>
+    <th>Город&#160;&#160;&#160;&#160;</th>
+    <th>Рейтинг&#160;&#160;&#160;&#160;</th>
+    <th>Email&#160;&#160;&#160;&#160;</th>
   </tr>
   <tr>
     <td>{{clientSource?.login}}</td>
@@ -21,92 +45,117 @@
     <td>{{clientSource?.email}}</td>
   </tr>
 </table>
+<p>&#160;</p>
 
-<nav>
-  <button (click)="redirectToMain()"> На главную </button>
-</nav>
 
-<h3> Форма для обновления данных </h3>
-<div>
+<div id="updateTable">
+  <h3> Форма для обновления данных </h3>
   <form [formGroup]="clientForm" (ngSubmit)="onClientFormSubmit()">
     <table>
-      <tr><td>Введите новый логин</td><td><input formControlName="login">
-      </td></tr>
-      <tr><td>Введите новый пароль</td><td><input formControlName="password">
-      </td></tr>
-      <tr><td>Введите новое имя</td><td><input formControlName="name">
-      </td></tr>
-      <tr><td>Введите новую фамилию</td><td><input formControlName="fName">
-      </td></tr>
-      <tr><td>Введите новый номер телефона</td><td><input formControlName="pnumber">
-      </td></tr>
-      <tr><td>Введите новый город</td><td><input formControlName="city">
-      </td></tr>
-      <tr><td>Введите новый Email</td><td><input formControlName="email">
-      </td></tr>
-      <tr><td><button>Обновить</button></td><td><button routerLink="" (click)="deleteClient(clientSource.login)">Delete</button>
-      </td></tr>
+      <tr>
+        <td>Введите новый логин</td>
+        <td><input formControlName="login" class="form-control mr-sm-2"></td>
+      </tr>
+      <tr>
+        <td>Введите новый пароль</td>
+        <td><input formControlName="password" class="form-control mr-sm-2"></td>
+      </tr>
+      <tr>
+        <td>Введите новое имя</td>
+        <td><input formControlName="name" class="form-control mr-sm-2"></td>
+      </tr>
+      <tr>
+        <td>Введите новую фамилию</td>
+        <td><input formControlName="fName" class="form-control mr-sm-2"></td>
+      </tr>
+      <tr>
+        <td>Введите новый номер телефона</td>
+        <td><input formControlName="pnumber" class="form-control mr-sm-2"></td>
+      </tr>
+      <tr>
+        <td>Введите новый город</td>
+        <td><input formControlName="city" class="form-control mr-sm-2"></td>
+      </tr>
+      <tr>
+        <td>Введите новый Email</td>
+        <td><input formControlName="email" class="form-control mr-sm-2"></td>
+      </tr>
+      <tr>
+        <td><button class="btn btn-outline-success my-2 my-sm-0">Обновить</button></td>
+        <td><button routerLink="" class="btn btn-danger" (click)="deleteClient(clientSource.login)">Удалить аккаунт</button></td>
+      </tr>
     </table>
   </form>
-  <br/>
 </div>
 
-<h3> Ваши машины </h3>
-<div>
+
+<div id="newCar">
+  <h3> Добавить новую машину </h3>
+  <form [formGroup]="newCarForm" (ngSubmit)="onNewCarFormSubmit()">
+    <table>
+      <tr>
+        <td>Номер</td>
+        <td><input formControlName="number" class="form-control mr-sm-2"></td>
+        <td><label *ngIf="newCarForm.get('number').invalid && processValidation" [ngClass] = "'error'" > Number is required. </label></td>
+      </tr>
+      <tr>
+        <td>Марка</td>
+        <td><input formControlName="brand" class="form-control mr-sm-2"></td>
+        <td><label *ngIf="newCarForm.get('brand').invalid && processValidation" [ngClass] = "'error'"> Brand is required. </label></td>
+      </tr>
+      <tr>
+        <td>Цвет</td>
+        <td><input formControlName="color" class="form-control mr-sm-2"></td>
+        <td><label *ngIf="newCarForm.get('color').invalid && processValidation" [ngClass] = "'error'"> Color is required. </label></td>
+      </tr>
+      <tr>
+        <td>Выберите тип кузова</td>
+        <td><select formControlName="carType" class="form-control mr-sm-2">
+          <option *ngFor="let carType of carTypes" value={{carType.id}}>{{carType.carType}}</option>
+          </select>
+        </td>
+        <td>
+          <label *ngIf="newCarForm.get('carType').invalid && processValidation" [ngClass] = "'error'"> Обязательное поле </label>
+        </td>
+      </tr>
+      <td>
+        <button class="btn btn-outline-success my-2 my-sm-0">Добавить</button>
+      </td>
+    </table>
+  </form>
+</div>
+
+
+<div id="cars">
+  <h3> Ваши машины </h3>
   <table>
     <tr>
-      <th>Номер</th>
-      <th>Марка</th>
-      <th>Цвет</th>
-      <th>Тип кузова</th>
+      <th>Номер&#160;&#160;&#160;&#160;&#160;</th>
+      <th>Марка&#160;&#160;&#160;&#160;&#160;</th>
+      <th>Цвет&#160;&#160;&#160;&#160;&#160;</th>
+      <th>Тип кузова&#160;&#160;&#160;&#160;&#160;</th>
     </tr>
     <tr *ngFor="let car of clientCars" >
       <td>{{car.number}}</td>
       <td>{{car.brand}}</td>
       <td>{{car.color}}</td>
       <td>{{car.carType.carType}}</td>
-      <td><button type="button" (click)="deleteCar(car.id)">Удалить</button></td>
+      <td><button type="button" (click)="deleteCar(car.id)" class="btn btn-danger">Удалить</button></td>
     </tr>
     </table>
-
-  <form [formGroup]="newCarForm" (ngSubmit)="onNewCarFormSubmit()">
-    <table>
-      <tr>
-        <td>Number</td>
-        <td><input formControlName="number"></td>
-        <td><label *ngIf="newCarForm.get('number').invalid && processValidation" [ngClass] = "'error'" > Number is required. </label></td>
-      </tr>
-      <tr>
-        <td>Brand</td>
-        <td><input formControlName="brand"></td>
-        <td><label *ngIf="newCarForm.get('brand').invalid && processValidation" [ngClass] = "'error'"> Brand is required. </label></td>
-      </tr>
-      <tr>
-        <td>Color</td>
-        <td><input formControlName="color"></td>
-        <td><label *ngIf="newCarForm.get('color').invalid && processValidation" [ngClass] = "'error'"> Color is required. </label></td>
-      </tr>
-     <tr>
-        <td>Выберите тип кузова</td><td><select formControlName="carType">
-        <option *ngFor="let carType of carTypes" value={{carType.id}}>{{carType.carType}}</option>
-      </select>
-        <label *ngIf="newCarForm.get('carType').invalid && processValidation" [ngClass] = "'error'"> Обязательное поле </label>
-      </td>
-     </tr>
-        <td>
-          <button>OK</button>
-        </td>
-    </table>
-  </form>
 </div>
-<div>
-<h3> Ваши заказы </h3>
-  <div>
+
+
+
+
+
+<div id="orders" >
+  <h3> Ваши заказы </h3>
     <table>
       <tr>
-        <th>Тип услуги</th>
-        <th>Дата</th>
-        <th>Цена</th>
+        <th>Тип услуги&#160;&#160;&#160;&#160;&#160;&#160;&#160;</th>
+        <th>Дата&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</th>
+        <th>Цена&#160;&#160;&#160;&#160;&#160;&#160;&#160;</th>
       </tr>
       <tr *ngFor="let order of clientOrders" >
         <td>{{order.serviceType}}</td>
@@ -114,13 +163,18 @@
         <td>{{order.totalPrice}}</td>
       </tr>
     </table>
-  </div>
+</div>
 
-  <div *ngIf="clientAvOrders !== null && clientAvOrders !== undefined && clientAvOrders.length !== 0">
+  <div id="avOrders" *ngIf="clientAvOrders !== null && clientAvOrders !== undefined && clientAvOrders.length !== 0">
     <h3> Ваши активные заказы </h3>
     <div *ngFor="let avOrder of clientAvOrders">
       <app-client-available-order [avOrder]="avOrder" ></app-client-available-order>
     </div>
-    <button (click)="refreshAvOrder()">Обновить</button>
+    <button (click)="refreshAvOrder()" class="btn btn-outline-success my-2 my-sm-0">Обновить статус</button>
   </div>
-</div>
+
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+

@@ -1,13 +1,15 @@
-<div *ngIf="avOrder != null">
-<label>Ваш заказ: {{avOrder?.serviceType}} для {{avOrder?.car.brand}} {{avOrder?.car.carType.carType}}</label>
+<div *ngIf="avOrder !== null">
+  <label>Ваш заказ:&#160;&#160;&#160;&#160; {{avOrder?.serviceType}} для {{avOrder?.car.brand}} {{avOrder?.car.carType.carType}}&#160;&#160;&#160;&#160;</label>
+  <p></p>
+  <p></p>
 <div>
-  <label>Ваш заказ готовы принять:</label>
+  <h5>Ваш заказ готовы принять:</h5>
   <table>
     <tr>
-      <th>Работник</th>
-      <th>Рейтинг</th>
-      <th>Стоимость</th>
-      <th>Выбрать</th>
+      <th>Работник&#160;&#160;&#160;&#160;</th>
+      <th>Рейтинг&#160;&#160;&#160;&#160;</th>
+      <th>Стоимость&#160;&#160;&#160;&#160;</th>
+      <th>Выбрать&#160;&#160;&#160;&#160;</th>
     </tr>
     <tr *ngFor="let service of services" >
       <td>{{service.worker.name}} {{service.worker.fname}}</td>
@@ -18,3 +20,6 @@
   </table>
 </div>
 </div>
+<p></p>
+<p></p>
+

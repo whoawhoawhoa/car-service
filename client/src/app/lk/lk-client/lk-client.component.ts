@@ -23,6 +23,7 @@ import {AvailableOrderService} from '../../services/available-order.service';
 
 
 export class LkClientComponent implements OnInit {
+
   clientSource: Client;
   userSource: User;
   clientCars: Car[];
@@ -71,6 +72,10 @@ export class LkClientComponent implements OnInit {
 
   redirectToMain() {
     this.router.navigate(['/main/' + this.clientSource.login + '/' + this.clientSource.password]);
+  }
+
+  redirectToOrders() {
+    this.router.navigate(['/availableordersforclient/' + this.clientSource.login + '/' + this.clientSource.password]);
   }
 
   getUser(login: string, password: string) {
