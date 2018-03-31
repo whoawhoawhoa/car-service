@@ -28,7 +28,7 @@ public class CarTypeController extends WebMvcConfigurerAdapter {
     {
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(builder.path("/car_type").build().toUri());
-        if(carTypeRepository.findByCarType(carType.getCarType()) != null) {
+        if(carTypeRepository.findByCarType(carType.getCarType().toLowerCase()) != null) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
         carTypeRepository.save(carType);
@@ -54,7 +54,7 @@ public class CarTypeController extends WebMvcConfigurerAdapter {
     @DeleteMapping(value = "/deletecartype")
     public ResponseEntity<Void> deleteCarType(@RequestParam long id){
         carTypeRepository.delete(id);
-        return new ResponseEntity<Void>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @RequestMapping(value = "/car_type", method = RequestMethod.GET)

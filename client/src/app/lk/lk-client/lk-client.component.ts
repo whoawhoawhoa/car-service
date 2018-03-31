@@ -24,9 +24,12 @@ export class LkClientComponent implements OnInit {
   carTypes: CarType[];
   carIdToUpdate = null;
   statusCode: number;
+  statusCodeCar: number;
+  statusCodeClient: number;
   requestProcessing = false;
   clientIdToUpdate = null;
-  processValidation = false;
+  processValidationClient = false;
+  processValidationCar = false;
 
   clientForm = new FormGroup({
     login: new FormControl('', Validators.required),
@@ -84,11 +87,11 @@ export class LkClientComponent implements OnInit {
       .subscribe(
         data => {this.clientSource = data;
           this.getCars(); },
-        errorCode => this.statusCode);
+        errorCode => this.statusCodeClient);
   }
 
   onClientFormSubmit() {
-    this.processValidation = true;
+    this.processValidationClient = true;
     if (this.clientForm.invalid) {
       return; // Validation failed, exit from method.
     }
@@ -105,13 +108,13 @@ export class LkClientComponent implements OnInit {
     const client = new Client(this.clientIdToUpdate, login, password, name, fName, pnumber, city, null, this.userSource, email);
     this.clientService.updateClient(client)
       .subscribe(successCode => {
-        this.statusCode = successCode;
+        this.statusCodeClient = successCode;
         this.getClient(login, password);
         this.clientSource = client;
         this.loadClientToEdit();
         this.backToCreateClient();
       }, errorCode =>
-        this.statusCode = errorCode);
+        this.statusCodeClient = errorCode);
   }
 
   loadClientToEdit() {
@@ -129,11 +132,11 @@ export class LkClientComponent implements OnInit {
               pnumber: client.pnumber,
               city: client.city,
               email: client.email});
-            this.processValidation = true;
+            this.processValidationClient = true;
             this.requestProcessing = false;
             this.clientSource = client;
           },
-          errorCode =>  this.statusCode = errorCode);
+          errorCode =>  this.statusCodeClient = errorCode);
     } else {
       this.clientService.getClientByLoginAndPassword(this.clientSource.login, this.clientSource.password)
         .subscribe(client => {
@@ -146,10 +149,10 @@ export class LkClientComponent implements OnInit {
               pnumber: client.pnumber,
               city: client.city,
               email: client.email});
-            this.processValidation = true;
+            this.processValidationClient = true;
             this.requestProcessing = false;
           },
-          errorCode =>  this.statusCode = errorCode);
+          errorCode =>  this.statusCodeClient = errorCode);
     }
   }
 
@@ -158,16 +161,16 @@ export class LkClientComponent implements OnInit {
     this.preProcessConfigurations();
     this.clientService.deleteClientByLogin(clientLogin)
       .subscribe(successCode => {
-          this.statusCode = successCode;
+          this.statusCodeClient = successCode;
         },
-        errorCode => this.statusCode = errorCode);
+        errorCode => this.statusCodeClient = errorCode);
   }
 
   getCars() {
     this.carService.getCarsByClientLogin(this.clientSource.login)
       .subscribe(
         data => this.clientCars = data,
-        errorCode => this.statusCode);
+        errorCode => this.statusCodeCar);
   }
 
 
@@ -177,13 +180,13 @@ export class LkClientComponent implements OnInit {
       .subscribe(successCode => {
           this.statusCode = successCode;
           this.getCars();
-          this.backToCreateClient();
+          this.backToCreateCar();
         },
-        errorCode => this.statusCode = errorCode);
+        errorCode => this.statusCodeCar = errorCode);
   }
 
   onNewCarFormSubmit() {
-    this.processValidation = true;
+    this.processValidationCar = true;
     if (this.newCarForm.invalid) {
       return; // Validation failed, exit from method.
     }
@@ -194,7 +197,7 @@ export class LkClientComponent implements OnInit {
     const color = this.newCarForm.get('color').value.trim();
     let cartype = this.newCarForm.get('carType').value.trim();
     for (const a of this.carTypes) {
-      if (a.id === cartype) {
+      if (a.id == cartype) {
         cartype = a;
       }
     }
@@ -202,22 +205,28 @@ export class LkClientComponent implements OnInit {
     const car = new Car(null, number, brand, color, this.clientSource, cartype);
     this.carService.createCar(car)
       .subscribe(successCode => {
-          this.statusCode = successCode;
+          this.statusCodeCar = successCode;
           this.getCars();
-          this.backToCreateClient();
+          this.backToCreateCar();
         },
-        errorCode => this.statusCode = errorCode);
+        errorCode => this.statusCodeCar = errorCode);
   }
 
   preProcessConfigurations() {
     this.statusCode = null;
+    this.statusCodeClient = null;
+    this.statusCodeCar = null;
     this.requestProcessing = true;
   }
 
   backToCreateClient() {
+    this.clientIdToUpdate = null;
+    this.processValidationClient = false;
+  }
+
+  backToCreateCar() {
     this.carIdToUpdate = null;
     this.newCarForm.reset();
-    this.clientIdToUpdate = null;
-    this.processValidation = false;
+    this.processValidationCar = false;
   }
 }

@@ -38,37 +38,37 @@
       <tr>
         <td>Login</td>
         <td><input formControlName="login" class="form-control mr-sm-2" ></td>
-        <td><label *ngIf="clientForm.get('login').invalid && processValidation" [ngClass] = "'error'" > Логин не указан </label></td>
+        <td><label *ngIf="clientForm.get('login').invalid && processValidation" class="text-danger" > Логин не указан </label></td>
       </tr>
       <tr>
         <td>Password</td>
         <td><input formControlName="password" class="form-control mr-sm-2"></td>
-        <td><label *ngIf="clientForm.get('password').invalid && processValidation" [ngClass] = "'error'"> Пароль не указан </label></td>
+        <td><label *ngIf="clientForm.get('password').invalid && processValidation" class="text-danger"> Пароль не указан </label></td>
       </tr>
       <tr>
         <td>First name</td>
         <td><input formControlName="name" class="form-control mr-sm-2"></td>
-        <td><label *ngIf="clientForm.get('name').invalid && processValidation" [ngClass] = "'error'"> Имя не указано </label></td>
+        <td><label *ngIf="clientForm.get('name').invalid && processValidation" class="text-danger"> Имя не указано </label></td>
       </tr>
       <tr>
         <td>Last name</td>
         <td><input formControlName="fname" class="form-control mr-sm-2"></td>
-        <td><label *ngIf="clientForm.get('fname').invalid && processValidation" [ngClass] = "'error'"> Фамилия не указана </label></td>
+        <td><label *ngIf="clientForm.get('fname').invalid && processValidation" class="text-danger"> Фамилия не указана </label></td>
       </tr>
       <tr>
         <td>Phone number&#160;</td>
         <td><input formControlName="pnumber" class="form-control mr-sm-2" placeholder="In format '88005553535'"></td>
-        <td><label *ngIf="clientForm.get('pnumber').invalid && processValidation" [ngClass] = "'error'"> Номер телефона не указан </label></td>
+        <td><label *ngIf="clientForm.get('pnumber').invalid && processValidation" class="text-danger"> Номер телефона не указан </label></td>
       </tr>
       <tr>
         <td>City</td>
         <td><input formControlName="city" class="form-control mr-sm-2"></td>
-        <td><label *ngIf="clientForm.get('city').invalid && processValidation" [ngClass] = "'error'"> Город не указан </label></td>
+        <td><label *ngIf="clientForm.get('city').invalid && processValidation" class="text-danger"> Город не указан </label></td>
       </tr>
       <tr>
         <td>Email</td>
         <td><input formControlName="email" class="form-control mr-sm-2"></td>
-        <td><label *ngIf="clientForm.get('email').invalid && processValidation" [ngClass] = "'error'"> Email не указан </label></td>
+        <td><label *ngIf="clientForm.get('email').invalid && processValidation" class="text-danger"> Email не указан </label></td>
       </tr>
       <tr>
         <td>
@@ -82,14 +82,17 @@
   </form>
   <br/>
   <div *ngIf="statusCode">
-    <div *ngIf="statusCode === 201" [ngClass] = "'success'">
-      Client added successfully.
+    <div *ngIf="statusCode === 409">
+      <p align="center" class="text-warning">Такой логин уже существует!</p>
     </div>
-    <div *ngIf="statusCode === 409" [ngClass] = "'success'">
-      This login already exists.
+    <div *ngIf="statusCode === 422">
+      <p align="center" class="text-danger">Неверно заполнены поля! Проверьте формат ввода!</p>
     </div>
-    <div *ngIf="statusCode === 500" [ngClass] = "'error'">
-      Internal Server Error.
+    <div *ngIf="statusCode === 400">
+      <p align="center" class="text-danger">Неверно заполнены поля! Проверьте формат ввода!</p>
+    </div>
+    <div *ngIf="statusCode === 500">
+      <p align="center" class="text-danger">Произошла ошибка на сервере!</p>
     </div>
   </div>
 </div>

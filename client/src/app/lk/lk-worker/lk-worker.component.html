@@ -23,6 +23,14 @@
 </nav>
 <p>&#160;</p>
 
+<div *ngIf="statusCode" align="center">
+  <div *ngIf="statusCode === 400" >
+    <p align="center" class="text-danger">Не получилось загрузить данные с сервера!</p>
+  </div>
+  <div *ngIf="statusCode === 500">
+    <p align="center" class="text-danger">Произошла ошибка на сервере!</p>
+  </div>
+</div>
 
 <h1 align="center">Информация о профиле работника</h1>
 <table align="center">
@@ -90,6 +98,27 @@
         </td>
         <td>
           <button class="btn btn-danger" routerLink=""  (click)="deleteWorker(workerSource.login)">Удалить аккаунт</button>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <div *ngIf="statusCodeWorker">
+            <div *ngIf="statusCodeWorker === 409">
+              <p class="text-success">Вы ничего не изменили!</p>
+            </div>
+            <div *ngIf="statusCodeWorker === 422">
+              <p class="text-danger">Неверно заполнены поля! Проверьте формат ввода!</p>
+            </div>
+            <div *ngIf="statusCodeWorker === 400">
+              <p class="text-danger">Неверно заполнены поля! Проверьте формат ввода!</p>
+            </div>
+            <div *ngIf="statusCodeWorker === 204">
+              <p class="text-warning">Не найдена запись для удаления! Возможно, удаление уже было совершено!</p>
+            </div>
+            <div *ngIf="statusCodeWorker === 500">
+              <p class="text-danger">Произошла ошибка на сервере!</p>
+            </div>
+          </div>
         </td>
       </tr>
     </table>

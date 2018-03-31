@@ -46,7 +46,7 @@ public class ClientController extends WebMvcConfigurerAdapter {
     public ResponseEntity<Void> postClient(@RequestBody Client client, UriComponentsBuilder builder) {
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(builder.path("/client").build().toUri());
-        if(clientRepository.findClientByLogin(client.getLogin()).size() != 0) {
+        if(clientRepository.findClientsByLogin(client.getLogin()).size() != 0) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
         if(isValid(client)) {
@@ -64,7 +64,7 @@ public class ClientController extends WebMvcConfigurerAdapter {
     @RequestMapping(value = "/client", method = RequestMethod.GET)
     public ResponseEntity<Client> getClientByLoginAndPassword(
             @RequestParam("login") String login, @RequestParam("password") String password) {
-        List<Client> clients = clientRepository.findClientByLoginAndPassword(login, password);
+        List<Client> clients = clientRepository.findClientsByLoginAndPassword(login, password);
         if(clients.size() == 0) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -82,7 +82,7 @@ public class ClientController extends WebMvcConfigurerAdapter {
     @RequestMapping(value = "/client", method = RequestMethod.DELETE)
     public ResponseEntity<Void> deleteClient(@RequestParam String login)
     {
-        Client client = clientRepository.findClientByLogin(login).get(0);
+        Client client = clientRepository.findClientsByLogin(login).get(0);
         clientRepository.delete(client.getId());
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
@@ -93,7 +93,8 @@ public class ClientController extends WebMvcConfigurerAdapter {
         try
         {
             Client sourceClient = clientRepository.findClientById(client.getId());
-            if(sourceClient.equals(client))
+            List<Client> clients = clientRepository.findClientsByLogin(client.getLogin());
+            if(sourceClient.equals(client) || clients.size() != 0)
                 return new ResponseEntity<>(HttpStatus.CONFLICT);
             clientRepository.save(client);
             return new ResponseEntity<>(client, HttpStatus.OK);

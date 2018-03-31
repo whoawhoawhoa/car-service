@@ -42,9 +42,14 @@ public class PriceController extends WebMvcConfigurerAdapter {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @RequestMapping(path = "/price", method = RequestMethod.PUT)
+    @RequestMapping(path = "/price", method = RequestMethod.POST)
     public ResponseEntity<Void> addPrice(@RequestBody Price price)
     {
+        List<Price> prices = priceRepository.findPriceByCarTypeCarTypeAndServiceType(
+                price.getCarType().getCarType(), price.getServiceType());
+        if (prices != null && prices.size() != 0) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
         priceRepository.save(price);
         return new ResponseEntity<>(HttpStatus.OK);
     }

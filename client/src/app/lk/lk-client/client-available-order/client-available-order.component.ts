@@ -7,6 +7,8 @@ import {ServiceService} from '../../../services/service.service';
 import {Order} from '../../../table-classes/order';
 import {OrderService} from '../../../services/order.service';
 import {AvailableOrderService} from '../../../services/available-order.service';
+import {MatDialog} from '@angular/material';
+import {ClientPaymentComponent} from '../client-payment/client-payment.component';
 
 @Component({
   selector: 'app-client-available-order',
@@ -17,11 +19,13 @@ export class ClientAvailableOrderComponent implements OnInit {
   @Input() avOrder: AvailableOrder;
   workers: Worker[];
   services: Service[];
+  order: Order;
 
   constructor(private workerService: WorkerService,
               private serviceService: ServiceService,
               private orderService: OrderService,
-              private avOrderService: AvailableOrderService) { }
+              private avOrderService: AvailableOrderService,
+              private dialog: MatDialog) { }
 
   ngOnInit() {
     this.loadWorkerList();
@@ -49,6 +53,7 @@ export class ClientAvailableOrderComponent implements OnInit {
     const order = new Order(null, null, null, this.avOrder.orderDate, this.avOrder.serviceType,
       service.price.price * service.coef, 0, this.avOrder.address, this.avOrder.commentary,
       this.avOrder.client, worker, this.avOrder.car);
+    this.order = order;
     this.orderService.createOrder(order)
       .subscribe(successCode => {
         this.avOrderService.deleteAvOrderById(this.avOrder.id)
@@ -58,5 +63,11 @@ export class ClientAvailableOrderComponent implements OnInit {
             this.avOrder = null;
           });
       });
+    this.dialog.open(ClientPaymentComponent, {
+      width: '400px',
+      data: {
+        order: order
+      }
+    });
   }
 }

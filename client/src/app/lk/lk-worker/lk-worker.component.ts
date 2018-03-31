@@ -15,6 +15,7 @@ export class LkWorkerComponent implements OnInit {
   workerSource: Worker;
   userSource: User;
   statusCode: number;
+  statusCodeWorker: number;
   requestProcessing = false;
   workerIdToUpdate = null;
   processValidation = false;
@@ -56,7 +57,7 @@ export class LkWorkerComponent implements OnInit {
     this.workerService.getWorkerByLoginAndPassword(login, password)
       .subscribe(
         data => this.workerSource = data,
-        errorCode => this.statusCode);
+        errorCode => this.statusCodeWorker);
   }
 
   onWorkerFormSubmit() {
@@ -79,13 +80,13 @@ export class LkWorkerComponent implements OnInit {
       pnumber, city, 0, status, this.userSource, email);
     this.workerService.updateWorker(worker)
       .subscribe(successCode => {
-        this.statusCode = successCode;
+        this.statusCodeWorker = successCode;
         this.getWorker(login, password);
         this.workerSource = worker;
         this.router.navigate(['/lkworker/' + login + '/' + password]);
         this.loadWorkerToEdit();
         this.backToCreateWorker();
-      }, errorCode => this.statusCode = errorCode);
+      }, errorCode => this.statusCodeWorker = errorCode);
   }
 
   loadWorkerToEdit() {
@@ -108,7 +109,7 @@ export class LkWorkerComponent implements OnInit {
             this.requestProcessing = false;
             this.workerSource = worker;
           },
-          errorCode =>  this.statusCode = errorCode);
+          errorCode =>  this.statusCodeWorker = errorCode);
     } else {
       this.workerService.getWorkerByLoginAndPassword(this.workerSource.login, this.workerSource.password)
         .subscribe(worker => {
@@ -125,12 +126,8 @@ export class LkWorkerComponent implements OnInit {
             this.processValidation = true;
             this.requestProcessing = false;
           },
-          errorCode =>  this.statusCode = errorCode);
+          errorCode =>  this.statusCodeWorker = errorCode);
     }
-  }
-
-  redirectToMain() {
-    this.router.navigate(['/main/' + this.workerSource.login + '/' + this.workerSource.password]);
   }
 
   redirectToOrders() {
@@ -143,37 +140,17 @@ export class LkWorkerComponent implements OnInit {
       .subscribe(successCode => {
           this.statusCode = successCode;
         },
-        errorCode => this.statusCode = errorCode);
-  }
-
-  updateStatus() {
-    const ready = this.readyForm.get('ready').value;
-    if (ready) {
-      this.workerSource.status = 1;
-      this.workerService.updateWorker(this.workerSource)
-        .subscribe(sc => {
-        this.statusCode = sc;
-        this.backToCreateWorker();
-        this.loadWorkerToEdit();
-      }, errorCode =>
-        this.statusCode = errorCode);
-    } else {
-      this.workerSource.status = 0;
-      this.workerService.updateWorker(this.workerSource)
-        .subscribe(sc => {
-          this.statusCode = sc;
-          this.backToCreateWorker();
-          this.loadWorkerToEdit();
-        }, errorCode =>
-          this.statusCode = errorCode);
-    }
+        errorCode => this.statusCodeWorker = errorCode);
   }
 
   preProcessConfigurations() {
     this.statusCode = null;
+    this.statusCodeWorker = null;
     this.requestProcessing = true;
   }
-
+  test() {
+    this.statusCodeWorker = null;
+  }
 
   backToCreateWorker() {
     this.workerIdToUpdate = null;

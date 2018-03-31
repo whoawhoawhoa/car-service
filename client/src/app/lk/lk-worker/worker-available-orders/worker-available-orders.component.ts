@@ -16,6 +16,7 @@ export class WorkerAvailableOrdersComponent implements OnInit {
   avOrders: AvailableOrder[];
   sourceServices: Service[];
   sourceAvOrders: AvailableOrder[];
+  statusCode: number;
 
   constructor(private avOrderService: AvailableOrderService,
               private serviceService: ServiceService) {
@@ -53,7 +54,9 @@ export class WorkerAvailableOrdersComponent implements OnInit {
     }
     order.workers.push(this.id);
     this.avOrderService.updateAvOrder(order)
-      .subscribe();
-    this.getAvOrders();
+      .subscribe(
+        successCode => this.getAvOrders(),
+        error => this.statusCode
+      );
   }
 }

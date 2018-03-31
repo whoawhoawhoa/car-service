@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.Objects;
 import java.util.Set;
 
@@ -54,6 +55,9 @@ public class Worker implements Serializable {
     private User user;
     @Column(name = "email")
     private String email;
+    @JsonIgnore
+    @Column(name = "start_date")
+    private Date startDate;
 
     public Worker() {}
 
@@ -167,6 +171,14 @@ public class Worker implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
     }
 
     @Override

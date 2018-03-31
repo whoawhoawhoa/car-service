@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {Headers, Http, RequestOptions, Response} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import {CarType} from '../table-classes/car-type';
+import 'rxjs/add/observable/throw';
 
 @Injectable()
 export class CarTypeService {

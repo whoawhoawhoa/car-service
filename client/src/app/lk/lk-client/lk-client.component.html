@@ -28,6 +28,15 @@
   </div>
 </nav>
 
+<div *ngIf="statusCode" align="center">
+  <div *ngIf="statusCode === 400" >
+    <p align="center" class="text-danger">Не получилось загрузить данные с сервера!</p>
+  </div>
+  <div *ngIf="statusCode === 500">
+    <p align="center" class="text-danger">Произошла ошибка на сервере!</p>
+  </div>
+</div>
+
 <h1 align="center">Информация о профиле клиента</h1>
 <table align="center">
   <tr>
@@ -90,6 +99,27 @@
         <td><button class="btn btn-outline-success my-2 my-sm-0">Обновить</button></td>
         <td><button routerLink="" class="btn btn-danger" (click)="deleteClient(clientSource.login)">Удалить аккаунт</button></td>
       </tr>
+      <tr>
+        <td colspan="2">
+          <div *ngIf="statusCodeClient">
+            <div *ngIf="statusCodeClient === 409">
+              <p class="text-warning">Такой логин уже существует!</p>
+            </div>
+            <div *ngIf="statusCodeClient === 422">
+              <p class="text-danger">Неверно заполнены поля! Проверьте формат ввода!</p>
+            </div>
+            <div *ngIf="statusCodeClient === 400">
+              <p class="text-danger">Неверно заполнены поля! Проверьте формат ввода!</p>
+            </div>
+            <div *ngIf="statusCodeClient === 204">
+              <p class="text-warning">Не найдена запись для удаления! Возможно, удаление уже было совершено!</p>
+            </div>
+            <div *ngIf="statusCodeClient === 500">
+              <p class="text-danger">Произошла ошибка на сервере!</p>
+            </div>
+          </div>
+        </td>
+      </tr>
     </table>
   </form>
 </div>
@@ -102,17 +132,17 @@
       <tr>
         <td>Номер</td>
         <td><input formControlName="number" class="form-control mr-sm-2"></td>
-        <td><label *ngIf="newCarForm.get('number').invalid && processValidation" [ngClass] = "'error'" > Number is required. </label></td>
+        <td><label *ngIf="newCarForm.get('number').invalid && processValidationCar" class="text-danger" > Обязательное поле </label></td>
       </tr>
       <tr>
         <td>Марка</td>
         <td><input formControlName="brand" class="form-control mr-sm-2"></td>
-        <td><label *ngIf="newCarForm.get('brand').invalid && processValidation" [ngClass] = "'error'"> Brand is required. </label></td>
+        <td><label *ngIf="newCarForm.get('brand').invalid && processValidationCar" class="text-danger" > Обязательное поле </label></td>
       </tr>
       <tr>
         <td>Цвет</td>
         <td><input formControlName="color" class="form-control mr-sm-2"></td>
-        <td><label *ngIf="newCarForm.get('color').invalid && processValidation" [ngClass] = "'error'"> Color is required. </label></td>
+        <td><label *ngIf="newCarForm.get('color').invalid && processValidationCar" class="text-danger" > Обязательное поле </label></td>
       </tr>
       <tr>
         <td>Выберите тип кузова</td>
@@ -121,16 +151,38 @@
           </select>
         </td>
         <td>
-          <label *ngIf="newCarForm.get('carType').invalid && processValidation" [ngClass] = "'error'"> Обязательное поле </label>
+          <label *ngIf="newCarForm.get('carType').invalid && processValidationCar" class="text-danger" > Обязательное поле </label>
         </td>
       </tr>
-      <td>
-        <button class="btn btn-outline-success my-2 my-sm-0">Добавить</button>
-      </td>
+      <tr>
+        <td colspan="2">
+          <button class="btn btn-outline-success my-2 my-sm-0">Добавить</button>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <div *ngIf="statusCodeCar">
+            <div *ngIf="statusCodeCar === 409">
+              <p class="text-warning">Такая машина уже существует!</p>
+            </div>
+            <div *ngIf="statusCodeCar === 422">
+              <p class="text-danger">Неверно заполнены поля! Проверьте формат ввода!</p>
+            </div>
+            <div *ngIf="statusCodeCar === 400">
+              <p class="text-danger">Неверно заполнены поля! Проверьте формат ввода!</p>
+            </div>
+            <div *ngIf="statusCodeCar === 204">
+              <p class="text-warning">Не найдена запись для удаления! Возможно, удаление уже было совершено!</p>
+            </div>
+            <div *ngIf="statusCodeCar === 500">
+              <p class="text-danger">Произошла ошибка на сервере!</p>
+            </div>
+          </div>
+        </td>
+      </tr>
     </table>
   </form>
 </div>
-
 
 <div id="cars">
   <h3> Ваши машины </h3>
@@ -150,35 +202,6 @@
     </tr>
     </table>
 </div>
-
-
-
-
-
-<!--<div id="orders" >-->
-  <!--<h3> Ваши заказы </h3>-->
-    <!--<table>-->
-      <!--<tr>-->
-        <!--<th>Тип услуги&#160;&#160;&#160;&#160;&#160;&#160;&#160;</th>-->
-        <!--<th>Дата&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</th>-->
-        <!--<th>Цена&#160;&#160;&#160;&#160;&#160;&#160;&#160;</th>-->
-      <!--</tr>-->
-      <!--<tr *ngFor="let order of clientOrders" >-->
-        <!--<td>{{order.serviceType}}</td>-->
-        <!--<td>{{order.orderDate}}</td>-->
-        <!--<td>{{order.totalPrice}}</td>-->
-      <!--</tr>-->
-    <!--</table>-->
-<!--</div>-->
-
-  <!--<div id="avOrders" *ngIf="clientAvOrders !== null && clientAvOrders !== undefined && clientAvOrders.length !== 0">-->
-    <!--<h3> Ваши активные заказы </h3>-->
-    <!--<div *ngFor="let avOrder of clientAvOrders">-->
-      <!--<app-client-available-order [avOrder]="avOrder" ></app-client-available-order>-->
-    <!--</div>-->
-    <!--<button (click)="refreshAvOrder()" class="btn btn-outline-success my-2 my-sm-0">Обновить статус</button>-->
-  <!--</div>-->
-
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
