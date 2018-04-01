@@ -19,7 +19,7 @@
       <td>{{order.commentary}}</td>
       <td>
         <div *ngIf="order.workers === null || order.workers.indexOf(id) < 0">
-          <button (click)="accept(order)">Взять заказ</button>
+          <button (click)="accept(order)" class="btn btn-outline-success my-2 my-sm-0">Взять заказ</button>
         </div>
         <div *ngIf="order.workers != null && order.workers.indexOf(id) > -1">
           <label>Вы подали заявку на этот заказ</label>

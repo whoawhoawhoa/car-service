@@ -87,6 +87,14 @@ export class MainPageComponent implements OnInit {
     }
   }
 
+  redirectToOrders() {
+    this.router.navigate(['/client-orders/' + this.sourceClient.login + '/' + this.sourceClient.password]);
+  }
+
+  redirectToMain() {
+    this.router.navigate(['/main/' + this.sourceClient.login + '/' + this.sourceClient.password]);
+  }
+
   getCars() {
     this.carService.getCarsByClientLogin(this.sourceClient.login)
       .subscribe(cars => {
