@@ -25,9 +25,14 @@ public class Order implements Serializable {
     private int totalPrice;
     @Column(name = "status")
     /*
-    0 - IN_PROCESS
-    1- FINISHED
-    2- REJECTED
+    0 - ПРИНЯТ
+    1 - ОПЛАЧЕН
+    2 - РАБОТНИК ЗАКОНЧИЛ
+    3 - КЛИЕНТ ОЦЕНИВАЕТ (клиент подтвердил
+                    выполнение после статуса 2)
+    4 - РАБОТНИК ОЦЕНИВАЕТ
+    5 - ОТМЕНЕН
+    6 - ВЫПОЛНЕН
     * */
     private int status;
     @Column(name="address")

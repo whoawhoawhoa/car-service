@@ -33,7 +33,7 @@ public class Client implements Serializable {
     @Column(name = "city")
     private String city;
     @Column(name = "rating")
-    private int rating;
+    private double rating;
     @JsonIgnore
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
     private Set<Car> carSet;
@@ -110,11 +110,11 @@ public class Client implements Serializable {
         this.city = city;
     }
 
-    public int getRating() {
+    public double getRating() {
         return rating;
     }
 
-    public void setRating(int rating) {
+    public void setRating(double rating) {
         this.rating = rating;
     }
 
@@ -148,6 +148,10 @@ public class Client implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public User getUser() {
+        return user;
     }
 
     @Override

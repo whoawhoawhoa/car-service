@@ -21,8 +21,12 @@ export class WorkerOrdersComponent implements OnInit {
     ready: new FormControl('')
   });
 
-  constructor(private orderService: OrderService, private route: ActivatedRoute, private workerService: WorkerService,
-              private router: Router) { }
+  constructor(private orderService: OrderService,
+              private route: ActivatedRoute,
+              private workerService: WorkerService,
+              private router: Router) {
+    this.allOrders = [];
+  }
 
   ngOnInit() {
     this.getWorker(this.route.snapshot.paramMap.get('login'), this.route.snapshot.paramMap.get('password'));
@@ -69,5 +73,17 @@ export class WorkerOrdersComponent implements OnInit {
         }, errorCode =>
           this.statusCode = errorCode);
     }
+  }
+
+  executedAndCancelledOrders()
+  {
+    return this.allOrders.filter(
+      order => order.status == 5 || order.status == 6);
+  }
+
+  paidOrders()
+  {
+    return this.allOrders.filter(
+      order => order.status == 1 || order.status == 4 || order.status == 2 || order.status == 3);
   }
 }

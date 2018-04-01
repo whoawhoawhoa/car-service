@@ -18,17 +18,23 @@
       <td>{{order.car.brand}} {{order.car.number}} {{order.car.carType.carType}}</td>
       <td>{{order.commentary}}</td>
       <td>
-        <div *ngIf="order.workers === null || order.workers.indexOf(id) < 0">
+        <div *ngIf="order.workers == null || order.workers.indexOf(id) < 0">
           <button (click)="accept(order)" class="btn btn-outline-success my-2 my-sm-0">Взять заказ</button>
         </div>
         <div *ngIf="order.workers != null && order.workers.indexOf(id) > -1">
           <label>Вы подали заявку на этот заказ</label>
         </div>
       </td>
+      <td>
+        <div *ngIf="order.workers != null && order.workers.indexOf(id) > -1">
+          <button class="btn btn-danger" (click)="onCancel(order)">Отменить</button>
+        </div>
+      </td>
     </tr>
     <tr>
       <td colspan="7" align="right">
-        <button (click)="getAvOrders()" class="btn btn-outline-success my-2 my-sm-0">Обновить статус заказов</button>
+        <button (click)="getAvOrders()" class="btn btn-outline-success my-2 my-sm-0">
+          Обновить статус заказов</button>
       </td>
     </tr>
   </table>

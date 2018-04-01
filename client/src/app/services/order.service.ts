@@ -14,7 +14,7 @@ export class OrderService {
 
   constructor(private http: Http) { }
 
-  getOrderByClientLogin(clientLogin: string): Observable<Order[]> {
+  getOrdersByClientLogin(clientLogin: string): Observable<Order[]> {
     return this.http.get(this.clientsOrdersUrl + '?login=' + clientLogin)
       .map(this.extractData)
       .catch(this.handleError);
@@ -37,9 +37,8 @@ export class OrderService {
   getOrderById(orderId: string): Observable<Order> {
     const cpHeaders = new Headers({ 'Content-Type': 'application/json' });
     const cpParams = new URLSearchParams();
-    cpParams.set('id', orderId);
     const options = new RequestOptions({ headers: cpHeaders, params: cpParams });
-    return this.http.get(this.orderUrl, options)
+    return this.http.get(this.orderUrl + "?id=" + orderId, options)
       .map(this.extractData)
       .catch(this.handleError);
   }

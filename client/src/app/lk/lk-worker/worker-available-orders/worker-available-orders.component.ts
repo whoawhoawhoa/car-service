@@ -3,7 +3,9 @@ import {AvailableOrderService} from '../../../services/available-order.service';
 import {ServiceService} from '../../../services/service.service';
 import {AvailableOrder} from '../../../table-classes/available-order';
 import {Service} from '../../../table-classes/service';
-
+import {ClientOrdersComponent} from "../../lk-client/client-orders/client-orders.component";
+import {WorkerOrdersComponent} from "../worker-orders/worker-orders.component";
+import {ActivatedRoute} from "@angular/router";
 @Component({
   selector: 'app-worker-available-orders',
   templateUrl: './worker-available-orders.component.html',
@@ -13,12 +15,14 @@ export class WorkerAvailableOrdersComponent implements OnInit {
 
   @Input() login: string;
   @Input() id: number;
-  avOrders: AvailableOrder[];
   sourceServices: Service[];
   sourceAvOrders: AvailableOrder[];
 
   constructor(private avOrderService: AvailableOrderService,
-              private serviceService: ServiceService) {
+              private serviceService: ServiceService,
+              private clientOrdersComponent: ClientOrdersComponent,
+              private workerOrdersComponent: WorkerOrdersComponent,
+              private route: ActivatedRoute) {
     this.sourceAvOrders = [];
   }
 
@@ -28,10 +32,8 @@ export class WorkerAvailableOrdersComponent implements OnInit {
 
   getAvOrders() {
     this.sourceAvOrders = [];
-    this.avOrders = [];
     this.avOrderService.getAllAvailableOrders()
       .subscribe(avOrders => {
-    this.avOrders = avOrders;
     this.serviceService.getServicesByWorkerLogin(this.login)
       .subscribe(services => {
     this.sourceServices = services;
@@ -43,6 +45,8 @@ export class WorkerAvailableOrdersComponent implements OnInit {
         }
       }
     }
+    this.workerOrdersComponent.getAllOrders();
+    this.workerOrdersComponent.getWorker(this.route.snapshot.paramMap.get('login'), this.route.snapshot.paramMap.get('password'));
       });
       });
   }
@@ -53,7 +57,14 @@ export class WorkerAvailableOrdersComponent implements OnInit {
     }
     order.workers.push(this.id);
     this.avOrderService.updateAvOrder(order)
-      .subscribe();
-    this.getAvOrders();
+      .subscribe(data =>  this.getAvOrders());
+  }
+
+  onCancel(order: AvailableOrder)
+  {
+    const index = order.workers.indexOf(this.id);
+    order.workers.splice(index,1);
+    this.avOrderService.updateAvOrder(order)
+      .subscribe(data =>  this.getAvOrders());
   }
 }

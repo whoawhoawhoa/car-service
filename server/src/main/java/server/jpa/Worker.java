@@ -31,7 +31,7 @@ public class Worker implements Serializable {
     @Column(name = "city")
     private String city;
     @Column(name = "rating")
-    private int rating;
+    private double rating;
     @Column(name = "status")
     /*
     * OFFLINE == 0
@@ -121,11 +121,11 @@ public class Worker implements Serializable {
         this.city = city;
     }
 
-    public int getRating() {
+    public double getRating() {
         return rating;
     }
 
-    public void setRating(int rating) {
+    public void setRating(double rating) {
         this.rating = rating;
     }
 

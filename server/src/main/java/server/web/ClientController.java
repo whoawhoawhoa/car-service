@@ -95,6 +95,7 @@ public class ClientController extends WebMvcConfigurerAdapter {
             Client sourceClient = clientRepository.findClientById(client.getId());
             if(sourceClient.equals(client))
                 return new ResponseEntity<>(HttpStatus.CONFLICT);
+            client.setUser(sourceClient.getUser());
             clientRepository.save(client);
             return new ResponseEntity<>(client, HttpStatus.OK);
         }catch (Exception e)

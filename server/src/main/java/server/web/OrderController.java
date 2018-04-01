@@ -76,4 +76,10 @@ public class OrderController extends WebMvcConfigurerAdapter {
         orderRepository.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @GetMapping(value = "/order")
+    public ResponseEntity<Order> getOrderById(@RequestParam long id){
+        Order order = orderRepository.findOne(id);
+        return new ResponseEntity<>(order,HttpStatus.OK);
+    }
 }

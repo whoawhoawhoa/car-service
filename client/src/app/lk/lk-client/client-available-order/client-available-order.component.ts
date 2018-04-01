@@ -7,6 +7,8 @@ import {ServiceService} from '../../../services/service.service';
 import {Order} from '../../../table-classes/order';
 import {OrderService} from '../../../services/order.service';
 import {AvailableOrderService} from '../../../services/available-order.service';
+import {ClientOrdersComponent} from "../client-orders/client-orders.component";
+import {WorkerOrdersComponent} from "../../lk-worker/worker-orders/worker-orders.component";
 
 @Component({
   selector: 'app-client-available-order',
@@ -21,7 +23,10 @@ export class ClientAvailableOrderComponent implements OnInit {
   constructor(private workerService: WorkerService,
               private serviceService: ServiceService,
               private orderService: OrderService,
-              private avOrderService: AvailableOrderService) { }
+              private avOrderService: AvailableOrderService,
+              private clientOrdersComponent: ClientOrdersComponent,
+              private workerOrdersComponent: WorkerOrdersComponent) {
+  }
 
   ngOnInit() {
     this.loadWorkerList();
@@ -46,17 +51,34 @@ export class ClientAvailableOrderComponent implements OnInit {
   }
 
   choose(worker: Worker, service: Service) {
+    /**
+     создается со статусом ОПЛАЧЕНО для теста!!!!!!!!!!!!!!!!!
+     у воркера устанавливается статус 2 = занят
+     */
+    worker.status = 2;
+    let orderStatus = 1;
     const order = new Order(null, null, null, this.avOrder.orderDate, this.avOrder.serviceType,
-      service.price.price * service.coef, 0, this.avOrder.address, this.avOrder.commentary,
+      service.price.price * service.coef, orderStatus, this.avOrder.address, this.avOrder.commentary,
       this.avOrder.client, worker, this.avOrder.car);
     this.orderService.createOrder(order)
       .subscribe(successCode => {
+        this.clientOrdersComponent.getOrders();
+        this.workerOrdersComponent.getAllOrders();
+        this.workerService.updateWorker(worker)
+          .subscribe();
         this.avOrderService.deleteAvOrderById(this.avOrder.id)
           .subscribe(success => {
             this.services = [];
             this.workers = [];
             this.avOrder = null;
+            this.clientOrdersComponent.getAvOrders();
           });
       });
+  }
+
+  cancel()
+  {
+    this.avOrderService.deleteAvOrderById(this.avOrder.id)
+      .subscribe(data => this.clientOrdersComponent.getAvOrders());
   }
 }

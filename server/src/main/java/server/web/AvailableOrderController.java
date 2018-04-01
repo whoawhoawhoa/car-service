@@ -92,7 +92,6 @@ public class AvailableOrderController extends WebMvcConfigurerAdapter {
 
     private void checkWorkers(AvailableOrder avOrder)
     {
-        System.out.println(avOrder);
         String serviceType = avOrder.getServiceType();
         Long carTypeId = avOrder.getCar().getCarType().getId();
         List<String> workersEmails = serviceController.getWorkersEmailsByServices(serviceType, carTypeId);

@@ -36,8 +36,8 @@ import { ClientAvailableOrderComponent } from './lk/lk-client/client-available-o
 import { StartPageComponent } from './start-page/start-page.component';
 import { CarouselModule } from 'ngx-bootstrap';
 import {ClientOrdersComponent} from './lk/lk-client/client-orders/client-orders.component';
-
-
+import { ClientOrdersFinalComponent } from './lk/lk-client/client-orders-final/client-orders-final.component';
+import { WorkerOrdersFinalComponent } from './lk/lk-worker/worker-orders-final/worker-orders-final.component';
 @NgModule({
   declarations: [
     StartPageComponent,
@@ -57,7 +57,9 @@ import {ClientOrdersComponent} from './lk/lk-client/client-orders/client-orders.
     WorkerPassportsComponent,
     CheckPassportsComponent,
     ClientAvailableOrderComponent,
-    ClientOrdersComponent
+    ClientOrdersComponent,
+    ClientOrdersFinalComponent,
+    WorkerOrdersFinalComponent
   ],
   imports: [
     BrowserModule,
@@ -78,7 +80,9 @@ import {ClientOrdersComponent} from './lk/lk-client/client-orders/client-orders.
     OrderService,
     PassportService,
     PriceService,
-    ServiceService
+    ServiceService,
+    ClientOrdersComponent,
+    WorkerOrdersComponent
   ],
   bootstrap: [
     AppComponent

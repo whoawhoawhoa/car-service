@@ -46,7 +46,7 @@
       <th>Цена&#160;&#160;&#160;&#160;&#160;&#160;</th>
       <th>Клиент&#160;&#160;&#160;&#160;&#160;&#160;</th>
     </tr>
-    <tr *ngFor="let order of allOrders" >
+    <tr *ngFor="let order of executedAndCancelledOrders()" >
       <td>{{order?.clientMark}}&#160;&#160;&#160;&#160;&#160;&#160;</td>
       <td>{{order?.workerMark}}&#160;&#160;&#160;&#160;&#160;&#160;</td>
       <td>{{order?.orderDate}}&#160;&#160;&#160;&#160;&#160;&#160;</td>
@@ -64,4 +64,8 @@
 <div *ngIf="workerSource?.status == 1" align="center">
   <app-worker-available-orders [login]="workerSource?.login" [id]="workerSource?.id">
   </app-worker-available-orders>
+</div>
+
+<div *ngFor="let order of paidOrders()" align="center">
+  <app-worker-orders-final [order] = order></app-worker-orders-final>
 </div>

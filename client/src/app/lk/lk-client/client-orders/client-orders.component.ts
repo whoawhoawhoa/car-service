@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, Pipe} from '@angular/core';
 import {Order} from '../../../table-classes/order';
 import {AvailableOrder} from '../../../table-classes/available-order';
 import {ClientService} from '../../../services/client.service';
@@ -31,7 +31,8 @@ export class ClientOrdersComponent implements OnInit {
   getClient(login: string, password: string) {
     this.clientService.getClientByLoginAndPassword(login, password)
       .subscribe(
-        data => {this.clientSource = data;
+        data => {
+          this.clientSource = data;
           this.getOrders();
           this.getAvOrders(); },
         errorCode => this.statusCode);
@@ -45,7 +46,7 @@ export class ClientOrdersComponent implements OnInit {
   }
 
   getOrders() {
-    this.orderService.getOrderByClientLogin(this.clientSource.login)
+    this.orderService.getOrdersByClientLogin(this.clientSource.login)
       .subscribe(
         data => this.clientOrders = data,
         errorCode => this.statusCode);
