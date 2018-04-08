@@ -69,7 +69,7 @@ public class ClientController extends WebMvcConfigurerAdapter {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         else {
-            return new ResponseEntity<>(clients.get(0), HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(clients.get(0), HttpStatus.OK);
         }
     }
 
@@ -80,24 +80,26 @@ public class ClientController extends WebMvcConfigurerAdapter {
     }
 
     @RequestMapping(value = "/client", method = RequestMethod.DELETE)
-    public ResponseEntity<Void> deleteClient(@RequestParam String login)
-    {
+    public ResponseEntity<Void> deleteClient(@RequestParam String login) {
         Client client = clientRepository.findClientsByLogin(login).get(0);
         clientRepository.delete(client.getId());
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @RequestMapping(value = "/client", method = RequestMethod.PUT)
-    public ResponseEntity<Client> updateClient(@RequestBody Client client)
-    {
+    public ResponseEntity<Client> updateClient(@RequestBody Client client) {
         try
         {
-            Client sourceClient = clientRepository.findClientById(client.getId());
-            List<Client> clients = clientRepository.findClientsByLogin(client.getLogin());
-            if(sourceClient.equals(client) || clients.size() != 0)
-                return new ResponseEntity<>(HttpStatus.CONFLICT);
-            clientRepository.save(client);
-            return new ResponseEntity<>(client, HttpStatus.OK);
+            if(isValid(client)) {
+                Client sourceClient = clientRepository.findClientById(client.getId());
+                List<Client> clients = clientRepository.findClientsByLogin(client.getLogin());
+                if (sourceClient.equals(client) || clients.size() != 0)
+                    return new ResponseEntity<>(HttpStatus.CONFLICT);
+                clientRepository.save(client);
+                return new ResponseEntity<>(client, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
+            }
         }catch (Exception e)
         {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

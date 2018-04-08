@@ -55,6 +55,10 @@ public class Admin implements Serializable {
         this.password = password;
     }
 
+    public User getUser() {
+        return user;
+    }
+
     @Override
     public String toString() {
         return "Admin{" +

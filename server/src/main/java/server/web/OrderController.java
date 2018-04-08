@@ -72,9 +72,9 @@ public class OrderController extends WebMvcConfigurerAdapter {
                     order.getClient(), order.getWorker(), order.getOrderDate(), order.getCar()
             );
         }
-        if(sourceOrder != null && sourceOrder == order)
+        if(sourceOrder != null && order.equals(sourceOrder))
             return new ResponseEntity<>(HttpStatus.CONFLICT);
-        if(sourceOrders != null) {
+        if(sourceOrders != null && sourceOrders.size() != 0) {
             order.setId(sourceOrders.get(sourceOrders.size() - 1).getId());
         }
         orderRepository.save(order);
@@ -84,6 +84,6 @@ public class OrderController extends WebMvcConfigurerAdapter {
     @DeleteMapping(value = "/order")
     public ResponseEntity<Void> deleteOrder(@RequestParam long id){
         orderRepository.delete(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

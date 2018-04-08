@@ -50,6 +50,19 @@ public class Client implements Serializable {
 
     public Client() {}
 
+    public Client(String login, String password, String name,
+                  String fname, long pnumber, String city,
+                  int rating, String email) {
+        this.login = login;
+        this.password = password;
+        this.name = name;
+        this.fname = fname;
+        this.pnumber = pnumber;
+        this.city = city;
+        this.rating = rating;
+        this.email = email;
+    }
+
     public void setUser(User user){
         this.user = user;
     }
@@ -148,6 +161,10 @@ public class Client implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public User getUser() {
+        return user;
     }
 
     @Override
