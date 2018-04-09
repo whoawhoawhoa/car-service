@@ -1,0 +1,106 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+  <a href="#" class="navbar-brand">
+    <img src="http://car-service63.ru/bitrix/templates/main/images/logo-retina.png"
+         width="150" height="40" alt="logo">
+  </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a routerLink="/start-page" class="nav-link">Главная</a>
+      </li>
+      <li class="nav-item">
+        <button class="btn btn-outline-success my-2 my-sm-0" (click)="redirectToLK()"> Личный кабинет </button>
+      </li>
+    </ul>
+  </div>
+</nav>
+<p>&#160;</p>
+
+
+<div id="filter" align="center">
+  <form [formGroup]="filterForm" (ngSubmit)="onFilterFormSubmit()">
+    <table>
+      <tr>
+        <td>Тип услуги</td>
+        <td>Логин клиента</td>
+        <td>Сумма от</td>
+        <td>до</td>
+        <td>Оценка клиента от</td>
+        <td>до</td>
+      </tr>
+      <tr>
+        <td><input type="text" formControlName="serviceType" class="form-control mr-sm-2"></td>
+        <td><input type="text" formControlName="clientLogin" class="form-control mr-sm-2"></td>
+        <td><input type="text" formControlName="price1" class="form-control mr-sm-2"></td>
+        <td><input type="text" formControlName="price2" class="form-control mr-sm-2"></td>
+        <td><input type="text" formControlName="fromClientMark" class="form-control mr-sm-2"></td>
+        <td><input type="text" formControlName="toClientMark" class="form-control mr-sm-2"></td>
+      </tr>
+      <tr>
+        <td>&#160;</td>
+      </tr>
+      <tr>
+        <td>Тип машины</td>
+        <td>Логин исполнителя</td>
+        <td>Дата от</td>
+        <td>до</td>
+        <td>Оценка исполнителя от</td>
+        <td>до</td>
+      </tr>
+      <tr>
+        <td><input type="text" formControlName="carType" class="form-control mr-sm-2"></td>
+        <td><input type="text" formControlName="workerLogin" class="form-control mr-sm-2"></td>
+        <td><input type="text" formControlName="fromDate" class="form-control mr-sm-2" placeholder="YYYY-MM-DD"></td>
+        <td><input type="text" formControlName="toDate" class="form-control mr-sm-2" placeholder="YYYY-MM-DD"></td>
+        <td><input type="text" formControlName="fromWorkerMark" class="form-control mr-sm-2"></td>
+        <td><input type="text" formControlName="toWorkerMark" class="form-control mr-sm-2"></td>
+      </tr>
+      <tr>
+        <td colspan="6" align="right">
+          <button class="btn btn-outline-success my-2 my-sm-0">Применить</button>
+        </td>
+      </tr>
+    </table>
+  </form>
+</div>
+
+<div id="orders" align="center">
+  <h3 id="h3done">Выполненные заказы</h3>
+  <div *ngIf="allOrders?.length === 0">
+    <h6>Список заказов пуст!</h6>
+  </div>
+  <div *ngIf="allOrders?.length != 0">
+  <table>
+    <tr>
+      <th>Услуга&#160;&#160;&#160;&#160;&#160;&#160;</th>
+      <th>Тип кузова&#160;&#160;&#160;&#160;&#160;&#160;</th>
+      <th>Клиент&#160;&#160;&#160;&#160;&#160;&#160;</th>
+      <th>Исполнитель&#160;&#160;&#160;&#160;&#160;&#160;</th>
+      <th>Город&#160;&#160;&#160;&#160;&#160;&#160;</th>
+      <th>Оценка клиента&#160;&#160;&#160;&#160;&#160;&#160;</th>
+      <th>Оценка исполнителя&#160;&#160;&#160;&#160;&#160;&#160;</th>
+      <th>Цена&#160;&#160;&#160;&#160;&#160;&#160;</th>
+      <th>Дата&#160;&#160;&#160;&#160;&#160;&#160;</th>
+    </tr>
+    <tr *ngFor="let order of allOrders" >
+      <td>{{order?.serviceType}}&#160;&#160;&#160;&#160;&#160;&#160;</td>
+      <td>{{order?.car?.carType?.carType}}&#160;&#160;&#160;&#160;&#160;&#160;</td>
+      <td>{{order?.client?.login}}&#160;&#160;&#160;&#160;&#160;&#160;</td>
+      <td>{{order?.worker?.login}}&#160;&#160;&#160;&#160;&#160;&#160;</td>
+      <td>{{order?.client?.city}}&#160;&#160;&#160;&#160;&#160;&#160;</td>
+      <td>{{order?.clientMark}}&#160;&#160;&#160;&#160;&#160;&#160;</td>
+      <td>{{order?.workerMark}}&#160;&#160;&#160;&#160;&#160;&#160;</td>
+      <td>{{order?.totalPrice}}&#160;&#160;&#160;&#160;&#160;&#160;</td>
+      <td>{{order?.orderDate}}&#160;&#160;&#160;&#160;&#160;&#160;</td>
+    </tr>
+  </table>
+  </div>
+</div>
+

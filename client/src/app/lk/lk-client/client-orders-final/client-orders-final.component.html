@@ -1,0 +1,24 @@
+<div>
+  <h3>Выполняемый заказ</h3>
+  Ваш заказ #{{order.id}} {{order.serviceType}} для {{order.car.brand}} {{order.car.number}}<br>
+  выполнит {{order.worker.name}}, его номер телефона: {{order.worker.pnumber}}.<br>
+  <div *ngIf="order.status == 2 || order.status == 3">
+    Ваш заказ выполнен!&#160;
+    <button *ngIf="order.status == 2" (click)="onClientCommit()">Подтвердите</button>
+    <form *ngIf="order.status == 3" [formGroup]="ratingForm" (ngSubmit)="onRatingFormSubmit()">
+        Выставьте оценку!<br>
+        <select formControlName="rating">
+          <option value=1>1</option>
+          <option value=2>2</option>
+          <option value=3>3</option>
+          <option value=4>4</option>
+          <option value=5>5</option>
+        </select>
+        <button>ОК</button>
+    </form>
+  </div>
+  <button *ngIf="order.status == 2 || order.status == 1" class="btn btn-danger" (click)="onCancel()">Отменить заказ</button>
+  <br>
+  <br>
+  <button *ngIf="order.status != 2 && order.status != 3" (click)="refresh()">Обновить статус</button>
+</div>
