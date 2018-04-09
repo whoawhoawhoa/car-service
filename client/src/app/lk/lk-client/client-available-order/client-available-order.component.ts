@@ -61,16 +61,11 @@ export class ClientAvailableOrderComponent implements OnInit {
     this.order = order;
     this.orderService.createOrder(order)
       .subscribe(successCode => {
-        this.clientOrdersComponent.getOrders();
-        this.workerOrdersComponent.getAllOrders();
-        this.workerService.updateWorker(worker)
-          .subscribe();
         this.avOrderService.deleteAvOrderById(this.avOrder.id)
           .subscribe(success => {
             this.services = [];
             this.workers = [];
             this.avOrder = null;
-            this.clientOrdersComponent.getAvOrders();
           });
       });
     this.dialog.open(ClientPaymentComponent, {

@@ -32,7 +32,7 @@ public class ServiceController extends WebMvcConfigurerAdapter {
     public ResponseEntity<Void> updateService(@RequestBody Service service)
     {
         List<Service> sourceService = serviceRepository.getServicesByWorkerLoginAndPriceId(service.getWorker().getLogin(), service.getPrice().getId());
-        if(sourceService.size() != 0 && sourceService.get(0) == service)
+        if(sourceService.size() != 0 && sourceService.get(0).equals(service))
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         serviceRepository.save(service);
         return new ResponseEntity<>(HttpStatus.OK);
@@ -45,7 +45,7 @@ public class ServiceController extends WebMvcConfigurerAdapter {
         if(sourceService.size() != 0)
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         serviceRepository.save(service);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @RequestMapping(path = "/service", method = RequestMethod.GET)
@@ -59,7 +59,7 @@ public class ServiceController extends WebMvcConfigurerAdapter {
     public ResponseEntity<Service> deleteService(@RequestParam String id)
     {
         serviceRepository.delete(Long.parseLong(id));
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @RequestMapping(path = "/serviceForAvOrder", method = RequestMethod.GET)

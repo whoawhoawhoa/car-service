@@ -56,23 +56,9 @@ export class ClientOrdersFinalComponent implements OnInit {
     this.orderService.updateOrder(this.order)
       .subscribe(data => {
         this.clientAvOrders.getOrders();
-        this.orderService.getOrdersByWorkerLogin(this.order.worker.login)
-          .subscribe(data => {
-            let sum = 0, counter = 0;
-            for (let i = 0; i < data.length; i++)
-            {
-              if(data[i].clientMark != 0) {
-                sum += data[i].clientMark;
-                counter++;
-              }
-            }
-            if(sum != 0 && counter != 0) {
-              sum = sum/counter;
-              this.order.worker.rating = sum;
-              this.workerService.updateWorker(this.order.worker)
-                .subscribe();
-            }
-          });
+        this.order.worker.rating = -1;
+        this.workerService.updateWorker(this.order.worker)
+          .subscribe();
       });
   }
 

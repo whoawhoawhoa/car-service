@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.Objects;
 
 @Entity
 @Table(name = "services")
@@ -55,6 +56,23 @@ public class Service implements Serializable {
 
     public void setPrice(Price price) {
         this.price = price;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Service service = (Service) o;
+        return id == service.id &&
+                Double.compare(service.coef, coef) == 0 &&
+                Objects.equals(worker, service.worker) &&
+                Objects.equals(price, service.price);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, coef, worker, price);
     }
 
     @Override

@@ -43,9 +43,9 @@ public class CarTypeController extends WebMvcConfigurerAdapter {
 
     @PutMapping(value = "/cartypeupdate")
     public ResponseEntity<CarType> updateCarType(@RequestBody CarType carType){
-        CarType sourceType;
-        sourceType = carTypeRepository.findOne(carType.getId());
-        if(sourceType == carType)
+        CarType sourceCarType;
+        sourceCarType = carTypeRepository.findOne(carType.getId());
+        if(carType.equals(sourceCarType))
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         carTypeRepository.save(carType);
         return new ResponseEntity<>(carType, HttpStatus.OK);

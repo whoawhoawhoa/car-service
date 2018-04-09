@@ -31,7 +31,6 @@ export class ClientOrdersComponent implements OnInit {
     this.getClient(this.route.snapshot.paramMap.get('login'), this.route.snapshot.paramMap.get('password'));
   }
 
-
   getClient(login: string, password: string) {
     this.clientService.getClientByLoginAndPassword(login, password)
       .subscribe(
@@ -46,6 +45,7 @@ export class ClientOrdersComponent implements OnInit {
     this.avOrderService.getAvOrdersByClientLogin(this.clientSource.login)
       .subscribe(avOrders => {
         this.clientAvOrders = avOrders;
+        this.getOrders();
       });
   }
 
@@ -58,6 +58,7 @@ export class ClientOrdersComponent implements OnInit {
         },
         errorCode => this.statusCode);
   }
+
   checkForPayment() {
     for (const order of this.clientOrders) {
       if (order.status == 0) {

@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.util.UriComponentsBuilder;
+import server.jpa.Order;
+import server.jpa.OrderRepository;
 import server.jpa.Worker;
 import server.jpa.WorkerRepository;
 
@@ -18,10 +20,12 @@ import java.util.List;
 @CrossOrigin(origins = {"http://localhost:4200"})
 public class WorkerController extends WebMvcConfigurerAdapter {
     private final WorkerRepository workerRepository;
+    private final OrderRepository orderRepository;
 
     @Autowired
-    public WorkerController(WorkerRepository workerRepository) {
+    public WorkerController(WorkerRepository workerRepository, OrderRepository orderRepository) {
         this.workerRepository = workerRepository;
+        this.orderRepository = orderRepository;
     }
 
     @RequestMapping(value = "/worker", method = RequestMethod.POST)
@@ -76,6 +80,8 @@ public class WorkerController extends WebMvcConfigurerAdapter {
                         return new ResponseEntity<>(HttpStatus.CONFLICT);
                     if(sourceWorker.getStatus() == 3 && worker.getStatus() != 3 && worker.getStatus() != 4)
                         worker.setStartDate(new Date(new java.util.Date().getTime()));
+                    if(worker.getRating() == -1)
+                        worker.setRating(calcNewRating(worker));
                     worker.setUser(sourceWorker.getUser());
                     workerRepository.save(worker);
                     return new ResponseEntity<>(worker, HttpStatus.OK);
@@ -117,5 +123,23 @@ public class WorkerController extends WebMvcConfigurerAdapter {
         if(!check.matches("[a-zA-Z0-9]+[@][a-zA-Z]+[.][a-zA-Z]+"))
             return false;
         return true;
+    }
+
+    private double calcNewRating(Worker worker)
+    {
+        double sum = 0;
+        int counter = 0;
+        List<Order> orders = orderRepository.findOrderByWorkerLogin(worker.getLogin());
+        for (Order order : orders) {
+            if (order.getClientMark() != 0) {
+                sum += order.getClientMark();
+                counter++;
+            }
+        }
+        if(counter != 0 && sum != 0) {
+            sum = sum / counter;
+            sum = (double)Math.round(sum * 10d) / 10d;
+        }
+        return sum;
     }
 }

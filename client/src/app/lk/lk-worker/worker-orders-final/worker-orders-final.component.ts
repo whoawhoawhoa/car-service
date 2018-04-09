@@ -60,22 +60,9 @@ export class WorkerOrdersFinalComponent implements OnInit {
     this.orderService.updateOrder(this.order)
       .subscribe(data => {
         this.workerOrdersComponent.getAllOrders();
-        this.orderService.getOrdersByClientLogin(this.order.client.login)
-          .subscribe(data => {
-            let sum = 0, counter = 0;
-            for (let i = 0; i < data.length; i++) {
-              if(data[i].workerMark != 0) {
-                sum += data[i].workerMark;
-                counter++;
-              }
-            }
-            if(counter != 0 && sum != 0) {
-              sum = sum/counter;
-              this.order.client.rating = sum;
-              this.clientService.updateClient(this.order.client)
-                .subscribe();
-            }
-          });
+        this.order.client.rating = -1;
+        this.clientService.updateClient(this.order.client)
+          .subscribe();
       });
   }
 

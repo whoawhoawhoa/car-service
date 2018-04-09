@@ -25,9 +25,17 @@ public class User implements Serializable {
     /* 1 - admin
     *  2 - client
     *  3 - worker */
-    private long role;
+    private int role;
 
     public User() {
+    }
+
+    public User(Long id, String login, String password, int role)
+    {
+        this.id = id;
+        this.login = login;
+        this.password = password;
+        this.role = role;
     }
 
     public long getId() {
@@ -54,11 +62,11 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public long getRole() {
+    public int getRole() {
         return role;
     }
 
-    public void setRole(long role) {
+    public void setRole(int role) {
         this.role = role;
     }
 
