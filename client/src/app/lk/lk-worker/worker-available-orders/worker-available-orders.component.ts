@@ -17,6 +17,7 @@ export class WorkerAvailableOrdersComponent implements OnInit {
   @Input() id: number;
   sourceServices: Service[];
   sourceAvOrders: AvailableOrder[];
+  statusCode: number;
 
   constructor(private avOrderService: AvailableOrderService,
               private serviceService: ServiceService,

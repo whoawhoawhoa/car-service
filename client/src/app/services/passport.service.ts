@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {Http, Response, Headers, RequestOptions} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import {Passport} from '../table-classes/passport';
+import 'rxjs/add/observable/throw';
 
 @Injectable()
 export class PassportService {

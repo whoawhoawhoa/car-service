@@ -11,6 +11,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import server.jpa.Worker;
 import server.jpa.WorkerRepository;
 
+import java.sql.Date;
 import java.util.List;
 
 @Controller
@@ -67,19 +68,25 @@ public class WorkerController extends WebMvcConfigurerAdapter {
     {
         try
         {
-            List<Worker> workers = workerRepository.findWorkerByLogin(worker.getLogin());
-            if(workers.size() != 0) {
-                Worker sourceWorker = workers.get(0);
-                if (sourceWorker.equals(worker))
-                    return new ResponseEntity<>(HttpStatus.CONFLICT);
-                worker.setUser(sourceWorker.getUser());
-                workerRepository.save(worker);
-                return new ResponseEntity<>(worker, HttpStatus.OK);
+            if(isValid(worker)) {
+                List<Worker> workers = workerRepository.findWorkerByLogin(worker.getLogin());
+                if (workers.size() != 0) {
+                    Worker sourceWorker = workers.get(0);
+                    if (sourceWorker.equals(worker))
+                        return new ResponseEntity<>(HttpStatus.CONFLICT);
+                    if(sourceWorker.getStatus() == 3 && worker.getStatus() != 3 && worker.getStatus() != 4)
+                        worker.setStartDate(new Date(new java.util.Date().getTime()));
+                    worker.setUser(sourceWorker.getUser());
+                    workerRepository.save(worker);
+                    return new ResponseEntity<>(worker, HttpStatus.OK);
+                } else {
+                    workerRepository.save(worker);
+                    return new ResponseEntity<>(worker, HttpStatus.OK);
+                }
             } else {
-                workerRepository.save(worker);
-                return new ResponseEntity<>(worker, HttpStatus.OK);
+                return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
             }
-        }catch (Exception e)
+        } catch (Exception e)
         {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

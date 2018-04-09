@@ -35,9 +35,13 @@ import { CheckPassportsComponent } from './lk/lk-admin/check-passports/check-pas
 import { ClientAvailableOrderComponent } from './lk/lk-client/client-available-order/client-available-order.component';
 import { StartPageComponent } from './start-page/start-page.component';
 import { CarouselModule } from 'ngx-bootstrap';
+import { MatDialogModule } from '@angular/material';
 import {ClientOrdersComponent} from './lk/lk-client/client-orders/client-orders.component';
+import { ClientPaymentComponent } from './lk/lk-client/client-payment/client-payment.component';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { ClientOrdersFinalComponent } from './lk/lk-client/client-orders-final/client-orders-final.component';
 import { WorkerOrdersFinalComponent } from './lk/lk-worker/worker-orders-final/worker-orders-final.component';
+
 @NgModule({
   declarations: [
     StartPageComponent,
@@ -59,7 +63,11 @@ import { WorkerOrdersFinalComponent } from './lk/lk-worker/worker-orders-final/w
     ClientAvailableOrderComponent,
     ClientOrdersComponent,
     ClientOrdersFinalComponent,
-    WorkerOrdersFinalComponent
+    WorkerOrdersFinalComponent,
+    ClientPaymentComponent
+  ],
+  entryComponents: [
+    ClientPaymentComponent
   ],
   imports: [
     BrowserModule,
@@ -67,7 +75,9 @@ import { WorkerOrdersFinalComponent } from './lk/lk-worker/worker-orders-final/w
     ReactiveFormsModule,
     AppRoutingModule,
     FormsModule,
-    CarouselModule
+    CarouselModule,
+    MatDialogModule,
+    BrowserAnimationsModule
   ],
   providers: [
     WorkerService,

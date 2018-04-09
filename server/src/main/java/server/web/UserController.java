@@ -35,7 +35,7 @@ public class UserController extends WebMvcConfigurerAdapter {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         else
-            return new ResponseEntity<User>(users.get(0), HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(users.get(0), HttpStatus.ACCEPTED);
     }
 
     @RequestMapping(value = "/user", method = RequestMethod.POST)
@@ -68,7 +68,8 @@ public class UserController extends WebMvcConfigurerAdapter {
         User sourceUser;
         try {
             sourceUser = userRepository.findOne(user.getId());
-            if(sourceUser == user)
+            List<User> users = userRepository.findUserByLogin(user.getLogin());
+            if(sourceUser == user || users.size() != 0)
                 return new ResponseEntity<>(HttpStatus.CONFLICT);
             userRepository.save(user);
         } catch (Exception e) {

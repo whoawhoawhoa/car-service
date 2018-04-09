@@ -23,12 +23,11 @@
       <tr>
         <td>Услуга&#160;&#160;&#160;&#160;</td>
         <td>
-          <select name="prices"  formControlName="price">
+          <select name="prices"  formControlName="price" class="form-control mr-sm-2">
             <option *ngFor="let price of allPrices" value="{{price.id}}">
               {{price?.serviceType + ' for ' + price?.carType.carType}}
             </option>
           </select>
-          <!--<input formControlName="price"> <label *ngIf="err">Услуга должна быть из списка доступных</label>-->
         </td>
       </tr>
       <tr>

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {Http, Response, Headers, RequestOptions} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import {Worker} from '../table-classes/worker';
+import 'rxjs/add/observable/throw';
 
 @Injectable()
 export class WorkerService {

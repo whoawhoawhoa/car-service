@@ -56,7 +56,7 @@ export class WorkerPassportsComponent implements OnInit {
     if (this.passport != null) {
       this.passport.worker.status = 3;
       this.sourceWorker.status = 3;
-      this.passport.number = number
+      this.passport.number = number;
       this.passport.issuedBy = issuedBy;
       this.passport.worker = this.sourceWorker;
       this.workerService.updateWorker(this.sourceWorker)
@@ -68,7 +68,11 @@ export class WorkerPassportsComponent implements OnInit {
             this.loadPassport();
             this.backToCreatePassport();
           },
-          errorCode => this.statusCode = errorCode);
+          errorCode => {
+          this.statusCode = errorCode;
+          this.sourceWorker.status = null;
+          this.passport.worker.status = null;
+        });
     } else {
       this.passport = new Passport(null, number, issuedBy, this.sourceWorker);
       this.passportService.createPassport(this.passport).subscribe(successCode => {
@@ -76,7 +80,10 @@ export class WorkerPassportsComponent implements OnInit {
           this.loadPassport();
           this.backToCreatePassport();
         },
-        errorCode => this.statusCode = errorCode);
+        errorCode => {
+        this.statusCode = errorCode;
+        this.passport = null;
+      });
     }
   }
 

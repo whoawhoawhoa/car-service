@@ -2,12 +2,14 @@ import { Injectable } from '@angular/core';
 import {Headers, Http, RequestOptions, Response} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import {Price} from '../table-classes/price';
+import 'rxjs/add/observable/throw';
 
 @Injectable()
 export class PriceService {
 
   pricesUrl = 'http://localhost:9090/prices';
   priceUrl = 'http://localhost:9090/price';
+  updatePriceUrl = 'http://localhost:9090/updatePrice';
 
   constructor(private http: Http) { }
 
@@ -32,7 +34,7 @@ export class PriceService {
   createPrice(price: Price): Observable<number> {
     const cpHeaders = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({headers: cpHeaders});
-    return this.http.put(this.priceUrl, price, options)
+    return this.http.post(this.priceUrl, price, options)
       .map(success => success.status)
       .catch(this.handleError);
   }
@@ -40,7 +42,7 @@ export class PriceService {
   updatePrice(price: Price): Observable<number> {
     const cpHeaders = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({ headers: cpHeaders });
-    return this.http.put(this.priceUrl, price, options)
+    return this.http.put(this.updatePriceUrl, price, options)
       .map(success => success.status)
       .catch(this.handleError);
   }

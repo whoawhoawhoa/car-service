@@ -1,0 +1,24 @@
+<h3 class="text-success">Оплата</h3>
+<p>Проверьте правильность введенных данных и оплатите ваш заказ:</p>
+<table>
+  <tr>
+    <td>Работник:</td>
+    <td>{{data.order.worker.name}} {{data.order.worker.fname}}</td>
+  </tr>
+  <tr>
+    <td>Машина:</td>
+    <td>{{data.order.car.carType.carType}} {{data.order.car.number}}</td>
+  </tr>
+  <tr>
+    <td>К оплате:</td>
+    <td>{{data.order.totalPrice}}</td>
+  </tr>
+  <tr>
+    <td style="padding-top: 10px">
+      <button class="btn btn-outline-success my-2 my-sm-0" (click)="doPayment()">Оплатить</button>
+    </td>
+    <td style="padding-left: 10px; padding-top: 10px">
+      <button class="btn btn-danger" (click)="rejectOrder()">Отменить заказ</button>
+    </td>
+  </tr>
+</table>
