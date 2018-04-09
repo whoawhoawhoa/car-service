@@ -1,5 +1,9 @@
 package server.jpa;
 
+import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -7,6 +11,7 @@ import java.sql.Date;
 
 @Entity
 @Table(name = "orders")
+@Document(indexName = "car_service", type = "orders")
 public class Order implements Serializable {
     @Id
     @Column(name = "id")
@@ -14,14 +19,18 @@ public class Order implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "orderSeq")
     private long id;
     @Column(name = "client_mark")
+    @Field(type = FieldType.Double)
     private double clientMark;
     @Column(name = "worker_mark")
+    @Field(type = FieldType.Double)
     private double workerMark;
     @Column(name = "order_date")
+    @Field(type = FieldType.Date)
     private Date orderDate;
     @Column(name = "service_type")
     private String serviceType;
     @Column(name = "total_price")
+    @Field(type = FieldType.Integer)
     private int totalPrice;
     @Column(name = "status")
     /*
@@ -29,6 +38,7 @@ public class Order implements Serializable {
     1- FINISHED
     2- REJECTED
     * */
+    @Field(type = FieldType.Integer)
     private int status;
     @Column(name="address")
     @NotNull

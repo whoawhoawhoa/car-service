@@ -1,10 +1,17 @@
-#updateTable {
-  position: absolute; /* Абсолютное позиционирование */
-  top:250px;
-  left: 150px;
-  width: 450px; /* Ширина слоя  */
-}
-#div{
-  position: relative;
+/*#updateTable {*/
+  /*position: absolute; !* Абсолютное позиционирование *!*/
+  /*top:250px;*/
+  /*left: 150px;*/
+  /*width: 450px; !* Ширина слоя  *!*/
+/*}*/
+/*#div{*/
+  /*position: relative;*/
+  /*width: 800px;*/
+/*}*/
+
+#accordion{
   width: 800px;
+  position: absolute;
+  top: 250px;
+  left: 280px;
 }

@@ -1,4 +1,7 @@
-<div id="passports" *ngIf="passportSet?.length != 0">
+<div  *ngIf="passportSet?.length == 0" align="center">
+  На данный момент нет паспортов для проверки.
+</div>
+<div  *ngIf="passportSet?.length != 0">
 <h3 >Необработанные паспорта</h3>
 <table>
   <tr>

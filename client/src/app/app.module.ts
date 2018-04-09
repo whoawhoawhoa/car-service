@@ -34,8 +34,10 @@ import { WorkerPassportsComponent } from './lk/lk-worker/worker-passports/worker
 import { CheckPassportsComponent } from './lk/lk-admin/check-passports/check-passports.component';
 import { ClientAvailableOrderComponent } from './lk/lk-client/client-available-order/client-available-order.component';
 import { StartPageComponent } from './start-page/start-page.component';
-import { CarouselModule } from 'ngx-bootstrap';
+import {AccordionConfig, AccordionModule, CarouselModule} from 'ngx-bootstrap';
 import {ClientOrdersComponent} from './lk/lk-client/client-orders/client-orders.component';
+import {OrderEsService} from './services/order-es.service';
+import {AllOrdersComponent} from './lk/lk-admin/all-orders/all-orders.component';
 
 
 @NgModule({
@@ -57,7 +59,8 @@ import {ClientOrdersComponent} from './lk/lk-client/client-orders/client-orders.
     WorkerPassportsComponent,
     CheckPassportsComponent,
     ClientAvailableOrderComponent,
-    ClientOrdersComponent
+    ClientOrdersComponent,
+    AllOrdersComponent
   ],
   imports: [
     BrowserModule,
@@ -65,7 +68,8 @@ import {ClientOrdersComponent} from './lk/lk-client/client-orders/client-orders.
     ReactiveFormsModule,
     AppRoutingModule,
     FormsModule,
-    CarouselModule
+    CarouselModule,
+    AccordionModule
   ],
   providers: [
     WorkerService,
@@ -78,7 +82,9 @@ import {ClientOrdersComponent} from './lk/lk-client/client-orders/client-orders.
     OrderService,
     PassportService,
     PriceService,
-    ServiceService
+    ServiceService,
+    OrderEsService,
+    AccordionConfig
   ],
   bootstrap: [
     AppComponent

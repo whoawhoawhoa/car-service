@@ -29,22 +29,6 @@
 </nav>
 <p>&#160;</p>
 
-<div id="orders" align="center">
-  <h3> Ваши заказы </h3>
-  <table>
-    <tr>
-      <th>Тип услуги&#160;&#160;&#160;&#160;&#160;&#160;&#160;</th>
-      <th>Дата&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</th>
-      <th>Цена&#160;&#160;&#160;&#160;&#160;&#160;&#160;</th>
-    </tr>
-    <tr *ngFor="let order of clientOrders" >
-      <td>{{order.serviceType}}</td>
-      <td>{{order.orderDate}}</td>
-      <td>{{order.totalPrice}}</td>
-    </tr>
-  </table>
-</div>
-
 <div id="avOrders" align="center" *ngIf="clientAvOrders !== null && clientAvOrders !== undefined && clientAvOrders.length !== 0">
   <h3> Ваши активные заказы </h3>
   <div *ngFor="let avOrder of clientAvOrders">
@@ -55,6 +39,52 @@
 <div align="center" *ngIf="clientAvOrders === null || clientAvOrders === undefined || clientAvOrders.length === 0">
   <h3>Здесь будут отображаться ваши активные заказы</h3>
 </div>
+<p>&#160;</p>
+
+<div id="orders" align="center">
+  <h3> Ваши завершенные заказы </h3>
+  <div id="filter" align="center">
+    <form [formGroup]="filterForm" (ngSubmit)="onFilterFormSubmit()">
+      <table>
+        <tr>
+          <td>Тип услуги</td>
+          <td>Сумма от</td>
+          <td>до</td>
+          <td>Дата от</td>
+          <td>до</td>
+        </tr>
+        <tr>
+          <td><input type="text" formControlName="serviceType" class="form-control mr-sm-2"></td>
+          <td><input type="text" formControlName="price1" class="form-control mr-sm-2"></td>
+          <td><input type="text" formControlName="price2" class="form-control mr-sm-2"></td>
+          <td><input type="text" formControlName="fromDate" class="form-control mr-sm-2" placeholder="YYYY-MM-DD"></td>
+          <td><input type="text" formControlName="toDate" class="form-control mr-sm-2" placeholder="YYYY-MM-DD"></td>
+          <button class="btn btn-outline-success my-2 my-sm-0">Применить</button>
+        </tr>
+      </table>
+    </form>
+  </div>
+  <p>&#160;</p>
+
+  <table>
+    <tr>
+      <td colspan="3"><h5>Количество заказов: {{clientOrders.length}}</h5></td>
+    </tr>
+    <tr>
+      <th>Тип услуги&#160;&#160;&#160;&#160;&#160;&#160;</th>
+      <th>Дата&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</th>
+      <th>Цена&#160;&#160;&#160;&#160;&#160;&#160;&#160;</th>
+    </tr>
+    <tr *ngFor="let order of clientOrders" >
+      <td>{{order.serviceType}}</td>
+      <td>{{order.orderDate}}</td>
+      <td>{{order.totalPrice}}</td>
+    </tr>
+  </table>
+  <p>&#160;</p>
+  <h5 *ngIf="money != 0">Количество потраченных денег: {{money}}</h5>
+</div>
+
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>

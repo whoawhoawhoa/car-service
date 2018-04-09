@@ -9,7 +9,7 @@ import {UserService} from '../../services/user.service';
 @Component({
   selector: 'app-lk-worker',
   templateUrl: './lk-worker.component.html',
-  styleUrls: ['./lk-worker.component.css']
+  styleUrls: ['./lk-worker.component.css'],
 })
 export class LkWorkerComponent implements OnInit {
   workerSource: Worker;

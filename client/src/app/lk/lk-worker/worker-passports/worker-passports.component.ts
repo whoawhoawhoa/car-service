@@ -4,6 +4,7 @@ import {Passport} from '../../../table-classes/passport';
 import {WorkerService} from '../../../services/worker.service';
 import {PassportService} from '../../../services/passport.service';
 import {Worker} from '../../../table-classes/worker';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-worker-passports',
@@ -17,22 +18,21 @@ export class WorkerPassportsComponent implements OnInit {
   processValidation = false;
   sourceWorker: Worker;
   comment: string;
-  @Input() login: string;
-  @Input() password: string;
 
   passportForm = new FormGroup({
     number: new FormControl('', Validators.required),
     issuedBy: new FormControl('', Validators.required)
   });
 
-  constructor(private workerService: WorkerService, private passportService: PassportService) { }
+  constructor(private workerService: WorkerService, private passportService: PassportService,
+              private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.getWorker();
+    this.getWorker(this.route.snapshot.paramMap.get('login'), this.route.snapshot.paramMap.get('password'));
   }
 
-  getWorker() {
-    this.workerService.getWorkerByLoginAndPassword(this.login, this.password)
+  getWorker(login: string, password: string) {
+    this.workerService.getWorkerByLoginAndPassword(login, password)
       .subscribe(
         data => {
           this.sourceWorker = data;
@@ -45,6 +45,21 @@ export class WorkerPassportsComponent implements OnInit {
             errorCode => this.statusCode);
   }
 
+
+  // getWorker() {
+  //   this.workerService.getWorkerByLoginAndPassword(this.login, this.password)
+  //     .subscribe(
+  //       data => {
+  //         this.sourceWorker = data;
+  //         if (this.sourceWorker.status === 4) {
+  //           this.comment = 'Ваш паспорт не прошел проверку!';
+  //         } else {
+  //           this.sourceWorker.status = 3;
+  //         }
+  //         this.loadPassport(); },
+  //           errorCode => this.statusCode);
+  // }
+
   onPassportFormSubmit() {
     this.processValidation = true;
     if (this.passportForm.invalid) {
@@ -56,7 +71,7 @@ export class WorkerPassportsComponent implements OnInit {
     if (this.passport != null) {
       this.passport.worker.status = 3;
       this.sourceWorker.status = 3;
-      this.passport.number = number
+      this.passport.number = number;
       this.passport.issuedBy = issuedBy;
       this.passport.worker = this.sourceWorker;
       this.workerService.updateWorker(this.sourceWorker)
@@ -82,7 +97,7 @@ export class WorkerPassportsComponent implements OnInit {
 
   loadPassport() {
     if (this.passport == null) {
-      this.passportService.getPassportByWorkerLogin(this.login)
+      this.passportService.getPassportByWorkerLogin(this.route.snapshot.paramMap.get('login'))
         .subscribe(
           data => this.passport = data,
           errorCode => this.statusCode);

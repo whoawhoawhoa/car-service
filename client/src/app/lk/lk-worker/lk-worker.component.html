@@ -21,11 +21,9 @@
     </ul>
   </div>
 </nav>
-<p>&#160;</p>
 
-
-<h1 align="center">Информация о профиле работника</h1>
-<table align="center">
+<h1 align="center" id="id">Информация о профиле работника</h1>
+<table align="center" id="id1">
   <tr>
     <th>Логин&#160;&#160;&#160;&#160;&#160;&#160;</th>
     <th>Пароль&#160;&#160;&#160;&#160;&#160;&#160;</th>
@@ -49,64 +47,83 @@
     <td>{{workerSource?.email}}&#160;&#160;&#160;&#160;</td>
   </tr>
 </table>
+<p>&#160;</p>
 
-
-
-<div id="updateTable">
-  <h3> Форма для обновления данных </h3>
-  <form [formGroup]="workerForm" (ngSubmit)="onWorkerFormSubmit()">
-    <table>
-      <tr>
-        <td>Введите новый логин</td>
-        <td><input formControlName="login" class="form-control mr-sm-2"></td>
-      </tr>
-      <tr>
-        <td>Введите новый пароль</td>
-        <td><input formControlName="password" class="form-control mr-sm-2"></td>
-      </tr>
-      <tr>
-        <td>Введите новое имя</td>
-        <td><input formControlName="name" class="form-control mr-sm-2"></td>
-      </tr>
-      <tr>
-        <td>Введите новую фамилию</td>
-        <td><input formControlName="fName" class="form-control mr-sm-2"></td>
-      </tr>
-      <tr>
-        <td>Введите новый номер телефона</td>
-        <td><input formControlName="pnumber" class="form-control mr-sm-2"></td>
-      </tr>
-      <tr>
-        <td>Введите новый город</td>
-        <td><input formControlName="city" class="form-control mr-sm-2"></td>
-      </tr>
-      <tr>
-        <td>Введите новый Email</td>
-        <td><input formControlName="email" class="form-control mr-sm-2"></td>
-      </tr>
-      <tr>
-        <td>
-          <button class="btn btn-outline-success my-2 my-sm-0">Обновить</button>
-        </td>
-        <td>
-          <button class="btn btn-danger" routerLink=""  (click)="deleteWorker(workerSource.login)">Удалить аккаунт</button>
-        </td>
-      </tr>
-    </table>
-  </form>
-  <br/>
+<div id="accordion">
+  <accordion>
+    <accordion-group>
+      <div accordion-heading class="clearfix">
+        <h3 align="center"> Форма для обновления данных </h3>
+        <h6 align="center" style="color: green">
+          Нажмите сюда, чтобы изменить логин/пароль или другую личную информацию, указанную при регистрации.
+        </h6>
+      </div>
+      <div align="center">
+        <form [formGroup]="workerForm" (ngSubmit)="onWorkerFormSubmit()">
+          <table>
+            <tr>
+              <td>Введите новый логин</td>
+              <td><input formControlName="login" class="form-control mr-sm-2"></td>
+            </tr>
+            <tr>
+              <td>Введите новый пароль</td>
+              <td><input formControlName="password" class="form-control mr-sm-2"></td>
+            </tr>
+            <tr>
+              <td>Введите новое имя</td>
+              <td><input formControlName="name" class="form-control mr-sm-2"></td>
+            </tr>
+            <tr>
+              <td>Введите новую фамилию</td>
+              <td><input formControlName="fName" class="form-control mr-sm-2"></td>
+            </tr>
+            <tr>
+              <td>Введите новый номер телефона</td>
+              <td><input formControlName="pnumber" class="form-control mr-sm-2"></td>
+            </tr>
+            <tr>
+              <td>Введите новый город</td>
+              <td><input formControlName="city" class="form-control mr-sm-2"></td>
+            </tr>
+            <tr>
+              <td>Введите новый Email</td>
+              <td><input formControlName="email" class="form-control mr-sm-2"></td>
+            </tr>
+            <tr>
+              <td>
+                <button class="btn btn-outline-success my-2 my-sm-0">Обновить</button>
+              </td>
+              <td>
+                <button class="btn btn-danger" routerLink=""  (click)="deleteWorker(workerSource.login)">Удалить аккаунт</button>
+              </td>
+            </tr>
+          </table>
+        </form>
+      </div>
+    </accordion-group>
+    <accordion-group *ngIf="workerSource.status == 1 || workerSource.status == 2 || workerSource.status == 0">
+      <div accordion-heading class="clearfix">
+        <h3 align="center"> Добавьте Вашу сферу услуг! </h3>
+        <h6 align="center" style="color: green">
+          Вы сами выбираете тот тип работ, который Вы хотите выполнять. Нажмите сюда, чтобы добавить новый сервис и
+          просмотреть уже имеющиеся.
+        </h6>
+      </div>
+      <app-worker-services></app-worker-services>
+    </accordion-group>
+    <accordion-group *ngIf="workerSource.status != 1 && workerSource.status != 2 && workerSource.status != 0">
+      <div accordion-heading class="clearfix">
+        <h3 align="center"> Заполните Ваши паспортные данные! </h3>
+        <h6 align="center" style="color: green">
+          После проверки паспортных данных модератором, Вы сможете приступить к работе.
+        </h6>
+      </div>
+      <app-worker-passports>
+      </app-worker-passports>
+    </accordion-group>
+  </accordion>
 </div>
 
-<div *ngIf="workerSource != null;">
-  <div *ngIf="workerSource.status == 1 || workerSource.status == 2 || workerSource.status == 0">
-    <app-worker-services [login]="workerSource.login" [password]="workerSource.password">
-    </app-worker-services>
-  </div>
-    <div *ngIf="workerSource.status != 1 && workerSource.status != 2 && workerSource.status != 0">
-      <app-worker-passports [login]="workerSource.login" [password]="workerSource.password">
-      </app-worker-passports>
-    </div>
-  </div>
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>

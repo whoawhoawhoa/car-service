@@ -10,10 +10,12 @@ import {MainPageComponent} from '../main-page/main-page.component';
 import {StartPageComponent} from '../start-page/start-page.component';
 import {WorkerOrdersComponent} from '../lk/lk-worker/worker-orders/worker-orders.component';
 import {ClientOrdersComponent} from '../lk/lk-client/client-orders/client-orders.component';
+import {AllOrdersComponent} from '../lk/lk-admin/all-orders/all-orders.component';
 
 const routes: Routes = [
   { path: 'lkadmin/:login/:password', component: LkAdminComponent},
   { path: 'start-page', component: StartPageComponent},
+  { path: 'all-orders/:login/:password', component: AllOrdersComponent},
   { path: 'user-auth', component: UserAuthComponent },
   { path: 'client-reg', component: ClientRegComponent },
   { path: 'worker-reg', component: WorkerRegComponent },
