@@ -7,6 +7,8 @@ import server.jpa.*;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
+import server.jpa.*;
+
 import java.sql.Date;
 import java.util.Random;
 
@@ -43,8 +45,8 @@ public class TestUtil {
         Car car = new Car();
 
         car.setId(random.nextLong());
-        car.setBrand(Double.toString(random.nextDouble()));
-        car.setColor(Double.toString(random.nextDouble()));
+        car.setBrand("brand");
+        car.setColor("color");
         car.setNumber("a222aa");
         car.setCarType(produceCarType());
         car.setClient(produceClient());
@@ -82,10 +84,10 @@ public class TestUtil {
         client.setId(random.nextLong());
         client.setLogin(Double.toString(random.nextDouble()));
         client.setPassword(Double.toString(random.nextDouble()));
-        client.setName(Double.toString(random.nextDouble()));
-        client.setFname(Double.toString(random.nextDouble()));
+        client.setName("name");
+        client.setFname("fname");
         client.setPnumber(88005553535L);
-        client.setCity(Double.toString(random.nextDouble()));
+        client.setCity("city");
         client.setRating(random.nextInt(5));
         client.setEmail("a@a.com");
         client.setUser(produceUser());
@@ -166,9 +168,9 @@ public class TestUtil {
         worker.setId(random.nextLong());
         worker.setLogin(Double.toString(random.nextDouble()));
         worker.setPassword(Double.toString(random.nextDouble()));
-        worker.setName(Double.toString(random.nextDouble()));
-        worker.setFname(Double.toString(random.nextDouble()));
-        worker.setCity(Double.toString(random.nextDouble()));
+        worker.setName("name");
+        worker.setFname("fname");
+        worker.setCity("city");
         worker.setPnumber(88005553535L);
         worker.setRating(random.nextInt(5));
         worker.setStatus(0);
@@ -180,4 +182,5 @@ public class TestUtil {
 
         return worker;
     }
+
 }

@@ -111,9 +111,6 @@
             <div *ngIf="statusCodeClient === 400">
               <p class="text-danger">Неверно заполнены поля! Проверьте формат ввода!</p>
             </div>
-            <div *ngIf="statusCodeClient === 204">
-              <p class="text-warning">Не найдена запись для удаления! Возможно, удаление уже было совершено!</p>
-            </div>
             <div *ngIf="statusCodeClient === 500">
               <p class="text-danger">Произошла ошибка на сервере!</p>
             </div>
@@ -170,9 +167,6 @@
             </div>
             <div *ngIf="statusCodeCar === 400">
               <p class="text-danger">Неверно заполнены поля! Проверьте формат ввода!</p>
-            </div>
-            <div *ngIf="statusCodeCar === 204">
-              <p class="text-warning">Не найдена запись для удаления! Возможно, удаление уже было совершено!</p>
             </div>
             <div *ngIf="statusCodeCar === 500">
               <p class="text-danger">Произошла ошибка на сервере!</p>

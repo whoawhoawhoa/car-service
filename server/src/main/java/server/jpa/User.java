@@ -1,7 +1,5 @@
 package server.jpa;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -20,6 +18,7 @@ public class User implements Serializable {
     @NotNull
     @Column(name = "password")
     private String password;
+
     @NotNull
     @Column(name = "role")
     /* 1 - admin
@@ -28,6 +27,12 @@ public class User implements Serializable {
     private int role;
 
     public User() {
+    }
+
+    public User(String login, String password, int role) {
+        this.login = login;
+        this.password = password;
+        this.role = role;
     }
 
     public User(Long id, String login, String password, int role)
@@ -68,6 +73,28 @@ public class User implements Serializable {
 
     public void setRole(int role) {
         this.role = role;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        if (id != user.id) return false;
+        if (role != user.role) return false;
+        if (!login.equals(user.login)) return false;
+        return password.equals(user.password);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + login.hashCode();
+        result = 31 * result + password.hashCode();
+        result = 31 * result + (int) (role ^ (role >>> 32));
+        return result;
     }
 
     @Override

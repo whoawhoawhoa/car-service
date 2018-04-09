@@ -35,6 +35,13 @@ public class AvailableOrder implements Serializable {
     public AvailableOrder() {
     }
 
+    public AvailableOrder(Date orderDate, String serviceType, String address, String commentary) {
+        this.orderDate = orderDate;
+        this.serviceType = serviceType;
+        this.address = address;
+        this.commentary = commentary;
+    }
+
     public long getId() {
         return id;
     }
@@ -97,6 +104,39 @@ public class AvailableOrder implements Serializable {
 
     public void setWorkers(int[] workers) {
         this.workers = workers;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        AvailableOrder that = (AvailableOrder) o;
+
+        if (id != that.id) return false;
+        if (orderDate != null ? (orderDate.getDate() != that.orderDate.getDate()
+        || orderDate.getMonth() != that.orderDate.getMonth()
+        || orderDate.getYear() != that.orderDate.getYear())
+                : that.orderDate != null) return false;
+        if (serviceType != null ? !serviceType.equals(that.serviceType) : that.serviceType != null) return false;
+        if (address != null ? !address.equals(that.address) : that.address != null) return false;
+        if (commentary != null ? !commentary.equals(that.commentary) : that.commentary != null) return false;
+        if (!Arrays.equals(workers, that.workers)) return false;
+        if (client != null ? !client.equals(that.client) : that.client != null) return false;
+        return car != null ? car.equals(that.car) : that.car == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + (orderDate != null ? orderDate.hashCode() : 0);
+        result = 31 * result + (serviceType != null ? serviceType.hashCode() : 0);
+        result = 31 * result + (address != null ? address.hashCode() : 0);
+        result = 31 * result + (commentary != null ? commentary.hashCode() : 0);
+        result = 31 * result + Arrays.hashCode(workers);
+        result = 31 * result + (client != null ? client.hashCode() : 0);
+        result = 31 * result + (car != null ? car.hashCode() : 0);
+        return result;
     }
 
     @Override

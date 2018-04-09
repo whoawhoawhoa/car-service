@@ -112,9 +112,6 @@
             <div *ngIf="statusCodeWorker === 400">
               <p class="text-danger">Неверно заполнены поля! Проверьте формат ввода!</p>
             </div>
-            <div *ngIf="statusCodeWorker === 204">
-              <p class="text-warning">Не найдена запись для удаления! Возможно, удаление уже было совершено!</p>
-            </div>
             <div *ngIf="statusCodeWorker === 500">
               <p class="text-danger">Произошла ошибка на сервере!</p>
             </div>
