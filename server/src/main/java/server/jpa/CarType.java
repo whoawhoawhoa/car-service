@@ -29,6 +29,12 @@ public class CarType implements Serializable {
     public CarType() {
     }
 
+    public CarType(long id, String carType)
+    {
+        this.id = id;
+        this.carType = carType;
+    }
+
     public long getId() {
         return id;
     }

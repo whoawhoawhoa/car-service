@@ -62,7 +62,7 @@ public class Worker implements Serializable {
     public Worker() {}
 
     public Worker(String login, String password, String name, String fname,
-                  long pnumber, String city, int rating, int status, String email) {
+                  long pnumber, String city, double rating, int status, String email) {
         this.login = login;
         this.password = password;
         this.name = name;

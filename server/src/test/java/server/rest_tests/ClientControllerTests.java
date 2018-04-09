@@ -14,6 +14,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import server.TestUtil;
 import server.jpa.Client;
 import server.jpa.ClientRepository;
+import server.jpa.OrderRepository;
 import server.jpa.Worker;
 import server.web.ClientController;
 import server.web.WorkerController;
@@ -42,6 +43,8 @@ public class ClientControllerTests {
 
     @Mock
     private ClientRepository clientRepository;
+    @Mock
+    private OrderRepository orderRepository;
 
     private static final MediaType APPLICATION_JSON_UTF8 = new MediaType(MediaType.APPLICATION_JSON.getType(),
             MediaType.APPLICATION_JSON.getSubtype(),
@@ -51,7 +54,8 @@ public class ClientControllerTests {
     @Before
     public void setup() {
         reset(clientRepository);
-        clientController = new ClientController(clientRepository);
+        reset(orderRepository);
+        clientController = new ClientController(clientRepository, orderRepository);
         this.mockMvc = MockMvcBuilders
                 .standaloneSetup(clientController)
                 .build();
@@ -160,7 +164,7 @@ public class ClientControllerTests {
 
         when(clientRepository.findClientsByLogin(first.getLogin()))
                 .thenReturn(Collections.singletonList(first));
-        when(clientRepository.findClientById(first.getId())).thenReturn(new Client());
+        when(clientRepository.findClientById(first.getId())).thenReturn(first);
 
         mockMvc.perform(put("/client")
                 .contentType(MediaType.APPLICATION_JSON)

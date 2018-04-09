@@ -1,4 +1,4 @@
-package server.web;
+package server.rest_tests;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -15,6 +15,7 @@ import server.TestUtil;
 import server.jpa.Admin;
 import server.jpa.AdminRepository;
 import server.jpa.User;
+import server.web.AdminController;
 
 import java.io.IOException;
 import java.nio.charset.Charset;

@@ -12,6 +12,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import server.TestUtil;
+import server.jpa.OrderRepository;
 import server.jpa.Worker;
 import server.jpa.WorkerRepository;
 import server.web.WorkerController;
@@ -38,6 +39,8 @@ public class WorkerControllerTests {
 
     @Mock
     private WorkerRepository workerRepository;
+    @Mock
+    private OrderRepository orderRepository;
 
     private static final MediaType APPLICATION_JSON_UTF8 = new MediaType(MediaType.APPLICATION_JSON.getType(),
             MediaType.APPLICATION_JSON.getSubtype(),
@@ -47,7 +50,8 @@ public class WorkerControllerTests {
     @Before
     public void setup() {
         reset(workerRepository);
-        workerController = new WorkerController(workerRepository);
+        reset(orderRepository);
+        workerController = new WorkerController(workerRepository, orderRepository);
         this.mockMvc = MockMvcBuilders
                 .standaloneSetup(workerController)
                 .build();

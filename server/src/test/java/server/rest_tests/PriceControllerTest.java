@@ -1,4 +1,4 @@
-package server.web;
+package server.rest_tests;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -14,6 +14,7 @@ import server.TestUtil;
 import server.jpa.Price;
 import server.jpa.PriceRepository;
 import server.jpa.Service;
+import server.web.PriceController;
 
 import java.util.*;
 

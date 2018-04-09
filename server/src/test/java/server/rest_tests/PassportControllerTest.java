@@ -1,4 +1,4 @@
-package server.web;
+package server.rest_tests;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -13,6 +13,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import server.TestUtil;
 import server.jpa.Passport;
 import server.jpa.PassportRepository;
+import server.web.PassportController;
 
 import java.util.Arrays;
 import java.util.Collections;
