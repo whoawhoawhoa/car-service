@@ -1,29 +1,11 @@
-<div id="services">
-  <h3>Ваши имеющиеся сервисы</h3>
-  <table>
-    <tr>
-      <th>Цена&#160;&#160;&#160;&#160;&#160;&#160;</th>
-      <th>Услуга&#160;&#160;&#160;&#160;&#160;&#160;</th>
-      <th>Удалить&#160;&#160;&#160;&#160;&#160;&#160;</th>
-    </tr>
-    <tr *ngFor="let service of allServices" >
-      <td>{{service.price.price * service.coef | number:0}}&#160;&#160;&#160;&#160;&#160;&#160;</td>
-      <td>{{service.price.serviceType}} for {{service.price.carType.carType}}&#160;&#160;&#160;&#160;&#160;&#160;</td>
-      <td><button class="btn btn-danger" (click)="deleteService(service.id)">Удалить</button></td>
-    </tr>
-  </table>
-</div>
-
-
-
-<div id="newService">
-  <h3> Создайте новый сервис! </h3>
+<div align="center">
+  <h4> Добавление нового сервиса </h4>
   <form [formGroup]="serviceForm" (ngSubmit)="onServiceFormSubmit()">
     <table>
       <tr>
         <td>Услуга&#160;&#160;&#160;&#160;</td>
         <td>
-          <select name="prices"  formControlName="price" class="form-control mr-sm-2">
+          <select name="prices"  formControlName="price" style="width: 210px">
             <option *ngFor="let price of allPrices" value="{{price.id}}">
               {{price?.serviceType + ' for ' + price?.carType.carType}}
             </option>
@@ -44,4 +26,20 @@
     </table>
   </form>
   <br/>
+</div>
+
+<div align="center">
+  <h4>Ваши имеющиеся сервисы</h4>
+  <table>
+    <tr>
+      <th>Цена&#160;&#160;&#160;&#160;&#160;&#160;</th>
+      <th>Услуга&#160;&#160;&#160;&#160;&#160;&#160;</th>
+      <th>Удалить&#160;&#160;&#160;&#160;&#160;&#160;</th>
+    </tr>
+    <tr *ngFor="let service of allServices" >
+      <td>{{service.price.price * service.coef | number:0}}&#160;&#160;&#160;&#160;&#160;&#160;</td>
+      <td>{{service.price.serviceType}} for {{service.price.carType.carType}}&#160;&#160;&#160;&#160;&#160;&#160;</td>
+      <td><button class="btn btn-danger" (click)="deleteService(service.id)">Удалить</button></td>
+    </tr>
+  </table>
 </div>

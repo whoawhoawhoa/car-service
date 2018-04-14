@@ -141,7 +141,7 @@ public class WorkerControllerTests {
         Worker second = TestUtil.produceWorker();
         second.setId(2L);
 
-        when(workerRepository.findWorkersByIdIn(Arrays.asList(1, 2)))
+        when(workerRepository.findWorkersByIdIn(Arrays.asList(1L, 2L)))
                 .thenReturn(Arrays.asList(first, second));
 
             mockMvc.perform(get("/workers_by_id?ids=1,2"))
@@ -170,7 +170,7 @@ public class WorkerControllerTests {
                     .andExpect(jsonPath("$[1].email", is(second.getEmail())));
 
         verify(workerRepository, times(1)).
-                findWorkersByIdIn(Arrays.asList(1, 2));
+                findWorkersByIdIn(Arrays.asList(1L, 2L));
         verifyNoMoreInteractions(workerRepository);
     }
 

@@ -6,6 +6,7 @@ import {Price} from '../../../table-classes/price';
 import {PriceService} from '../../../services/price.service';
 import {Worker} from '../../../table-classes/worker';
 import {WorkerService} from '../../../services/worker.service';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-worker-services',
@@ -19,33 +20,31 @@ export class WorkerServicesComponent implements OnInit {
   statusCode: number;
   requestProcessing = false;
   processValidation = false;
-  sourceWorker: Worker;
-  @Input() login: string;
-  @Input() password: string;
+  workerSource: Worker;
 
   serviceForm = new FormGroup({
     coefficient: new FormControl('', Validators.required),
     price: new FormControl('', Validators.required)
   });
 
-  constructor(private serviceService: ServiceService, private priceService: PriceService,
+  constructor(private serviceService: ServiceService, private priceService: PriceService, private route: ActivatedRoute,
               private workerService: WorkerService) {}
 
   ngOnInit() {
-    this.getWorker();
+    this.getWorker(this.route.snapshot.paramMap.get('login'), this.route.snapshot.paramMap.get('password'));
     this.getAllServices();
     this.getAllPrices();
   }
 
-  getWorker() {
-    this.workerService.getWorkerByLoginAndPassword(this.login, this.password)
+  getWorker(login: string, password: string) {
+    this.workerService.getWorkerByLoginAndPassword(login, password)
       .subscribe(
-        data => this.sourceWorker = data,
+        data => this.workerSource = data,
         errorCode => this.statusCode);
   }
 
   getAllServices() {
-    this.serviceService.getServicesByWorkerLogin(this.login)
+    this.serviceService.getServicesByWorkerLogin(this.route.snapshot.paramMap.get('login'))
       .subscribe(
         data => this.allServices = data,
         errorCode =>  this.statusCode = errorCode);
@@ -72,7 +71,7 @@ export class WorkerServicesComponent implements OnInit {
         pric = a;
       }
     }
-    this.service = new Service(null, coef / pric.price, this.sourceWorker, pric);
+    this.service = new Service(null, coef / pric.price, this.workerSource, pric);
     this.serviceService.createService(this.service).
       subscribe(successCode => {
         this.statusCode = successCode;

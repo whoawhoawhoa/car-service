@@ -31,41 +31,83 @@
 </nav>
 <p>&#160;</p>
 
-<div id="orders" align="center">
-  <h3 id="h3done">Выполненные заказы</h3>
-  <div *ngIf="allOrders?.length === 0">
-    <h3>Вы пока не выполняли заказы!</h3>
-  </div>
-  <div *ngIf="allOrders?.length != 0">
-  <table>
-    <tr>
-      <th>Оценка клиента&#160;&#160;&#160;&#160;&#160;&#160;</th>
-      <th>Ваша оценка&#160;&#160;&#160;&#160;&#160;&#160;</th>
-      <th>Дата&#160;&#160;&#160;&#160;&#160;&#160;</th>
-      <th>Услуга&#160;&#160;&#160;&#160;&#160;&#160;</th>
-      <th>Цена&#160;&#160;&#160;&#160;&#160;&#160;</th>
-      <th>Клиент&#160;&#160;&#160;&#160;&#160;&#160;</th>
-    </tr>
-    <tr *ngFor="let order of executedAndCancelledOrders()" >
-      <td>{{order?.clientMark}}&#160;&#160;&#160;&#160;&#160;&#160;</td>
-      <td>{{order?.workerMark}}&#160;&#160;&#160;&#160;&#160;&#160;</td>
-      <td>{{order?.orderDate}}&#160;&#160;&#160;&#160;&#160;&#160;</td>
-      <td>{{order?.serviceType}}&#160;&#160;&#160;&#160;&#160;&#160;</td>
-      <td>{{order?.totalPrice}}&#160;&#160;&#160;&#160;&#160;&#160;</td>
-      <td>{{order?.client?.name + ' ' + order?.client?.fname}}&#160;&#160;&#160;&#160;&#160;&#160;</td>
-    </tr>
+<div id="ordersInProcess">
+  <table align="center">
+    <div *ngFor="let order of paidOrders()" >
+      <tr>
+        <app-worker-orders-final [order] = order></app-worker-orders-final>
+      </tr>
+    </div>
   </table>
-  </div>
 </div>
-
-<p></p>
-<p></p>
+<br>
+<br>
 
 <div *ngIf="workerSource?.status == 1" align="center">
   <app-worker-available-orders [login]="workerSource?.login" [id]="workerSource?.id">
   </app-worker-available-orders>
 </div>
 
-<div *ngFor="let order of paidOrders()" align="center">
-  <app-worker-orders-final [order] = order></app-worker-orders-final>
+
+<div id="orders" align="center">
+  <h3 id="h3done">Выполненные заказы</h3>
+  <div *ngIf="allOrders?.length === 0">
+    <h6>Вы пока не выполняли заказы!</h6>
+  </div>
+  <div id="filter" align="center">
+    <form [formGroup]="filterForm" (ngSubmit)="onFilterFormSubmit()">
+      <table>
+        <tr>
+          <td>Тип услуги</td>
+          <td>Сумма от</td>
+          <td>до</td>
+          <td>Дата от</td>
+          <td>до</td>
+        </tr>
+        <tr>
+          <td><input type="text" formControlName="serviceType" class="form-control mr-sm-2"></td>
+          <td><input type="text" formControlName="price1" class="form-control mr-sm-2"></td>
+          <td><input type="text" formControlName="price2" class="form-control mr-sm-2"></td>
+          <td><input type="text" formControlName="fromDate" class="form-control mr-sm-2" placeholder="YYYY-MM-DD"></td>
+          <td><input type="text" formControlName="toDate" class="form-control mr-sm-2" placeholder="YYYY-MM-DD"></td>
+          <button class="btn btn-outline-success my-2 my-sm-0">Применить</button>
+        </tr>
+      </table>
+    </form>
+  </div>
+  <p>&#160;</p>
+  <div *ngIf="allOrders?.length != 0">
+  <table>
+    <tr>
+      <td colspan="3"><h5>Количество заказов: {{allOrders.length}}</h5></td>
+    </tr>
+    <tr>
+      <th>Услуга&#160;&#160;&#160;&#160;&#160;&#160;</th>
+      <th>Клиент&#160;&#160;&#160;&#160;&#160;&#160;</th>
+      <th>Оценка клиента&#160;&#160;&#160;&#160;&#160;&#160;</th>
+      <th>Ваша оценка&#160;&#160;&#160;&#160;&#160;&#160;</th>
+      <th>Дата&#160;&#160;&#160;&#160;&#160;&#160;</th>
+      <th>Цена&#160;&#160;&#160;&#160;&#160;&#160;</th>
+    </tr>
+    <tr *ngFor="let order of allOrders" >
+      <td>{{order?.serviceType}}&#160;&#160;&#160;&#160;&#160;&#160;</td>
+      <td>{{order?.client?.login}}&#160;&#160;&#160;&#160;&#160;&#160;</td>
+      <td>{{order?.clientMark}}&#160;&#160;&#160;&#160;&#160;&#160;</td>
+      <td>{{order?.workerMark}}&#160;&#160;&#160;&#160;&#160;&#160;</td>
+      <td>{{order?.orderDate}}&#160;&#160;&#160;&#160;&#160;&#160;</td>
+      <td>{{order?.totalPrice}}&#160;&#160;&#160;&#160;&#160;&#160;</td>
+    </tr>
+    <tr>
+      <td>&#160;</td>
+    </tr>
+    <tr>
+      <td colspan="6"><h5 *ngIf="money != 0">Количество заработанных денег: {{money}}</h5></td>
+    </tr>
+  </table>
+    <p>&#160;</p>
+  </div>
 </div>
+
+<p></p>
+<p></p>
+

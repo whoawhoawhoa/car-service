@@ -1,24 +1,33 @@
-<h3>Ваш текущий заказ</h3>
-<a>
-  Ваш клиент: {{order.client.name}}, его номер {{order.client.pnumber}}<br>
-  Автомобиль: {{order.car.brand}} {{order.car.number}}<br>
-  Адрес: {{order.address}}<br>
-</a>
+<table>
+  <tr>
+    <td><h5>Ваш текущий заказ &#160;&#160;&#160;</h5></td>
+    <td>Ваш клиент: {{order.client.name}}, его номер {{order.client.pnumber}}<br>
+        Автомобиль: {{order.car.brand}} {{order.car.number}}<br>
+        Адрес: {{order.address}}</td>
+  </tr>
+  <tr>
+    <td><button (click)="check()" class="btn btn-outline-success my-2 my-sm-0">Еще активен?</button></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td></td>
+    <td>
+      <button *ngIf="order.status == 1" class="btn btn-outline-success my-2 my-sm-0" (click)="onWorkerFinished()">Заказ выполнен</button>
+      <button *ngIf="order.status == 1" class="btn btn-danger" (click)="onCancel()">Отмена</button>
+    </td>
+  </tr>
+  <br>
+  <form *ngIf="order.status == 4" [formGroup]="ratingForm" (ngSubmit)="onRatingFormSubmit()">
+        Выставьте оценку!
+        <select formControlName="rating" class="form-control mr-sm-2">
+          <option value=1>1</option>
+          <option value=2>2</option>
+          <option value=3>3</option>
+          <option value=4>4</option>
+          <option value=5>5</option>
+        </select>
+        <button class="btn btn-outline-success my-2 my-sm-0">ОК</button>
+    </form>
+</table>
 <br>
-<button (click)="check()">Еще активен?</button>
-  <br>
-  <br>
-<button *ngIf="order.status == 1" class="btn btn-outline-success my-2 my-sm-0" (click)="onWorkerFinished()">Заказ выполнен</button>
-<button *ngIf="order.status == 1" class="btn btn-danger" (click)="onCancel()">Отмена</button>
-<form *ngIf="order.status == 4" [formGroup]="ratingForm" (ngSubmit)="onRatingFormSubmit()">
-  Выставьте оценку!<br>
-  <select formControlName="rating">
-    <option value=1>1</option>
-    <option value=2>2</option>
-    <option value=3>3</option>
-    <option value=4>4</option>
-    <option value=5>5</option>
-  </select>
-  <button>ОК</button>
-</form>
-
+<br>

@@ -39,7 +39,7 @@ export class OrderService {
     const cpHeaders = new Headers({ 'Content-Type': 'application/json' });
     const cpParams = new URLSearchParams();
     const options = new RequestOptions({ headers: cpHeaders, params: cpParams });
-    return this.http.get(this.orderUrl + "?id=" + orderId, options)
+    return this.http.get(this.orderUrl + '?id=' + orderId, options)
       .map(this.extractData)
       .catch(this.handleError);
   }

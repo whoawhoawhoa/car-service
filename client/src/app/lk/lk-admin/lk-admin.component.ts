@@ -272,6 +272,10 @@ export class LkAdminComponent implements OnInit {
         errorCode => this.statusCodeCarType = errorCode);
   }
 
+  redirectToOrders() {
+    this.router.navigate(['/all-orders/' + this.adminSource.login + '/' + this.adminSource.password]);
+  }
+
 
   preProcessConfigurations() {
     this.statusCode = null;

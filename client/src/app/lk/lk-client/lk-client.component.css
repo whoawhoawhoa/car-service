@@ -1,22 +1,12 @@
-#updateTable {
-  position: absolute; /* Абсолютное позиционирование */
-  left: 150px;
-  width: 450px; /* Ширина слоя  */
-}
-#newCar {
-  position: relative; /* Относительное позиционирование */
-  left: 750px; /* Смещаем слой вправо на ширину левого слоя */
-  width: 550px; /* Ширина слоя */
-  padding: 10px; /* Поля вокруг текста */
-}
-#cars{
-  position: absolute; /* Абсолютное позиционирование */
-  left: 150px;
-  width: 450px; /* Ширина слоя  */
-  top: 600px;
-}
 #avOrders{
   position: relative;
   left: 150px;
   top: 100px;
+}
+
+#accordion{
+  width: 800px;
+  position: absolute;
+  top: 250px;
+  left: 280px;
 }

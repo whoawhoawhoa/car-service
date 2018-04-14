@@ -62,7 +62,7 @@ public class WorkerController extends WebMvcConfigurerAdapter {
     }
 
     @RequestMapping(value = "/workers_by_id", method = RequestMethod.GET)
-    public ResponseEntity<List<Worker>> getWorkersByIds(@RequestParam List<Integer> ids) {
+    public ResponseEntity<List<Worker>> getWorkersByIds(@RequestParam List<Long> ids) {
         List<Worker> workers = workerRepository.findWorkersByIdIn(ids);
         return new ResponseEntity<>(workers, HttpStatus.OK);
     }

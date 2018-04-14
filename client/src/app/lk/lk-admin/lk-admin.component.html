@@ -17,6 +17,9 @@
       <li class="nav-item">
         <a href="#" class="nav-link">Главная</a>
       </li>
+      <li class="nav-item">
+        <button class="btn btn-outline-success my-2 my-sm-0" (click)="redirectToOrders()"> Заказы </button>
+      </li>
     </ul>
   </div>
 </nav>
@@ -28,6 +31,7 @@
     <p align="center" class="text-danger">Произошла ошибка на сервере!</p>
   </div>
 </div>
+
 <div align="center">
   <h1>Информация о профиле админа</h1>
   <table>
@@ -42,134 +46,177 @@
   </table>
 </div>
 
-<div id="updateTable">
-  <h3> Форма для обновления данных </h3>
-  <form [formGroup]="adminForm" (ngSubmit)="onAdminFormSubmit()">
-    <table>
-      <tr><td>Введите новый логин</td><td><input formControlName="login" class="form-control mr-sm-2">
-        <td><label *ngIf="adminForm.get('login').invalid && processValidationRefresh" class="text-danger" > Обязательное поле </label></td>
-      </tr>
-      <tr><td>Введите новый пароль</td><td><input formControlName="password" class="form-control mr-sm-2">
-        <td><label *ngIf="adminForm.get('password').invalid && processValidationRefresh" class="text-danger" > Обязательное поле </label></td>
-      </tr>
-      <tr>
-        <td><button class="btn btn-outline-success my-2 my-sm-0">Обновить</button></td>
-        <td><button (click)="deleteAdmin(adminSource.id)" class="btn btn-danger">Удалить аккаунт</button></td>
-      </tr>
-    </table>
-  </form>
-  <div *ngIf="statusCodeRefresh">
-    <div *ngIf="statusCodeRefresh === 409">
-      <p class="text-warning">Такой логин уже существует!</p>
-    </div>
-    <div *ngIf="statusCodeRefresh === 500">
-      <p class="text-danger">Произошла ошибка на сервере!</p>
-    </div>
-  </div>
-
-</div>
-
-<div id="forPrice">
-  <h3>Форма для добавления услуг</h3>
-  <form [formGroup]="priceForm" (ngSubmit)="onPriceFormSubmit()">
-    <table>
-      <tr><td>Введите название&#160;&#160;&#160;</td><td><input formControlName="serviceType" class="form-control mr-sm-2">
-        <label *ngIf="priceForm.get('serviceType').invalid && processValidationPrice" class="text-danger"> Обязательное поле </label>
-      </td></tr>
-      <tr>
-        <td>Введите цену&#160;&#160;&#160;</td>
-        <td><input formControlName="price" class="form-control mr-sm-2">
-        <label *ngIf="priceForm.get('price').invalid && processValidationPrice" class="text-danger"> Обязательное поле </label></td>
-      </tr>
-      <tr><td>Выберите тип кузова&#160;&#160;&#160;</td>
-        <td><select formControlName="carType" class="form-control mr-sm-2">
-                                              <option *ngFor="let carType of carTypes" value={{carType.id}}>{{carType.carType}}</option>
-                                          </select>
-        <label *ngIf="priceForm.get('carType').invalid && processValidationPrice" class="text-danger"> Обязательное поле </label>
-      </td>
-      </tr>
-      <tr><td colspan="2">
-        <button *ngIf="!priceIdToUpdate" class="btn btn-outline-success my-2 my-sm-0">Создать</button>
-        <button *ngIf="priceIdToUpdate" class="btn btn-outline-success my-2 my-sm-0">Изменить</button>
-        <button (click)="backToCreatePrice()" *ngIf="priceIdToUpdate" class="btn btn-danger">Отмена</button>
-      </td></tr>
-    </table>
-  </form>
-
-  <table>
-    <tr>
-      <th>ID&#160;&#160;&#160;</th>
-      <th>Тип услуги&#160;&#160;&#160;</th>
-      <th>Исходная цена&#160;&#160;&#160;</th>
-      <th>Тип кузова&#160;&#160;&#160;</th>
-    </tr>
-    <tr *ngFor="let price of prices" >
-      <td>{{price?.id}}&#160;&#160;&#160;</td>
-      <td>{{price?.serviceType}}&#160;&#160;&#160;</td>
-      <td>{{price?.price}}&#160;&#160;&#160;</td>
-      <td>{{price?.carType.carType}}&#160;&#160;&#160;</td>
-      <td><button type="button" (click)="loadPriceToEdit(price.id)" class="btn btn-outline-success my-2 my-sm-0">Изменить</button> </td>
-      <td><button type="button" (click)="deletePrice(price.id)" class="btn btn-danger">Удалить</button></td>
-    </tr>
-  </table>
-
-  <div *ngIf="statusCodePrice">
-    <div *ngIf="statusCodePrice === 409">
-      <p class="text-danger">Такая услуга уже существует!</p>
-    </div>
-    <div *ngIf="statusCodePrice === 400">
-      <p class="text-danger">Услуга не прошла валидацию!</p>
-    </div>
-    <div *ngIf="statusCodePrice === 500">
-      <p class="text-danger">Произошла ошибка на сервере!</p>
-    </div>
-  </div>
-</div>
-
-<div id="newCarType">
-  <h3>Форма для нового типа машины</h3>
-  <form [formGroup]="carTypeForm" (ngSubmit)="onCarTypeFormSubmit()">
-    <table>
-      <tr>
-        <td>Введите название&#160;&#160;&#160;</td>
-        <td><input formControlName="carType" class="form-control mr-sm-2">
-        <label *ngIf="carTypeForm.get('carType').invalid && processValidationCarType" class="text-danger"> Обязательное поле </label>
-        </td>
-      </tr>
-      <tr>
-        <td>
-        <button *ngIf="!carTypeIdToUpdate" class="btn btn-outline-success my-2 my-sm-0">Создать</button>
-        <button *ngIf="carTypeIdToUpdate" class="btn btn-outline-success my-2 my-sm-0">Изменить</button>
-        <button (click)="backToCreateCarType()" *ngIf="carTypeIdToUpdate" class="btn btn-danger">Отмена</button>
-        </td>
-        <td>
-          <div *ngIf="statusCodeCarType">
-            <div *ngIf="statusCodeCarType === 409">
-              <p class="text-warning">Такой тип уже существует!</p>
-            </div>
-            <div *ngIf="statusCodeCarType === 500">
-              <p class="text-danger">Произошла ошибка на сервере!</p>
-            </div>
+<div id="accordion">
+  <accordion>
+    <accordion-group>
+      <div accordion-heading class="clearfix">
+        <h3 align="center"> Форма для обновления данных </h3>
+        <h6 align="center" style="color: green">
+          Нажмите сюда, чтобы изменить логин/пароль данного аккаунта.
+        </h6>
+      </div>
+      <div align="center">
+        <form [formGroup]="adminForm" (ngSubmit)="onAdminFormSubmit()">
+          <table>
+            <tr><td>Введите новый логин</td><td><input formControlName="login" class="form-control mr-sm-2">
+              <td><label *ngIf="adminForm.get('login').invalid && processValidationRefresh" class="text-danger"> Обязательное поле </label></td>
+            </tr>
+            <tr><td>Введите новый пароль</td><td><input formControlName="password" class="form-control mr-sm-2">
+              <td><label *ngIf="adminForm.get('password').invalid && processValidationRefresh" class="text-danger" > Обязательное поле </label></td>
+            </tr>
+            <tr>
+              <td><button class="btn btn-outline-success my-2 my-sm-0">Обновить</button></td>
+              <td><button (click)="deleteAdmin(adminSource.id)" class="btn btn-danger">Удалить аккаунт</button></td>
+            </tr>
+          </table>
+        </form>
+        <div *ngIf="statusCodeRefresh">
+          <div *ngIf="statusCodeRefresh === 409">
+            <p class="text-warning">Такой логин уже существует!</p>
           </div>
-        </td>
-      </tr>
-    </table>
-  </form>
-
-  <table>
-    <tr><th>ID&#160;&#160;&#160;</th> <th>Тип кузова&#160;&#160;&#160;</th>
-    </tr>
-    <tr *ngFor="let carType of carTypes" >
-      <td>{{carType?.id}}&#160;&#160;&#160;</td>
-      <td>{{carType?.carType}}&#160;&#160;&#160;</td>
-      <td><button type="button" (click)="loadCarTypeToEdit(carType.id)" class="btn btn-outline-success my-2 my-sm-0">Изменить</button> </td>
-      <td><button type="button" (click)="deleteCarType(carType.id)" class="btn btn-danger">Удалить</button></td>
-    </tr>
-  </table>
+          <div *ngIf="statusCodeRefresh === 500">
+            <p class="text-danger">Произошла ошибка на сервере!</p>
+          </div>
+        </div>
+      </div>
+    </accordion-group>
+    <accordion-group>
+      <div accordion-heading class="clearfix">
+        <h3 align="center"> Добавление нового аккаунта админа </h3>
+        <h6 align="center" style="color: green">
+          Нажмите, чтобы зарегистрировать аккаунт нового администратора.
+        </h6>
+      </div>
+      <app-admin-reg></app-admin-reg>
+    </accordion-group>
+    <accordion-group>
+      <div accordion-heading class="clearfix">
+        <h3 align="center"> Виды услуг </h3>
+        <h6 align="center" style="color: green">
+          Нажмите сюда, чтобы добавить новый вид услуг или же изменить/удалить уже существующие.
+        </h6>
+      </div>
+      <div align="center">
+        <form [formGroup]="priceForm" (ngSubmit)="onPriceFormSubmit()">
+          <table>
+            <tr>
+              <td>Введите название&#160;&#160;&#160;</td>
+              <td>
+                <input formControlName="serviceType" class="form-control mr-sm-2">
+                <label *ngIf="priceForm.get('serviceType').invalid && processValidationPrice" class="text-danger"> Обязательное поле</label>
+              </td>
+            </tr>
+            <tr>
+              <td>Введите цену&#160;&#160;&#160;</td>
+              <td>
+                <input formControlName="price" class="form-control mr-sm-2">
+                <label *ngIf="priceForm.get('price').invalid && processValidationPrice" class="text-danger"> Обязательное поле </label>
+              </td>
+            </tr>
+            <tr>
+              <td>Выберите тип кузова&#160;&#160;&#160;</td>
+              <td>
+                <select formControlName="carType" class="form-control mr-sm-2">
+                    <option *ngFor="let carType of carTypes" value={{carType.id}}>{{carType.carType}}</option>
+                </select>
+                <label *ngIf="priceForm.get('carType').invalid && processValidationPrice" class="text-danger"> Обязательное поле </label>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <button *ngIf="!priceIdToUpdate" class="btn btn-outline-success my-2 my-sm-0">Создать</button>
+                <button *ngIf="priceIdToUpdate" class="btn btn-outline-success my-2 my-sm-0">Изменить</button>
+                <button (click)="backToCreatePrice()" *ngIf="priceIdToUpdate" class="btn btn-danger">Отмена</button>
+              </td>
+            </tr>
+          </table>
+        </form>
+        <table>
+          <tr>
+            <th>ID&#160;&#160;&#160;</th>
+            <th>Тип услуги&#160;&#160;&#160;</th>
+            <th>Исходная цена&#160;&#160;&#160;</th>
+            <th>Тип кузова&#160;&#160;&#160;</th>
+          </tr>
+          <tr *ngFor="let price of prices" >
+            <td>{{price?.id}}&#160;&#160;&#160;</td>
+            <td>{{price?.serviceType}}&#160;&#160;&#160;</td>
+            <td>{{price?.price}}&#160;&#160;&#160;</td>
+            <td>{{price?.carType.carType}}&#160;&#160;&#160;</td>
+            <td><button type="button" (click)="loadPriceToEdit(price.id)" class="btn btn-outline-success my-2 my-sm-0">Изменить</button> </td>
+            <td><button type="button" (click)="deletePrice(price.id)" class="btn btn-danger">Удалить</button></td>
+          </tr>
+        </table>
+        <div *ngIf="statusCodePrice">
+          <div *ngIf="statusCodePrice === 409">
+            <p class="text-danger">Такая услуга уже существует!</p>
+          </div>
+          <div *ngIf="statusCodePrice === 400">
+            <p class="text-danger">Услуга не прошла валидацию!</p>
+          </div>
+          <div *ngIf="statusCodePrice === 500">
+            <p class="text-danger">Произошла ошибка на сервере!</p>
+          </div>
+        </div>
+      </div>
+    </accordion-group>
+    <accordion-group>
+      <div accordion-heading class="clearfix">
+        <h3 align="center"> Типы машин </h3>
+        <h6 align="center" style="color: green">
+          Нажмите сюда, чтобы добавить новый тип или же изменить/удалить ранее добавленные.
+        </h6>
+      </div>
+      <div align="center">
+        <form [formGroup]="carTypeForm" (ngSubmit)="onCarTypeFormSubmit()">
+          <table>
+            <tr>
+              <td>Введите название&#160;&#160;&#160;</td>
+              <td><input formControlName="carType" class="form-control mr-sm-2">
+                <label *ngIf="carTypeForm.get('carType').invalid && processValidation" [ngClass] = "'error'"> Обязательное поле </label>
+              </td>
+            </tr>
+            <tr><td colspan="2">
+              <button *ngIf="!carTypeIdToUpdate" class="btn btn-outline-success my-2 my-sm-0">Создать</button>
+              <button *ngIf="carTypeIdToUpdate" class="btn btn-outline-success my-2 my-sm-0">Изменить</button>
+              <button (click)="backToCreateCarType()" *ngIf="carTypeIdToUpdate" class="btn btn-danger">Отмена</button>
+            </td>
+              <td>
+                <div *ngIf="statusCodeCarType">
+                  <div *ngIf="statusCodeCarType === 409">
+                    <p class="text-warning">Такой тип уже существует!</p>
+                  </div>
+                  <div *ngIf="statusCodeCarType === 500">
+                    <p class="text-danger">Произошла ошибка на сервере!</p>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </form>
+        <table>
+          <tr><th>ID&#160;&#160;&#160;</th> <th>Тип кузова&#160;&#160;&#160;</th>
+          </tr>
+          <tr *ngFor="let carType of carTypes" >
+            <td>{{carType?.id}}&#160;&#160;&#160;</td>
+            <td>{{carType?.carType}}&#160;&#160;&#160;</td>
+            <td><button type="button" (click)="loadCarTypeToEdit(carType.id)" class="btn btn-outline-success my-2 my-sm-0">Изменить</button> </td>
+            <td><button type="button" (click)="deleteCarType(carType.id)" class="btn btn-danger">Удалить</button></td>
+          </tr>
+        </table>
+      </div>
+    </accordion-group>
+    <accordion-group>
+      <div accordion-heading class="clearfix">
+        <h3 align="center"> Проверка паспортных данных </h3>
+        <h6 align="center" style="color: green">
+          Здесь отображаются паспортные данные новых сотрудников, которые необходимо проверить.
+        </h6>
+      </div>
+      <app-check-passports></app-check-passports>
+    </accordion-group>
+  </accordion>
 </div>
-
-<app-admin-reg></app-admin-reg>
-<app-check-passports></app-check-passports>
 
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

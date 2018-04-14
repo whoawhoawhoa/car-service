@@ -3,9 +3,9 @@ import {AvailableOrderService} from '../../../services/available-order.service';
 import {ServiceService} from '../../../services/service.service';
 import {AvailableOrder} from '../../../table-classes/available-order';
 import {Service} from '../../../table-classes/service';
-import {ClientOrdersComponent} from "../../lk-client/client-orders/client-orders.component";
-import {WorkerOrdersComponent} from "../worker-orders/worker-orders.component";
-import {ActivatedRoute} from "@angular/router";
+import {ClientOrdersComponent} from '../../lk-client/client-orders/client-orders.component';
+import {WorkerOrdersComponent} from '../worker-orders/worker-orders.component';
+import {ActivatedRoute} from '@angular/router';
 @Component({
   selector: 'app-worker-available-orders',
   templateUrl: './worker-available-orders.component.html',
@@ -61,10 +61,9 @@ export class WorkerAvailableOrdersComponent implements OnInit {
       .subscribe(data =>  this.getAvOrders());
   }
 
-  onCancel(order: AvailableOrder)
-  {
+  onCancel(order: AvailableOrder) {
     const index = order.workers.indexOf(this.id);
-    order.workers.splice(index,1);
+    order.workers.splice(index, 1);
     this.avOrderService.updateAvOrder(order)
       .subscribe(data =>  this.getAvOrders());
   }

@@ -62,140 +62,162 @@
 </table>
 <p>&#160;</p>
 
-
-<div id="updateTable">
-  <h3> Форма для обновления данных </h3>
-  <form [formGroup]="clientForm" (ngSubmit)="onClientFormSubmit()">
-    <table>
-      <tr>
-        <td>Введите новый логин</td>
-        <td><input formControlName="login" class="form-control mr-sm-2"></td>
-      </tr>
-      <tr>
-        <td>Введите новый пароль</td>
-        <td><input formControlName="password" class="form-control mr-sm-2"></td>
-      </tr>
-      <tr>
-        <td>Введите новое имя</td>
-        <td><input formControlName="name" class="form-control mr-sm-2"></td>
-      </tr>
-      <tr>
-        <td>Введите новую фамилию</td>
-        <td><input formControlName="fName" class="form-control mr-sm-2"></td>
-      </tr>
-      <tr>
-        <td>Введите новый номер телефона</td>
-        <td><input formControlName="pnumber" class="form-control mr-sm-2"></td>
-      </tr>
-      <tr>
-        <td>Введите новый город</td>
-        <td><input formControlName="city" class="form-control mr-sm-2"></td>
-      </tr>
-      <tr>
-        <td>Введите новый Email</td>
-        <td><input formControlName="email" class="form-control mr-sm-2"></td>
-      </tr>
-      <tr>
-        <td><button class="btn btn-outline-success my-2 my-sm-0">Обновить</button></td>
-        <td><button routerLink="" class="btn btn-danger" (click)="deleteClient(clientSource.login)">Удалить аккаунт</button></td>
-      </tr>
-      <tr>
-        <td colspan="2">
-          <div *ngIf="statusCodeClient">
-            <div *ngIf="statusCodeClient === 409">
-              <p class="text-warning">Такой логин уже существует!</p>
-            </div>
-            <div *ngIf="statusCodeClient === 422">
-              <p class="text-danger">Неверно заполнены поля! Проверьте формат ввода!</p>
-            </div>
-            <div *ngIf="statusCodeClient === 400">
-              <p class="text-danger">Неверно заполнены поля! Проверьте формат ввода!</p>
-            </div>
-            <div *ngIf="statusCodeClient === 500">
-              <p class="text-danger">Произошла ошибка на сервере!</p>
-            </div>
-          </div>
-        </td>
-      </tr>
-    </table>
-  </form>
+<div id="accordion">
+  <accordion>
+    <accordion-group>
+      <div accordion-heading class="clearfix">
+        <h3 align="center"> Форма для обновления данных </h3>
+        <h6 align="center" style="color: green">
+          Нажмите сюда, чтобы изменить логин/пароль или другую личную информацию, указанную при регистрации.
+        </h6>
+      </div>
+      <div align="center">
+        <form [formGroup]="clientForm" (ngSubmit)="onClientFormSubmit()">
+          <table>
+            <tr>
+              <td>Введите новый логин</td>
+              <td><input formControlName="login" class="form-control mr-sm-2"></td>
+            </tr>
+            <tr>
+              <td>Введите новый пароль</td>
+              <td><input formControlName="password" class="form-control mr-sm-2"></td>
+            </tr>
+            <tr>
+              <td>Введите новое имя</td>
+              <td><input formControlName="name" class="form-control mr-sm-2"></td>
+            </tr>
+            <tr>
+              <td>Введите новую фамилию</td>
+              <td><input formControlName="fName" class="form-control mr-sm-2"></td>
+            </tr>
+            <tr>
+              <td>Введите новый номер телефона</td>
+              <td><input formControlName="pnumber" class="form-control mr-sm-2"></td>
+            </tr>
+            <tr>
+              <td>Введите новый город</td>
+              <td><input formControlName="city" class="form-control mr-sm-2"></td>
+            </tr>
+            <tr>
+              <td>Введите новый Email</td>
+              <td><input formControlName="email" class="form-control mr-sm-2"></td>
+            </tr>
+            <tr>
+              <td><button class="btn btn-outline-success my-2 my-sm-0">Обновить</button></td>
+              <td><button routerLink="" class="btn btn-danger" (click)="deleteClient(clientSource.login)">Удалить аккаунт</button></td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <div *ngIf="statusCodeClient">
+                  <div *ngIf="statusCodeClient === 409">
+                    <p class="text-warning">Такой логин уже существует!</p>
+                  </div>
+                  <div *ngIf="statusCodeClient === 422">
+                    <p class="text-danger">Неверно заполнены поля! Проверьте формат ввода!</p>
+                  </div>
+                  <div *ngIf="statusCodeClient === 400">
+                    <p class="text-danger">Неверно заполнены поля! Проверьте формат ввода!</p>
+                  </div>
+                  <div *ngIf="statusCodeClient === 500">
+                    <p class="text-danger">Произошла ошибка на сервере!</p>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </form>
+      </div>
+    </accordion-group>
+    <accordion-group>
+      <div accordion-heading class="clearfix">
+        <h3 align="center"> Добавьте данные о вашей машине! </h3>
+        <h6 align="center" style="color: green">
+          Нажмите сюда, чтобы добавить данные Вашего автомобиля.
+        </h6>
+      </div>
+      <div align="center">
+        <form [formGroup]="newCarForm" (ngSubmit)="onNewCarFormSubmit()">
+          <table>
+            <tr>
+              <td>Номер</td>
+              <td><input formControlName="number" class="form-control mr-sm-2"></td>
+              <td><label *ngIf="newCarForm.get('number').invalid && processValidation" [ngClass] = "'error'" > Number is required. </label></td>
+            </tr>
+            <tr>
+              <td>Марка</td>
+              <td><input formControlName="brand" class="form-control mr-sm-2"></td>
+              <td><label *ngIf="newCarForm.get('brand').invalid && processValidation" [ngClass] = "'error'"> Brand is required. </label></td>
+            </tr>
+            <tr>
+              <td>Цвет</td>
+              <td><input formControlName="color" class="form-control mr-sm-2"></td>
+              <td><label *ngIf="newCarForm.get('color').invalid && processValidation" [ngClass] = "'error'"> Color is required. </label></td>
+            </tr>
+            <tr>
+              <td>Выберите тип кузова</td>
+              <td><select formControlName="carType" class="form-control mr-sm-2">
+                <option *ngFor="let carType of carTypes" value={{carType.id}}>{{carType.carType}}</option>
+              </select>
+              </td>
+              <td>
+                <label *ngIf="newCarForm.get('carType').invalid && processValidation" [ngClass] = "'error'"> Обязательное поле </label>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <button class="btn btn-outline-success my-2 my-sm-0">Добавить</button>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <div *ngIf="statusCodeCar">
+                  <div *ngIf="statusCodeCar === 409">
+                    <p class="text-warning">Такая машина уже существует!</p>
+                  </div>
+                  <div *ngIf="statusCodeCar === 422">
+                    <p class="text-danger">Неверно заполнены поля! Проверьте формат ввода!</p>
+                  </div>
+                  <div *ngIf="statusCodeCar === 400">
+                    <p class="text-danger">Неверно заполнены поля! Проверьте формат ввода!</p>
+                  </div>
+                  <div *ngIf="statusCodeCar === 500">
+                    <p class="text-danger">Произошла ошибка на сервере!</p>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </form>
+      </div>
+    </accordion-group>
+    <accordion-group>
+      <div accordion-heading class="clearfix">
+        <h3 align="center"> Ваши имеющиеся авто </h3>
+        <h6 align="center" style="color: green">
+          Здесь можно посмотреть уже имеющиеся Ваши машины, а также удалить их.
+        </h6>
+      </div>
+      <div align="center">
+        <table>
+          <tr>
+            <th>Номер&#160;&#160;&#160;&#160;&#160;</th>
+            <th>Марка&#160;&#160;&#160;&#160;&#160;</th>
+            <th>Цвет&#160;&#160;&#160;&#160;&#160;</th>
+            <th>Тип кузова&#160;&#160;&#160;&#160;&#160;</th>
+          </tr>
+          <tr *ngFor="let car of clientCars" >
+            <td>{{car.number}}</td>
+            <td>{{car.brand}}</td>
+            <td>{{car.color}}</td>
+            <td>{{car.carType.carType}}</td>
+            <td><button type="button" (click)="deleteCar(car.id)" class="btn btn-danger">Удалить</button></td>
+          </tr>
+        </table>
+      </div>
+    </accordion-group>
+  </accordion>
 </div>
 
-
-<div id="newCar">
-  <h3> Добавить новую машину </h3>
-  <form [formGroup]="newCarForm" (ngSubmit)="onNewCarFormSubmit()">
-    <table>
-      <tr>
-        <td>Номер</td>
-        <td><input formControlName="number" class="form-control mr-sm-2"></td>
-        <td><label *ngIf="newCarForm.get('number').invalid && processValidationCar" class="text-danger" > Обязательное поле </label></td>
-      </tr>
-      <tr>
-        <td>Марка</td>
-        <td><input formControlName="brand" class="form-control mr-sm-2"></td>
-        <td><label *ngIf="newCarForm.get('brand').invalid && processValidationCar" class="text-danger" > Обязательное поле </label></td>
-      </tr>
-      <tr>
-        <td>Цвет</td>
-        <td><input formControlName="color" class="form-control mr-sm-2"></td>
-        <td><label *ngIf="newCarForm.get('color').invalid && processValidationCar" class="text-danger" > Обязательное поле </label></td>
-      </tr>
-      <tr>
-        <td>Выберите тип кузова</td>
-        <td><select formControlName="carType" class="form-control mr-sm-2">
-          <option *ngFor="let carType of carTypes" value={{carType.id}}>{{carType.carType}}</option>
-          </select>
-        </td>
-        <td>
-          <label *ngIf="newCarForm.get('carType').invalid && processValidationCar" class="text-danger" > Обязательное поле </label>
-        </td>
-      </tr>
-      <tr>
-        <td colspan="2">
-          <button class="btn btn-outline-success my-2 my-sm-0">Добавить</button>
-        </td>
-      </tr>
-      <tr>
-        <td colspan="2">
-          <div *ngIf="statusCodeCar">
-            <div *ngIf="statusCodeCar === 409">
-              <p class="text-warning">Такая машина уже существует!</p>
-            </div>
-            <div *ngIf="statusCodeCar === 422">
-              <p class="text-danger">Неверно заполнены поля! Проверьте формат ввода!</p>
-            </div>
-            <div *ngIf="statusCodeCar === 400">
-              <p class="text-danger">Неверно заполнены поля! Проверьте формат ввода!</p>
-            </div>
-            <div *ngIf="statusCodeCar === 500">
-              <p class="text-danger">Произошла ошибка на сервере!</p>
-            </div>
-          </div>
-        </td>
-      </tr>
-    </table>
-  </form>
-</div>
-
-<div id="cars">
-  <h3> Ваши машины </h3>
-  <table>
-    <tr>
-      <th>Номер&#160;&#160;&#160;&#160;&#160;</th>
-      <th>Марка&#160;&#160;&#160;&#160;&#160;</th>
-      <th>Цвет&#160;&#160;&#160;&#160;&#160;</th>
-      <th>Тип кузова&#160;&#160;&#160;&#160;&#160;</th>
-    </tr>
-    <tr *ngFor="let car of clientCars" >
-      <td>{{car.number}}</td>
-      <td>{{car.brand}}</td>
-      <td>{{car.color}}</td>
-      <td>{{car.carType.carType}}</td>
-      <td><button type="button" (click)="deleteCar(car.id)" class="btn btn-danger">Удалить</button></td>
-    </tr>
-    </table>
-</div>
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>

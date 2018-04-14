@@ -7,10 +7,11 @@ import {ServiceService} from '../../../services/service.service';
 import {Order} from '../../../table-classes/order';
 import {OrderService} from '../../../services/order.service';
 import {AvailableOrderService} from '../../../services/available-order.service';
-import {MatDialog} from '@angular/material';
+import {MatDialog} from '@angular/material/dialog';
 import {ClientPaymentComponent} from '../client-payment/client-payment.component';
-import {ClientOrdersComponent} from "../client-orders/client-orders.component";
-import {WorkerOrdersComponent} from "../../lk-worker/worker-orders/worker-orders.component";
+import {ClientOrdersComponent} from '../client-orders/client-orders.component';
+import {WorkerOrdersComponent} from '../../lk-worker/worker-orders/worker-orders.component';
+import {OrderEsService} from '../../../services/order-es.service';
 
 @Component({
   selector: 'app-client-available-order',
@@ -76,8 +77,7 @@ export class ClientAvailableOrderComponent implements OnInit {
     });
   }
 
-  cancel()
-  {
+  cancel() {
     this.avOrderService.deleteAvOrderById(this.avOrder.id)
       .subscribe(data => this.clientOrdersComponent.getAvOrders());
   }

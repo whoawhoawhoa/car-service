@@ -34,13 +34,16 @@ import { WorkerPassportsComponent } from './lk/lk-worker/worker-passports/worker
 import { CheckPassportsComponent } from './lk/lk-admin/check-passports/check-passports.component';
 import { ClientAvailableOrderComponent } from './lk/lk-client/client-available-order/client-available-order.component';
 import { StartPageComponent } from './start-page/start-page.component';
-import { CarouselModule } from 'ngx-bootstrap';
-import { MatDialogModule } from '@angular/material';
+import {AccordionConfig, AccordionModule, CarouselModule} from 'ngx-bootstrap';
 import {ClientOrdersComponent} from './lk/lk-client/client-orders/client-orders.component';
-import { ClientPaymentComponent } from './lk/lk-client/client-payment/client-payment.component';
+import {OrderEsService} from './services/order-es.service';
+import {AllOrdersComponent} from './lk/lk-admin/all-orders/all-orders.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import { ClientOrdersFinalComponent } from './lk/lk-client/client-orders-final/client-orders-final.component';
-import { WorkerOrdersFinalComponent } from './lk/lk-worker/worker-orders-final/worker-orders-final.component';
+import {ClientPaymentComponent} from './lk/lk-client/client-payment/client-payment.component';
+import {WorkerOrdersFinalComponent} from './lk/lk-worker/worker-orders-final/worker-orders-final.component';
+import {ClientOrdersFinalComponent} from './lk/lk-client/client-orders-final/client-orders-final.component';
+import {MatDialogModule} from '@angular/material/dialog';
+
 
 @NgModule({
   declarations: [
@@ -64,7 +67,8 @@ import { WorkerOrdersFinalComponent } from './lk/lk-worker/worker-orders-final/w
     ClientOrdersComponent,
     ClientOrdersFinalComponent,
     WorkerOrdersFinalComponent,
-    ClientPaymentComponent
+    ClientPaymentComponent,
+    AllOrdersComponent
   ],
   entryComponents: [
     ClientPaymentComponent
@@ -76,6 +80,7 @@ import { WorkerOrdersFinalComponent } from './lk/lk-worker/worker-orders-final/w
     AppRoutingModule,
     FormsModule,
     CarouselModule,
+    AccordionModule,
     MatDialogModule,
     BrowserAnimationsModule
   ],
@@ -92,7 +97,9 @@ import { WorkerOrdersFinalComponent } from './lk/lk-worker/worker-orders-final/w
     PriceService,
     ServiceService,
     ClientOrdersComponent,
-    WorkerOrdersComponent
+    WorkerOrdersComponent,
+    OrderEsService,
+    AccordionConfig
   ],
   bootstrap: [
     AppComponent

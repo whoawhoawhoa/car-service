@@ -1,9 +1,10 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Passport} from '../../../table-classes/passport';
 import {WorkerService} from '../../../services/worker.service';
 import {PassportService} from '../../../services/passport.service';
 import {Worker} from '../../../table-classes/worker';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-worker-passports',
@@ -17,22 +18,21 @@ export class WorkerPassportsComponent implements OnInit {
   processValidation = false;
   sourceWorker: Worker;
   comment: string;
-  @Input() login: string;
-  @Input() password: string;
 
   passportForm = new FormGroup({
     number: new FormControl('', Validators.required),
     issuedBy: new FormControl('', Validators.required)
   });
 
-  constructor(private workerService: WorkerService, private passportService: PassportService) { }
+  constructor(private workerService: WorkerService, private passportService: PassportService,
+              private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.getWorker();
+    this.getWorker(this.route.snapshot.paramMap.get('login'), this.route.snapshot.paramMap.get('password'));
   }
 
-  getWorker() {
-    this.workerService.getWorkerByLoginAndPassword(this.login, this.password)
+  getWorker(login: string, password: string) {
+    this.workerService.getWorkerByLoginAndPassword(login, password)
       .subscribe(
         data => {
           this.sourceWorker = data;
@@ -89,7 +89,7 @@ export class WorkerPassportsComponent implements OnInit {
 
   loadPassport() {
     if (this.passport == null) {
-      this.passportService.getPassportByWorkerLogin(this.login)
+      this.passportService.getPassportByWorkerLogin(this.route.snapshot.paramMap.get('login'))
         .subscribe(
           data => this.passport = data,
           errorCode => this.statusCode);
