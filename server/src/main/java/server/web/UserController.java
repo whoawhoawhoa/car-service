@@ -1,10 +1,12 @@
 package server.web;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -17,6 +19,7 @@ import java.util.List;
 public class UserController extends WebMvcConfigurerAdapter {
     private final UserRepository userRepository;
 
+    @Autowired
     public UserController(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
@@ -27,7 +30,6 @@ public class UserController extends WebMvcConfigurerAdapter {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
-
     @RequestMapping(value = "/user", method = RequestMethod.GET)
     public ResponseEntity<User> checkAuth(@RequestParam("login") String login, @RequestParam("password") String password) {
         List<User> users = userRepository.findUserByLoginAndPassword(login, password);
@@ -35,7 +37,7 @@ public class UserController extends WebMvcConfigurerAdapter {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         else
-            return new ResponseEntity<User>(users.get(0), HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(users.get(0), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/user", method = RequestMethod.POST)
@@ -68,7 +70,8 @@ public class UserController extends WebMvcConfigurerAdapter {
         User sourceUser;
         try {
             sourceUser = userRepository.findOne(user.getId());
-            if(sourceUser == user)
+            List<User> users = userRepository.findUserByLogin(user.getLogin());
+            if(sourceUser.equals(user) || users.size() != 0)
                 return new ResponseEntity<>(HttpStatus.CONFLICT);
             userRepository.save(user);
         } catch (Exception e) {

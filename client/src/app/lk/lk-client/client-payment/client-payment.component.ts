@@ -1,7 +1,8 @@
 import {AfterViewInit, Component, OnInit, Inject} from '@angular/core';
 import {OrderService} from '../../../services/order.service';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {WorkerService} from '../../../services/worker.service';
+import {OrderEsService} from '../../../services/order-es.service';
 
 @Component({
   selector: 'app-client-payment',
@@ -12,6 +13,7 @@ export class ClientPaymentComponent implements OnInit, AfterViewInit {
   statusCode: number;
 
   constructor(private orderService: OrderService,
+              private orderEsService: OrderEsService,
               public dialogRef: MatDialogRef<ClientPaymentComponent>,
               private workerService: WorkerService,
               @Inject(MAT_DIALOG_DATA) public data: any) {
@@ -40,11 +42,13 @@ export class ClientPaymentComponent implements OnInit, AfterViewInit {
   rejectOrder() {
     this.statusCode = null;
     this.data.order.status = 5;
-    this.orderService.updateOrder(this.data.order)
+    this.orderEsService.createOrderEs(this.data.order)
       .subscribe(successCode => {
-          this.statusCode = successCode;
-          this.dialogRef.close();
-        },
-          error => this.statusCode);
+          this.orderService.updateOrder(this.data.order)
+            .subscribe(success => {
+                this.statusCode = successCode;
+                this.dialogRef.close();
+              },
+              error => this.statusCode); });
   }
 }

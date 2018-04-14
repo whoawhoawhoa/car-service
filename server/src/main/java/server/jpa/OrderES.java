@@ -31,12 +31,16 @@ public class OrderES implements Serializable {
 
     @Field(type = FieldType.Integer)
     private int totalPrice;
-
     /*
-    0 - IN_PROCESS
-    1- FINISHED
-    2- REJECTED
-    * */
+        0 - ПРИНЯТ
+        1 - ОПЛАЧЕН
+        2 - РАБОТНИК ЗАКОНЧИЛ
+        3 - КЛИЕНТ ОЦЕНИВАЕТ (клиент подтвердил
+                        выполнение после статуса 2)
+        4 - РАБОТНИК ОЦЕНИВАЕТ
+        5 - ОТМЕНЕН
+        6 - ВЫПОЛНЕН
+        * */
     @Field(type = FieldType.Integer)
     private int status;
 

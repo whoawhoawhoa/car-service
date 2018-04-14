@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.Objects;
 import java.util.Set;
 
@@ -31,7 +32,7 @@ public class Worker implements Serializable {
     @Column(name = "city")
     private String city;
     @Column(name = "rating")
-    private int rating;
+    private double rating;
     @Column(name = "status")
     /*
     * OFFLINE == 0
@@ -54,8 +55,24 @@ public class Worker implements Serializable {
     private User user;
     @Column(name = "email")
     private String email;
+    @JsonIgnore
+    @Column(name = "start_date")
+    private Date startDate;
 
     public Worker() {}
+
+    public Worker(String login, String password, String name, String fname,
+                  long pnumber, String city, double rating, int status, String email) {
+        this.login = login;
+        this.password = password;
+        this.name = name;
+        this.fname = fname;
+        this.pnumber = pnumber;
+        this.city = city;
+        this.rating = rating;
+        this.status = status;
+        this.email = email;
+    }
 
     public void setUser(User user){
         this.user = user;
@@ -121,11 +138,11 @@ public class Worker implements Serializable {
         this.city = city;
     }
 
-    public int getRating() {
+    public double getRating() {
         return rating;
     }
 
-    public void setRating(int rating) {
+    public void setRating(double rating) {
         this.rating = rating;
     }
 
@@ -167,6 +184,14 @@ public class Worker implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
     }
 
     @Override

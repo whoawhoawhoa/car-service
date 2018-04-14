@@ -70,7 +70,7 @@ public class AdminController extends WebMvcConfigurerAdapter {
         Admin sourceAdmin;
         try {
             sourceAdmin = adminRepository.findOne(admin.getId());
-            if(sourceAdmin == admin)
+            if(admin.equals(sourceAdmin))
                 return new ResponseEntity<>(HttpStatus.CONFLICT);
             adminRepository.save(admin);
         } catch (Exception e) {

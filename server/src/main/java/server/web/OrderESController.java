@@ -265,20 +265,25 @@ public class OrderESController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-//    @PutMapping(value = "/order_es")
-//    public ResponseEntity<OrderES> updateOrder(@RequestBody OrderES orderES){
-//        elasticsearchOperations.putMapping(OrderES.class);
-//        OrderES sourceOrderES;
-//        sourceOrderES = orderESRepository.findOrderESById(orderES.getId());
-//        if(sourceOrderES == orderES)
-//            return new ResponseEntity<>(HttpStatus.CONFLICT);
-//        orderESRepository.save(orderES);
-//        return new ResponseEntity<>(orderES, HttpStatus.OK);
-//    }
+    @PutMapping(value = "/order_es")
+    public ResponseEntity<OrderES> updateOrder(@RequestBody OrderES orderES){
+        OrderES sourceOrderES;
+        sourceOrderES = orderESRepository.findOrderESById(orderES.getId());
+        if(sourceOrderES == orderES)
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        orderESRepository.save(orderES);
+        return new ResponseEntity<>(orderES, HttpStatus.OK);
+    }
 
     @DeleteMapping(value = "/order_es")
     public ResponseEntity<Void> deleteOrder(@RequestParam long id){
         orderESRepository.delete(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping(value = "/order_es_by_id_grater_than")
+    public ResponseEntity<Void> deleteOrderWithIdGraterThan(){
+        orderESRepository.deleteOrderESByClient_IdGreaterThan(0);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

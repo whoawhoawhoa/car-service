@@ -37,6 +37,12 @@ public class Car implements Serializable {
 
     public Car() {}
 
+    public Car(String number, String brand, String color) {
+        this.number = number;
+        this.brand = brand;
+        this.color = color;
+    }
+
     public long getId() {
         return id;
     }
@@ -99,6 +105,36 @@ public class Car implements Serializable {
 
     public void setAvailableOrderSet(Set<AvailableOrder> availableOrderSet) {
         this.availableOrderSet = availableOrderSet;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Car car = (Car) o;
+
+        if (id != car.id) return false;
+        if (number != null ? !number.equals(car.number) : car.number != null) return false;
+        if (brand != null ? !brand.equals(car.brand) : car.brand != null) return false;
+        if (color != null ? !color.equals(car.color) : car.color != null) return false;
+        if (client != null ? !client.equals(car.client) : car.client != null) return false;
+        if (carType != null ? !carType.equals(car.carType) : car.carType != null) return false;
+        if (orderSet != null ? !orderSet.equals(car.orderSet) : car.orderSet != null) return false;
+        return availableOrderSet != null ? availableOrderSet.equals(car.availableOrderSet) : car.availableOrderSet == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + (number != null ? number.hashCode() : 0);
+        result = 31 * result + (brand != null ? brand.hashCode() : 0);
+        result = 31 * result + (color != null ? color.hashCode() : 0);
+        result = 31 * result + (client != null ? client.hashCode() : 0);
+        result = 31 * result + (carType != null ? carType.hashCode() : 0);
+        result = 31 * result + (orderSet != null ? orderSet.hashCode() : 0);
+        result = 31 * result + (availableOrderSet != null ? availableOrderSet.hashCode() : 0);
+        return result;
     }
 
     @Override

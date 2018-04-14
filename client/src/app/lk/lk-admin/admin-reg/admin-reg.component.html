@@ -1,33 +1,36 @@
-<div align="center">
+
+<div id="register" align="center">
+  <h3> Зарегистрировать нового админа</h3>
   <form [formGroup]="adminForm" (ngSubmit)="onAdminFormSubmit()">
     <table>
       <tr>
         <td>Логин</td>
         <td><input formControlName="login" class="form-control mr-sm-2"></td>
-        <td><label *ngIf="adminForm.get('login').invalid && processValidation" [ngClass] = "'error'" > Login is required. </label></td>
+        <td><label *ngIf="adminForm.get('login').invalid && processValidation" class="text-danger"> Логин не указан </label></td>
       </tr>
       <tr>
         <td>Пароль</td>
         <td><input formControlName="password" class="form-control mr-sm-2"></td>
-        <td><label *ngIf="adminForm.get('password').invalid && processValidation" [ngClass] = "'error'"> Password is required. </label></td>
+        <td><label *ngIf="adminForm.get('password').invalid && processValidation" class="text-danger"> Пароль не указан </label></td>
       </tr>
       <tr>
         <td colspan="2">
-          <button class="btn btn-outline-success my-2 my-sm-0">OK</button>
+          <button class="btn btn-outline-success my-2 my-sm-0">Создать</button>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <div *ngIf="statusCode">
+            <div *ngIf="statusCode === 409">
+              <p class="text-warning">Такой логин уже существует!</p>
+            </div>
+            <div *ngIf="statusCode === 500">
+              <p class="text-danger">Произошла ошибка на сервере!</p>
+            </div>
+          </div>
         </td>
       </tr>
     </table>
   </form>
   <br/>
-  <div *ngIf="statusCode;">
-    <div *ngIf="statusCode === 201" [ngClass] = "'success'">
-     Успешно добавлен
-    </div>
-    <div *ngIf="statusCode === 409" [ngClass] = "'success'">
-      Такой логин уже существует
-    </div>
-    <div *ngIf="statusCode === 500" [ngClass] = "'error'">
-      Ошибка сервера
-    </div>
-  </div>
 </div>

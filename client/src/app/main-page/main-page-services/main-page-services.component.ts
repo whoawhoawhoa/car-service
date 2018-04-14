@@ -73,8 +73,8 @@ export class MainPageServicesComponent implements OnInit {
       .subscribe(orders => {
         const currentOrders = orders;
         for (let i = 0; i < currentOrders.length; i++) {
-          if (currentOrders[i].serviceType === avOrder.serviceType
-            && currentOrders[i].car.id === avOrder.car.id) {
+          if (currentOrders[i].serviceType == avOrder.serviceType
+            && currentOrders[i].car.id == avOrder.car.id) {
             this.isAlreadyOrdered = true;
             break;
           }

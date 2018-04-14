@@ -7,6 +7,10 @@ import {ServiceService} from '../../../services/service.service';
 import {Order} from '../../../table-classes/order';
 import {OrderService} from '../../../services/order.service';
 import {AvailableOrderService} from '../../../services/available-order.service';
+import {MatDialog} from '@angular/material/dialog';
+import {ClientPaymentComponent} from '../client-payment/client-payment.component';
+import {ClientOrdersComponent} from '../client-orders/client-orders.component';
+import {WorkerOrdersComponent} from '../../lk-worker/worker-orders/worker-orders.component';
 import {OrderEsService} from '../../../services/order-es.service';
 
 @Component({
@@ -18,12 +22,16 @@ export class ClientAvailableOrderComponent implements OnInit {
   @Input() avOrder: AvailableOrder;
   workers: Worker[];
   services: Service[];
+  order: Order;
 
   constructor(private workerService: WorkerService,
               private serviceService: ServiceService,
               private orderService: OrderService,
-              private orderEsService: OrderEsService,
-              private avOrderService: AvailableOrderService) { }
+              private avOrderService: AvailableOrderService,
+              private dialog: MatDialog,
+              private clientOrdersComponent: ClientOrdersComponent,
+              private workerOrdersComponent: WorkerOrdersComponent) {
+  }
 
   ngOnInit() {
     this.loadWorkerList();
@@ -51,7 +59,7 @@ export class ClientAvailableOrderComponent implements OnInit {
     const order = new Order(null, null, null, this.avOrder.orderDate, this.avOrder.serviceType,
       service.price.price * service.coef, 0, this.avOrder.address, this.avOrder.commentary,
       this.avOrder.client, worker, this.avOrder.car);
-    this.orderEsService.createOrderEs(order).subscribe();
+    this.order = order;
     this.orderService.createOrder(order)
       .subscribe(successCode => {
         this.avOrderService.deleteAvOrderById(this.avOrder.id)
@@ -61,6 +69,16 @@ export class ClientAvailableOrderComponent implements OnInit {
             this.avOrder = null;
           });
       });
+    this.dialog.open(ClientPaymentComponent, {
+      width: '400px',
+      data: {
+        order: order
+      }
+    });
+  }
 
+  cancel() {
+    this.avOrderService.deleteAvOrderById(this.avOrder.id)
+      .subscribe(data => this.clientOrdersComponent.getAvOrders());
   }
 }

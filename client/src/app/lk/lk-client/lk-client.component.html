@@ -28,6 +28,15 @@
   </div>
 </nav>
 
+<div *ngIf="statusCode" align="center">
+  <div *ngIf="statusCode === 400" >
+    <p align="center" class="text-danger">Не получилось загрузить данные с сервера!</p>
+  </div>
+  <div *ngIf="statusCode === 500">
+    <p align="center" class="text-danger">Произошла ошибка на сервере!</p>
+  </div>
+</div>
+
 <h1 align="center">Информация о профиле клиента</h1>
 <table align="center">
   <tr>
@@ -51,6 +60,7 @@
     <td>{{clientSource?.email}}</td>
   </tr>
 </table>
+<p>&#160;</p>
 
 <div id="accordion">
   <accordion>
@@ -96,6 +106,24 @@
               <td><button class="btn btn-outline-success my-2 my-sm-0">Обновить</button></td>
               <td><button routerLink="" class="btn btn-danger" (click)="deleteClient(clientSource.login)">Удалить аккаунт</button></td>
             </tr>
+            <tr>
+              <td colspan="2">
+                <div *ngIf="statusCodeClient">
+                  <div *ngIf="statusCodeClient === 409">
+                    <p class="text-warning">Такой логин уже существует!</p>
+                  </div>
+                  <div *ngIf="statusCodeClient === 422">
+                    <p class="text-danger">Неверно заполнены поля! Проверьте формат ввода!</p>
+                  </div>
+                  <div *ngIf="statusCodeClient === 400">
+                    <p class="text-danger">Неверно заполнены поля! Проверьте формат ввода!</p>
+                  </div>
+                  <div *ngIf="statusCodeClient === 500">
+                    <p class="text-danger">Произошла ошибка на сервере!</p>
+                  </div>
+                </div>
+              </td>
+            </tr>
           </table>
         </form>
       </div>
@@ -135,9 +163,29 @@
                 <label *ngIf="newCarForm.get('carType').invalid && processValidation" [ngClass] = "'error'"> Обязательное поле </label>
               </td>
             </tr>
-            <td>
-              <button class="btn btn-outline-success my-2 my-sm-0">Добавить</button>
-            </td>
+            <tr>
+              <td>
+                <button class="btn btn-outline-success my-2 my-sm-0">Добавить</button>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <div *ngIf="statusCodeCar">
+                  <div *ngIf="statusCodeCar === 409">
+                    <p class="text-warning">Такая машина уже существует!</p>
+                  </div>
+                  <div *ngIf="statusCodeCar === 422">
+                    <p class="text-danger">Неверно заполнены поля! Проверьте формат ввода!</p>
+                  </div>
+                  <div *ngIf="statusCodeCar === 400">
+                    <p class="text-danger">Неверно заполнены поля! Проверьте формат ввода!</p>
+                  </div>
+                  <div *ngIf="statusCodeCar === 500">
+                    <p class="text-danger">Произошла ошибка на сервере!</p>
+                  </div>
+                </div>
+              </td>
+            </tr>
           </table>
         </form>
       </div>

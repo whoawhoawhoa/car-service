@@ -21,4 +21,15 @@
     <td><button (click)="rejectPassport(passport)" class="btn btn-danger">Отклонить</button></td>
   </tr>
 </table>
+  <div *ngIf="statusCode">
+    <div *ngIf="statusCode === 409">
+      <p align="center" class="text-warning">Такой паспорт уже зарегистрирован в системе!</p>
+    </div>
+    <div *ngIf="statusCode === 422">
+      <p align="center" class="text-danger">Неверно заполнены поля! Проверьте формат ввода!</p>
+    </div>
+    <div *ngIf="statusCode === 500">
+      <p align="center" class="text-danger">Произошла ошибка на сервере!</p>
+    </div>
+  </div>
 </div>

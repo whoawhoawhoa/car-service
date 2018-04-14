@@ -33,7 +33,7 @@ public class OrderController extends WebMvcConfigurerAdapter {
     }
 
     @RequestMapping(value = "/order", method = RequestMethod.POST)
-    public ResponseEntity<Void> postOrder(@RequestBody Order order, UriComponentsBuilder builder) {
+    public ResponseEntity<Order> postOrder(@RequestBody Order order, UriComponentsBuilder builder) {
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(builder.path("/order").build().toUri());
 
@@ -63,10 +63,20 @@ public class OrderController extends WebMvcConfigurerAdapter {
 
     @PutMapping(value = "/order")
     public ResponseEntity<Order> updateOrder(@RequestBody Order order){
-        Order sourceOrder;
-        sourceOrder = orderRepository.findOne(order.getId());
-        if(sourceOrder == order)
+        Order sourceOrder = null;
+        List<Order> sourceOrders = null;
+        if(order.getId() != 0) {
+            sourceOrder = orderRepository.findOne(order.getId());
+        } else {
+            sourceOrders = orderRepository.findOrderByClientAndWorkerAndOrderDateAndCar(
+                    order.getClient(), order.getWorker(), order.getOrderDate(), order.getCar()
+            );
+        }
+        if(sourceOrder != null && order.equals(sourceOrder))
             return new ResponseEntity<>(HttpStatus.CONFLICT);
+        if(sourceOrders != null && sourceOrders.size() != 0) {
+            order.setId(sourceOrders.get(sourceOrders.size() - 1).getId());
+        }
         orderRepository.save(order);
         return new ResponseEntity<>(order, HttpStatus.OK);
     }
@@ -74,6 +84,12 @@ public class OrderController extends WebMvcConfigurerAdapter {
     @DeleteMapping(value = "/order")
     public ResponseEntity<Void> deleteOrder(@RequestParam long id){
         orderRepository.delete(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping(value = "/order")
+    public ResponseEntity<Order> getOrderById(@RequestParam long id){
+        Order order = orderRepository.findOne(id);
+        return new ResponseEntity<>(order,HttpStatus.OK);
     }
 }

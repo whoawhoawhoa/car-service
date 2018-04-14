@@ -5,6 +5,7 @@ import {Worker} from '../../../table-classes/worker';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {OrderEsService} from '../../../services/order-es.service';
 import {OrderEs} from '../../../table-classes/order-es';
+import {OrderService} from '../../../services/order.service';
 
 @Component({
   selector: 'app-worker-orders',
@@ -29,7 +30,7 @@ export class WorkerOrdersComponent implements OnInit {
     ready: new FormControl('')
   });
 
-  constructor( private orderEsService: OrderEsService,
+  constructor( private orderEsService: OrderEsService, private orderService: OrderService,
               private route: ActivatedRoute, private workerService: WorkerService, private router: Router) { }
 
   ngOnInit() {
@@ -49,7 +50,7 @@ export class WorkerOrdersComponent implements OnInit {
 
 
   getAllOrders() {
-    this.orderEsService.getOrdersByWorkerLogin(this.route.snapshot.paramMap.get('login'))
+    this.orderService.getOrdersByWorkerLogin(this.route.snapshot.paramMap.get('login'))
       .subscribe(
         data => this.allOrders = data,
         errorCode =>  this.statusCode = errorCode);
@@ -119,5 +120,15 @@ export class WorkerOrdersComponent implements OnInit {
         }, errorCode =>
           this.statusCode = errorCode);
     }
+  }
+
+  executedAndCancelledOrders() {
+    return this.allOrders.filter(
+      order => order.status == 5 || order.status == 6);
+  }
+
+  paidOrders() {
+    return this.allOrders.filter(
+      order => order.status == 1 || order.status == 4 || order.status == 2 || order.status == 3);
   }
 }

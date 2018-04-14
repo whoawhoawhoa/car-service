@@ -9,6 +9,7 @@ import {OrderEs} from '../table-classes/order-es';
 export class OrderEsService {
   allOrdersUrl = 'http://localhost:9090/rest/search/all_order_es';
   orderUrl = 'http://localhost:9090/rest/search/order_es';
+  orderByIdUrl = 'http://localhost:9090/rest/search/order_es_by_id';
   clientsOrdersUrl = 'http://localhost:9090/rest/search/order_es_by_client';
   workerOrdersUrl = 'http://localhost:9090/rest/search/order_es_by_worker';
   orderByFilterUrl = 'http://localhost:9090/rest/search/order_es_by_filter';
@@ -38,11 +39,7 @@ export class OrderEsService {
   }
 
   getOrderById(orderId: string): Observable<OrderEs> {
-    const cpHeaders = new Headers({ 'Content-Type': 'application/json' });
-    const cpParams = new URLSearchParams();
-    cpParams.set('id', orderId);
-    const options = new RequestOptions({ headers: cpHeaders, params: cpParams });
-    return this.http.get(this.orderUrl, options)
+    return this.http.get(this.orderByIdUrl + '?id=' + orderId)
       .map(this.extractData)
       .catch(this.handleError);
   }

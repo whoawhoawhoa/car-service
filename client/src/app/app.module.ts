@@ -38,6 +38,11 @@ import {AccordionConfig, AccordionModule, CarouselModule} from 'ngx-bootstrap';
 import {ClientOrdersComponent} from './lk/lk-client/client-orders/client-orders.component';
 import {OrderEsService} from './services/order-es.service';
 import {AllOrdersComponent} from './lk/lk-admin/all-orders/all-orders.component';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {ClientPaymentComponent} from './lk/lk-client/client-payment/client-payment.component';
+import {WorkerOrdersFinalComponent} from './lk/lk-worker/worker-orders-final/worker-orders-final.component';
+import {ClientOrdersFinalComponent} from './lk/lk-client/client-orders-final/client-orders-final.component';
+import {MatDialogModule} from '@angular/material/dialog';
 
 
 @NgModule({
@@ -60,7 +65,13 @@ import {AllOrdersComponent} from './lk/lk-admin/all-orders/all-orders.component'
     CheckPassportsComponent,
     ClientAvailableOrderComponent,
     ClientOrdersComponent,
+    ClientOrdersFinalComponent,
+    WorkerOrdersFinalComponent,
+    ClientPaymentComponent,
     AllOrdersComponent
+  ],
+  entryComponents: [
+    ClientPaymentComponent
   ],
   imports: [
     BrowserModule,
@@ -69,7 +80,9 @@ import {AllOrdersComponent} from './lk/lk-admin/all-orders/all-orders.component'
     AppRoutingModule,
     FormsModule,
     CarouselModule,
-    AccordionModule
+    AccordionModule,
+    MatDialogModule,
+    BrowserAnimationsModule
   ],
   providers: [
     WorkerService,
@@ -83,6 +96,8 @@ import {AllOrdersComponent} from './lk/lk-admin/all-orders/all-orders.component'
     PassportService,
     PriceService,
     ServiceService,
+    ClientOrdersComponent,
+    WorkerOrdersComponent,
     OrderEsService,
     AccordionConfig
   ],

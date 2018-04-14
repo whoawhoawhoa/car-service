@@ -31,6 +31,18 @@
 </nav>
 <p>&#160;</p>
 
+<div id="ordersInProcess">
+  <table align="center">
+    <div *ngFor="let order of paidOrders()" >
+      <tr>
+        <app-worker-orders-final [order] = order></app-worker-orders-final>
+      </tr>
+    </div>
+  </table>
+</div>
+<br>
+<br>
+
 <div *ngIf="workerSource?.status == 1" align="center">
   <app-worker-available-orders [login]="workerSource?.login" [id]="workerSource?.id">
   </app-worker-available-orders>
@@ -95,4 +107,7 @@
     <p>&#160;</p>
   </div>
 </div>
+
+<p></p>
+<p></p>
 

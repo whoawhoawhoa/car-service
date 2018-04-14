@@ -39,14 +39,19 @@ public class PriceController extends WebMvcConfigurerAdapter {
     public ResponseEntity<Void> deletePrice(@RequestParam String id)
     {
         priceRepository.delete(Long.parseLong(id));
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @RequestMapping(path = "/price", method = RequestMethod.PUT)
+    @RequestMapping(path = "/price", method = RequestMethod.POST)
     public ResponseEntity<Void> addPrice(@RequestBody Price price)
     {
+        List<Price> prices = priceRepository.findPriceByCarTypeCarTypeAndServiceType(
+                price.getCarType().getCarType(), price.getServiceType());
+        if (prices != null && prices.size() != 0) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
         priceRepository.save(price);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @RequestMapping(path = "/updatePrice", method = RequestMethod.PUT)
@@ -70,8 +75,11 @@ public class PriceController extends WebMvcConfigurerAdapter {
     {
         List<Price> prices =  priceRepository.findByCarTypeCarType(carType);
         for (int i = 0; i < prices.size(); i++) {
-            if(prices.get(i).getServiceSet().size() == 0)
+            if(prices.get(i).getServiceSet().size() == 0) {
                 prices.remove(prices.get(i));
+                i--;
+            }
+
         }
         return new ResponseEntity<>(prices, HttpStatus.OK);
     }

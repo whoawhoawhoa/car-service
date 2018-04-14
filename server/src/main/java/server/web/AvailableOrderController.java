@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.util.UriComponentsBuilder;
 import server.jms.client_to_worker.messaging.ClientJmsSender;
+import server.jms.client_to_worker.messaging.ClientJmsSender;
 import server.jms.worker_to_client.service.WorkerJmsService;
 import server.jpa.AvailableOrder;
 import server.jpa.AvailableOrderRepository;
@@ -72,7 +73,7 @@ public class AvailableOrderController extends WebMvcConfigurerAdapter {
     public ResponseEntity<AvailableOrder> updateAvailableOrder(@RequestBody AvailableOrder order){
         AvailableOrder sourceOrder;
         sourceOrder = availableOrderRepository.findOne(order.getId());
-        if(sourceOrder == order)
+        if(sourceOrder.equals(order))
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         try {
             availableOrderRepository.save(order);
@@ -86,11 +87,10 @@ public class AvailableOrderController extends WebMvcConfigurerAdapter {
     @DeleteMapping(value = "/deleteavorder")
     public ResponseEntity<Void> deleteAvailableOrder(@RequestParam long id){
         availableOrderRepository.delete(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    private void checkWorkers(AvailableOrder avOrder)
-    {
+    private void checkWorkers(AvailableOrder avOrder) {
         String serviceType = avOrder.getServiceType();
         Long carTypeId = avOrder.getCar().getCarType().getId();
         List<String> workersEmails = serviceController.getWorkersEmailsByServices(serviceType, carTypeId);

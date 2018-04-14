@@ -22,8 +22,8 @@
       </tr>
       <tr>
         <td></td>
-        <td><label *ngIf="finalOrderForm.get('address').invalid && processValidation" [ngClass] = "'error'" > Обязательное поле </label></td>
-        <td><label *ngIf="finalOrderForm.get('car').invalid && processValidation" [ngClass] = "'error'" > Обязательное поле </label></td>
+        <td><label *ngIf="finalOrderForm.get('address').invalid && processValidation" class="text-danger" > Обязательное поле </label></td>
+        <td><label *ngIf="finalOrderForm.get('car').invalid && processValidation" class="text-danger" > Обязательное поле </label></td>
       </tr>
       <tr>
         <button class="btn btn-outline-success my-2 my-sm-0">Принять</button>
@@ -32,8 +32,8 @@
   </form>
 </div>
 <div *ngIf="isAlreadyOrdered">
-  <p>Данный заказ находится в обработке, отследить его состояние можно в личном кабинете</p>
+  <p class="text-success">Данный заказ уже находится в обработке, отследить его состояние можно во вкладке "заказы"</p>
 </div>
 <div *ngIf="toContinue">
-  <p>Ваш заказ принят, отследить его состояние можно в личном кабинете</p>
+  <p class="text-success">Ваш заказ принят, отследить его состояние можно во вкладке "заказы"</p>
 </div>

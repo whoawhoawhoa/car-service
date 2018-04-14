@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {Headers, Http, RequestOptions, Response} from '@angular/http';
 import {AvailableOrder} from '../table-classes/available-order';
 import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/observable/throw';
 
 @Injectable()
 export class AvailableOrderService {

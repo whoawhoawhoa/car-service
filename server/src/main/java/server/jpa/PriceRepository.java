@@ -8,4 +8,5 @@ public interface PriceRepository extends CrudRepository<Price, Long> {
     Price findPriceById(Long id);
     List<Price> findByCarTypeCarType(String carType);
     List<Price> findPriceByServiceTypeOrderByCarType(String serviceType);
+    List<Price> findPriceByCarTypeCarTypeAndServiceType(String carType, String serviceType);
 }

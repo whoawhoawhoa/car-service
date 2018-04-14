@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {Http, Response, Headers, RequestOptions} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import {Worker} from '../table-classes/worker';
+import 'rxjs/add/observable/throw';
 
 @Injectable()
 export class WorkerService {
@@ -36,13 +37,13 @@ export class WorkerService {
 
   getWorkersByIds(workerIds: number[]): Observable<Worker[]> {
     const cpHeaders = new Headers({ 'Content-Type': 'application/json' });
-    let newUrl = this.defaultUrl + 'workers?';
+    let newUrl = this.defaultUrl + 'workers_by_id?ids=';
     for (const id of workerIds) {
       let a = '';
       if (workerIds.indexOf(id) !== 0) {
-        a = '&';
+        a = ',';
       }
-      newUrl = newUrl + a + '=' + id.toString();
+      newUrl = newUrl + a + id.toString();
     }
     const options = new RequestOptions({ headers: cpHeaders });
     return this.http.get(newUrl, options)

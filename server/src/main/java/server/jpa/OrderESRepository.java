@@ -84,6 +84,7 @@ public interface OrderESRepository extends ElasticsearchRepository<OrderES, Long
     List<OrderES> findOrderESByCar_Id(long id);
 
     List<OrderES> findOrderESByClientMark(long clientMark);
+    void deleteOrderESByClient_IdGreaterThan(long id);
 
 
 }

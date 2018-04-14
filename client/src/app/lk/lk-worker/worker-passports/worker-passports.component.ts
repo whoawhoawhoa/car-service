@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Passport} from '../../../table-classes/passport';
 import {WorkerService} from '../../../services/worker.service';
@@ -45,21 +45,6 @@ export class WorkerPassportsComponent implements OnInit {
             errorCode => this.statusCode);
   }
 
-
-  // getWorker() {
-  //   this.workerService.getWorkerByLoginAndPassword(this.login, this.password)
-  //     .subscribe(
-  //       data => {
-  //         this.sourceWorker = data;
-  //         if (this.sourceWorker.status === 4) {
-  //           this.comment = 'Ваш паспорт не прошел проверку!';
-  //         } else {
-  //           this.sourceWorker.status = 3;
-  //         }
-  //         this.loadPassport(); },
-  //           errorCode => this.statusCode);
-  // }
-
   onPassportFormSubmit() {
     this.processValidation = true;
     if (this.passportForm.invalid) {
@@ -83,7 +68,11 @@ export class WorkerPassportsComponent implements OnInit {
             this.loadPassport();
             this.backToCreatePassport();
           },
-          errorCode => this.statusCode = errorCode);
+          errorCode => {
+          this.statusCode = errorCode;
+          this.sourceWorker.status = null;
+          this.passport.worker.status = null;
+        });
     } else {
       this.passport = new Passport(null, number, issuedBy, this.sourceWorker);
       this.passportService.createPassport(this.passport).subscribe(successCode => {
@@ -91,7 +80,10 @@ export class WorkerPassportsComponent implements OnInit {
           this.loadPassport();
           this.backToCreatePassport();
         },
-        errorCode => this.statusCode = errorCode);
+        errorCode => {
+        this.statusCode = errorCode;
+        this.passport = null;
+      });
     }
   }
 

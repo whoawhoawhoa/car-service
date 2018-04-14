@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Order} from '../../../table-classes/order';
 import {AvailableOrder} from '../../../table-classes/available-order';
 import {ClientService} from '../../../services/client.service';
@@ -6,8 +6,11 @@ import {OrderService} from '../../../services/order.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AvailableOrderService} from '../../../services/available-order.service';
 import {Client} from '../../../table-classes/client';
+import {MatDialog} from '@angular/material/dialog';
+import {ClientPaymentComponent} from '../client-payment/client-payment.component';
 import {OrderEsService} from '../../../services/order-es.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {OrderEs} from '../../../table-classes/order-es';
 
 @Component({
   selector: 'app-client-orders',
@@ -18,6 +21,7 @@ export class ClientOrdersComponent implements OnInit {
   clientSource: Client;
   clientAvOrders: AvailableOrder[];
   clientOrders: Order[];
+  clientFinishedOrders: OrderEs[];
   statusCode: number;
   money: number;
 
@@ -31,9 +35,11 @@ export class ClientOrdersComponent implements OnInit {
 
   constructor(private clientService: ClientService,
               private orderEsService: OrderEsService,
+              private orderService: OrderService,
               private route: ActivatedRoute,
               private router: Router,
-              private avOrderService: AvailableOrderService) { }
+              private avOrderService: AvailableOrderService,
+              private dialog: MatDialog) { }
 
   ngOnInit() {
     this.getClient(this.route.snapshot.paramMap.get('login'), this.route.snapshot.paramMap.get('password'));
@@ -42,8 +48,10 @@ export class ClientOrdersComponent implements OnInit {
   getClient(login: string, password: string) {
     this.clientService.getClientByLoginAndPassword(login, password)
       .subscribe(
-        data => {this.clientSource = data;
+        data => {
+          this.clientSource = data;
           this.getOrders();
+          this.getFinishedOrders();
           this.getAvOrders();
           this.getAmountOfMoney();
           },
@@ -54,6 +62,7 @@ export class ClientOrdersComponent implements OnInit {
     this.avOrderService.getAvOrdersByClientLogin(this.clientSource.login)
       .subscribe(avOrders => {
         this.clientAvOrders = avOrders;
+        this.getOrders();
       });
   }
 
@@ -78,7 +87,7 @@ export class ClientOrdersComponent implements OnInit {
     }
     this.orderEsService.getOrderEsByWorkerFilter(this.route.snapshot.paramMap.get('login'), serviceType, fromPrice, toPrice, fromDate, toDate)
       .subscribe(data => {
-        this.clientOrders = data;
+        this.clientFinishedOrders = data;
         this.getAmountOfMoney();
         this.redirectToOrders();
       }, errorCode =>
@@ -86,15 +95,42 @@ export class ClientOrdersComponent implements OnInit {
   }
 
   getOrders() {
+    this.orderService.getOrdersByClientLogin(this.clientSource.login)
+      .subscribe(
+        data => {
+          this.clientOrders = data;
+          this.checkForPayment();
+        },
+        errorCode => this.statusCode);
+  }
+
+
+  getFinishedOrders() {
     this.orderEsService.getOrderEsByClientLogin(this.clientSource.login)
       .subscribe(
-        data => this.clientOrders = data,
+        data => {
+          this.clientFinishedOrders = data;
+          this.checkForPayment();
+        },
         errorCode => this.statusCode);
+  }
+
+  checkForPayment() {
+    for (const order of this.clientOrders) {
+      if (order.status == 0) {
+        this.dialog.open(ClientPaymentComponent, {
+          width: '400px',
+          data: {
+            order: order
+          }
+        });
+      }
+    }
   }
 
   getAmountOfMoney() {
     this.money = 0;
-    for (const order of this.clientOrders){
+    for (const order of this.clientFinishedOrders){
       this.money = this.money + order.totalPrice;
     }
   }

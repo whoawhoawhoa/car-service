@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {Http, Response, Headers, RequestOptions} from '@angular/http';
 import {User} from '../table-classes/user';
 import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/observable/throw';
 
 @Injectable()
 export class UserService {

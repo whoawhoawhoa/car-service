@@ -82,8 +82,12 @@ public class PassportController extends WebMvcConfigurerAdapter {
     public ResponseEntity<Passport> updatePassport(@RequestBody Passport passport)
     {
         try {
-            passportRepository.save(passport);
-            return new ResponseEntity<>(passport, HttpStatus.OK);
+            if(isValid(passport)) {
+                passportRepository.save(passport);
+                return new ResponseEntity<>(passport, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
+            }
         }catch (Exception e)
         {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

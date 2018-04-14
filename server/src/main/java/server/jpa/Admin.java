@@ -1,10 +1,10 @@
 package server.jpa;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.Objects;
 
 @Entity
 @Table(name = "admins")
@@ -26,6 +26,14 @@ public class Admin implements Serializable {
     public Admin() {
 
     }
+
+    public Admin(Long id, String login, String password, User user) {
+        this.id = id;
+        this.login = login;
+        this.password = password;
+        this.user = user;
+    }
+
 
     public void setUser(User user){
         this.user = user;
@@ -55,6 +63,10 @@ public class Admin implements Serializable {
         this.password = password;
     }
 
+    public User getUser() {
+        return user;
+    }
+
     @Override
     public String toString() {
         return "Admin{" +
@@ -62,5 +74,21 @@ public class Admin implements Serializable {
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Admin admin = (Admin) o;
+        return id == admin.id &&
+                Objects.equals(login, admin.login) &&
+                Objects.equals(password, admin.password);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, login, password);
     }
 }

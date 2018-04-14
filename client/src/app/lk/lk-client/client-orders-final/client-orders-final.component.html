@@ -1,24 +1,41 @@
 <div>
-  <h3>Выполняемый заказ</h3>
-  Ваш заказ #{{order.id}} {{order.serviceType}} для {{order.car.brand}} {{order.car.number}}<br>
-  выполнит {{order.worker.name}}, его номер телефона: {{order.worker.pnumber}}.<br>
-  <div *ngIf="order.status == 2 || order.status == 3">
-    Ваш заказ выполнен!&#160;
-    <button *ngIf="order.status == 2" (click)="onClientCommit()">Подтвердите</button>
-    <form *ngIf="order.status == 3" [formGroup]="ratingForm" (ngSubmit)="onRatingFormSubmit()">
-        Выставьте оценку!<br>
-        <select formControlName="rating">
-          <option value=1>1</option>
-          <option value=2>2</option>
-          <option value=3>3</option>
-          <option value=4>4</option>
-          <option value=5>5</option>
-        </select>
-        <button>ОК</button>
-    </form>
-  </div>
-  <button *ngIf="order.status == 2 || order.status == 1" class="btn btn-danger" (click)="onCancel()">Отменить заказ</button>
+  <table>
+    <tr>
+      <td><h5>Выполняемый заказ&#160;&#160;&#160;&#160;&#160;&#160;&#160;</h5></td>
+      <td>Ваш заказ #{{order.id}} {{order.serviceType}} для {{order.car.brand}} {{order.car.number}}</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>выполнит {{order.worker.name}}, его номер телефона: {{order.worker.pnumber}}.
+    </tr>
+    <tr>
+      <div *ngIf="order.status == 2 || order.status == 3">
+        <td></td>
+        <td>Ваш заказ выполнен!&#160;<br>
+          <button *ngIf="order.status == 2" (click)="onClientCommit()" class="btn btn-outline-success my-2 my-sm-0">Подтвердите</button></td>
+
+        <form *ngIf="order.status == 3" [formGroup]="ratingForm" (ngSubmit)="onRatingFormSubmit()">
+          <td>Выставьте оценку!</td>
+          <td><select formControlName="rating" class="form-control mr-sm-2">
+            <option value=1>1</option>
+            <option value=2>2</option>
+            <option value=3>3</option>
+            <option value=4>4</option>
+            <option value=5>5</option>
+          </select></td>
+          <td><button class="btn btn-outline-success my-2 my-sm-0">ОК</button></td>
+        </form>
+      </div>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>
+        <button *ngIf="order.status == 2 || order.status == 1" class="btn btn-danger" (click)="onCancel()">Отменить заказ</button>
+      </td>
+    </tr>
+    <br>
+    <button *ngIf="order.status != 2 && order.status != 3" (click)="refresh()" class="btn btn-outline-success my-2 my-sm-0">Обновить статус</button>
+  </table>
   <br>
-  <br>
-  <button *ngIf="order.status != 2 && order.status != 3" (click)="refresh()">Обновить статус</button>
 </div>

@@ -52,18 +52,14 @@ public class CarController extends WebMvcConfigurerAdapter {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         else {
-            return new ResponseEntity<>(car, HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(car, HttpStatus.OK);
         }
     }
 
     @RequestMapping(value = "/client_cars", method = RequestMethod.GET)
     public ResponseEntity<List<Car>> getCarsByClientLogin(@RequestParam("login") String login) {
         List<Car> cars = carRepository.findCarsByClientLogin(login);
-        /*if(cars.size() == 0)
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        else */
-            return new ResponseEntity<>(cars, HttpStatus.ACCEPTED);
-
+        return new ResponseEntity<>(cars, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/car", method = RequestMethod.POST)
@@ -98,7 +94,7 @@ public class CarController extends WebMvcConfigurerAdapter {
         try {
             if(isValid(car)) {
                 sourceCar = carRepository.findOne(car.getId());
-                if (sourceCar == car)
+                if (car.equals(sourceCar))
                     return new ResponseEntity<>(HttpStatus.CONFLICT);
                 carRepository.save(car);
             }
@@ -110,8 +106,8 @@ public class CarController extends WebMvcConfigurerAdapter {
     }
 
     @GetMapping(value = "/carsfororder")
-    public ResponseEntity<List<Car>> getCarsByClientIdAndCarTypeId(@RequestParam("id") long id, @RequestParam("carTypeId") long carTypeId)
-    {
+    public ResponseEntity<List<Car>> getCarsByClientIdAndCarTypeId(@RequestParam("id") long id,
+                                                                   @RequestParam("carTypeId") long carTypeId) {
         List<Car> cars = carRepository.getCarsByClientIdAndCarTypeId(id, carTypeId);
         return new ResponseEntity<>(cars, HttpStatus.OK);
     }

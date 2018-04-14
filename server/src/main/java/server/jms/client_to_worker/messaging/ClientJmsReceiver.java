@@ -20,7 +20,7 @@ public class ClientJmsReceiver {
 	
 	@Autowired
 	ClientJmsService clientJmsService;
-	
+
 	
 	@JmsListener(destination = CLIENT_TO_WORKER_QUEUE)
 	public void receiveMessage(final Message<String> message) throws JMSException, UnsupportedEncodingException, MessagingException {

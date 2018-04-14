@@ -51,8 +51,4 @@ export class UserAuthComponent implements OnInit {
   preProcessConfigurations() {
     this.statusCode = null;
   }
-  // Go back from update to create
-  backToCreateUser() {
-    this.userAuthForm.reset();
-  }
 }

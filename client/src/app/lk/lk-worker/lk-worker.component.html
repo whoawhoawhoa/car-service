@@ -21,9 +21,19 @@
     </ul>
   </div>
 </nav>
+<p>&#160;</p>
 
-<h1 align="center" id="id">Информация о профиле работника</h1>
-<table align="center" id="id1">
+<div *ngIf="statusCode" align="center">
+  <div *ngIf="statusCode === 400" >
+    <p align="center" class="text-danger">Не получилось загрузить данные с сервера!</p>
+  </div>
+  <div *ngIf="statusCode === 500">
+    <p align="center" class="text-danger">Произошла ошибка на сервере!</p>
+  </div>
+</div>
+
+<h1 align="center">Информация о профиле работника</h1>
+<table align="center">
   <tr>
     <th>Логин&#160;&#160;&#160;&#160;&#160;&#160;</th>
     <th>Пароль&#160;&#160;&#160;&#160;&#160;&#160;</th>
@@ -47,7 +57,6 @@
     <td>{{workerSource?.email}}&#160;&#160;&#160;&#160;</td>
   </tr>
 </table>
-<p>&#160;</p>
 
 <div id="accordion">
   <accordion>
@@ -97,8 +106,27 @@
                 <button class="btn btn-danger" routerLink=""  (click)="deleteWorker(workerSource.login)">Удалить аккаунт</button>
               </td>
             </tr>
+            <tr>
+              <td colspan="2">
+                <div *ngIf="statusCodeWorker">
+                  <div *ngIf="statusCodeWorker === 409">
+                    <p class="text-success">Вы ничего не изменили!</p>
+                  </div>
+                  <div *ngIf="statusCodeWorker === 422">
+                    <p class="text-danger">Неверно заполнены поля! Проверьте формат ввода!</p>
+                  </div>
+                  <div *ngIf="statusCodeWorker === 400">
+                    <p class="text-danger">Неверно заполнены поля! Проверьте формат ввода!</p>
+                  </div>
+                  <div *ngIf="statusCodeWorker === 500">
+                    <p class="text-danger">Произошла ошибка на сервере!</p>
+                  </div>
+                </div>
+              </td>
+            </tr>
           </table>
         </form>
+        <br/>
       </div>
     </accordion-group>
     <accordion-group *ngIf="workerSource.status == 1 || workerSource.status == 2 || workerSource.status == 0">
